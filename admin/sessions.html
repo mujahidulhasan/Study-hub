@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সেশন ম্যানেজমেন্ট - অ্যাডমিন</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .admin-nav-link {
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .admin-nav-link:hover { background: #f1f5f9; color: #2563eb; }
+        .admin-nav-link.active { background: #eff6ff; color: #2563eb; }
+        .session-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 13px;
+        }
+        .session-row:hover { background: #F8FAFC; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Admin Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="text-2xl"><i class="fas fa-graduation-cap text-primary"></i></a>
+                <span class="font-bold text-slate-800">অ্যাডমিন প্যানেল</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">v1.0</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-gray-600 hidden sm:inline" id="adminName">অ্যাডমিন</span>
+                <button onclick="logoutAdmin()" class="text-sm text-red-500 hover:text-red-700">
+                    <i class="fas fa-sign-out-alt"></i> প্রস্থান
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Nav -->
+    <nav class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar">
+        <div class="container mx-auto max-w-7xl px-4 py-2 flex gap-1">
+            <a href="index.html" class="admin-nav-link">📊 ড্যাশবোর্ড</a>
+            <a href="users.html" class="admin-nav-link">👥 ইউজার</a>
+            <a href="sessions.html" class="admin-nav-link active">📚 সেশন</a>
+            <a href="leaderboard.html" class="admin-nav-link">🏆 লিডারবোর্ড</a>
+            <a href="tasks.html" class="admin-nav-link">📝 টাস্ক</a>
+            <a href="quizzes.html" class="admin-nav-link">❓ কুইজ</a>
+            <a href="settings.html" class="admin-nav-link">⚙️ সেটিংস</a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-6xl px-4 py-6">
+
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-xl font-extrabold text-slate-800">
+                <i class="fas fa-clock text-primary mr-2"></i> সেশন ম্যানেজমেন্ট
+            </h1>
+            <span class="text-sm text-slate-500" id="sessionCount">০টি সেশন</span>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-2 mb-4">
+            <input type="date" id="filterDate" class="px-4 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+            <select id="filterType" class="px-4 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                <option value="all">সব ধরনের</option>
+                <option value="self_study">Self Study</option>
+                <option value="class_time">Class Time</option>
+                <option value="screen_time">Screen Time</option>
+            </select>
+            <button onclick="loadSessions()" class="btn-primary px-6 py-2 text-sm">
+                <i class="fas fa-filter mr-2"></i> ফিল্টার
+            </button>
+        </div>
+
+        <!-- Session List -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="grid grid-cols-5 gap-2 px-4 py-3 bg-gray-50 text-xs font-semibold text-slate-500 border-b border-gray-200">
+                <span>ইউজার</span>
+                <span>তারিখ</span>
+                <span>সময়</span>
+                <span>ধরন</span>
+                <span class="text-right">অ্যাকশন</span>
+            </div>
+            <div id="sessionList">
+                <div class="text-center text-slate-400 text-sm py-8">লোড হচ্ছে...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, where, doc, deleteDoc } from '../firebase-config.js';
+        import { isAdmin } from '../admin.js';
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = '../login.html'; return; }
+            const admin = await isAdmin(user.uid);
+            if (!admin) { window.location.href = '../index.html'; return; }
+            document.getElementById('adminName').textContent = user.displayName || 'অ্যাডমিন';
+            loadSessions();
+        });
+
+        window.logoutAdmin = function() {
+            import('../firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.href = '../login.html');
+            });
+        };
+
+        window.loadSessions = async function() {
+            const container = document.getElementById('sessionList');
+            const dateFilter = document.getElementById('filterDate').value;
+            const typeFilter = document.getElementById('filterType').value;
+
+            try {
+                let q = collection(db, 'study_sessions');
+                let constraints = [];
+                if (dateFilter) constraints.push(where('date', '==', dateFilter));
+                if (typeFilter !== 'all') constraints.push(where('type', '==', typeFilter));
+                
+                let snap;
+                if (constraints.length > 0) {
+                    snap = await getDocs(query(q, ...constraints));
+                } else {
+                    snap = await getDocs(q);
+                }
+
+                document.getElementById('sessionCount').textContent = `${snap.size}টি সেশন`;
+
+                if (snap.empty) {
+                    container.innerHTML = '<div class="text-center text-slate-400 text-sm py-8">কোনো সেশন নেই</div>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const dur = data.duration || 0;
+                    const h = Math.floor(dur / 3600);
+                    const m = Math.floor((dur % 3600) / 60);
+                    const timeStr = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+
+                    const div = document.createElement('div');
+                    div.className = 'session-row';
+                    div.innerHTML = `
+                        <span class="truncate max-w-[100px]">${data.userName || 'User'}</span>
+                        <span>${data.date || '-'}</span>
+                        <span>${timeStr}</span>
+                        <span>
+                            <span class="px-2 py-0.5 rounded-full text-xs ${data.type === 'self_study' ? 'bg-emerald-100 text-emerald-600' : data.type === 'class_time' ? 'bg-blue-100 text-blue-600' : 'bg-rose-100 text-rose-600'}">
+                                ${data.type || 'self_study'}
+                            </span>
+                        </span>
+                        <div class="flex gap-2 justify-end">
+                            <button onclick="deleteSession('${doc.id}')" class="text-xs text-red-500 hover:underline">ডিলিট</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+
+            } catch (e) {
+                console.error('Error loading sessions:', e);
+                container.innerHTML = '<div class="text-center text-red-400 text-sm py-8">লোড করতে ব্যর্থ</div>';
+            }
+        };
+
+        window.deleteSession = async function(id) {
+            if (!confirm('এই সেশন ডিলিট করবেন?')) return;
+            try {
+                await deleteDoc(doc(db, 'study_sessions', id));
+                showToast('🗑️ সেশন ডিলিট করা হয়েছে');
+                loadSessions();
+            } catch (e) {
+                showToast('❌ ডিলিট করতে ব্যর্থ');
+            }
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
