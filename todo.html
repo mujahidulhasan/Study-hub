@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>টু-ডু লিস্ট - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            transition: all 0.2s;
+        }
+        .todo-item:hover { border-color: #CBD5E1; }
+        .todo-item.completed .todo-text { text-decoration: line-through; color: #94A3B8; }
+        .todo-item .todo-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #CBD5E1;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .todo-item .todo-check:hover { border-color: #2563EB; }
+        .todo-item .todo-check.checked {
+            background: #2563EB;
+            border-color: #2563EB;
+            color: white;
+        }
+        .todo-item .todo-check.checked i { font-size: 10px; }
+        .todo-item .todo-text { flex: 1; font-size: 14px; color: #0F172A; }
+        .todo-item .todo-delete {
+            color: #94A3B8;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .todo-item .todo-delete:hover { color: #EF4444; background: #FEE2E2; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="todo.html" class="nav-link active">টু-ডু</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-2xl px-4 py-6">
+
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-list-check text-primary mr-2"></i> টু-ডু লিস্ট
+            </h1>
+            <span class="text-sm text-slate-500" id="todoCount">০টি আইটেম</span>
+        </div>
+
+        <!-- Add Todo -->
+        <div class="flex gap-2 mb-6">
+            <input type="text" id="todoInput" placeholder="নতুন টাস্ক যোগ করুন..." 
+                   class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm">
+            <button onclick="addTodo()" class="btn-primary px-6 py-2.5 text-sm">
+                <i class="fas fa-plus mr-2"></i> যোগ করুন
+            </button>
+        </div>
+
+        <!-- Todo List -->
+        <div id="todoList" class="space-y-2">
+            <div class="text-center text-slate-400 text-sm py-8">
+                <i class="fas fa-clipboard-list text-3xl text-slate-300 mb-3 block"></i>
+                <p>কোনো টাস্ক নেই</p>
+                <p class="text-xs">উপরে নতুন টাস্ক যোগ করুন</p>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="flex gap-2 mt-4">
+            <button onclick="filterTodos('all')" class="filter-btn active text-xs" id="filterAll">সব</button>
+            <button onclick="filterTodos('active')" class="filter-btn text-xs" id="filterActive">অসম্পূর্ণ</button>
+            <button onclick="filterTodos('completed')" class="filter-btn text-xs" id="filterCompleted">সম্পূর্ণ</button>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc, serverTimestamp } from './firebase-config.js';
+
+        let currentUser = null;
+        let todos = [];
+        let currentFilter = 'all';
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                currentUser = user;
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+                loadTodos();
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                        <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                    </a>
+                `;
+                document.getElementById('todoList').innerHTML = `
+                    <div class="text-center text-slate-400 text-sm py-8">
+                        <i class="fas fa-lock text-3xl text-slate-300 mb-3 block"></i>
+                        <p>টু-ডু লিস্ট দেখতে লগইন করুন</p>
+                    </div>
+                `;
+            }
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        window.addTodo = async function() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            if (!text) { showToast('⚠️ টাস্ক লিখুন'); return; }
+            if (!currentUser) { showToast('❌ লগইন করুন'); return; }
+
+            try {
+                await addDoc(collection(db, 'todos'), {
+                    userId: currentUser.uid,
+                    task: text,
+                    completed: false,
+                    createdAt: serverTimestamp()
+                });
+                input.value = '';
+                showToast('✅ টাস্ক যোগ করা হয়েছে');
+                loadTodos();
+            } catch (e) {
+                showToast('❌ যোগ করতে ব্যর্থ');
+            }
+        };
+
+        async function loadTodos() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, 'todos'), where('userId', '==', currentUser.uid));
+                const snap = await getDocs(q);
+                todos = [];
+                snap.forEach(doc => {
+                    todos.push({ id: doc.id, ...doc.data() });
+                });
+                renderTodos();
+            } catch (e) {
+                console.error('Error loading todos:', e);
+            }
+        }
+
+        function renderTodos() {
+            const container = document.getElementById('todoList');
+            let filtered = todos;
+            if (currentFilter === 'active') filtered = todos.filter(t => !t.completed);
+            else if (currentFilter === 'completed') filtered = todos.filter(t => t.completed);
+
+            document.getElementById('todoCount').textContent = `${filtered.length}টি আইটেম`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-slate-400 text-sm py-8">
+                        <i class="fas fa-clipboard-list text-3xl text-slate-300 mb-3 block"></i>
+                        <p>${currentFilter === 'completed' ? 'কোনো সম্পূর্ণ টাস্ক নেই' : 'কোনো টাস্ক নেই'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            filtered.forEach(todo => {
+                const div = document.createElement('div');
+                div.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+                div.innerHTML = `
+                    <div class="todo-check ${todo.completed ? 'checked' : ''}" onclick="toggleTodo('${todo.id}')">
+                        ${todo.completed ? '<i class="fas fa-check"></i>' : ''}
+                    </div>
+                    <span class="todo-text">${todo.task}</span>
+                    <div class="todo-delete" onclick="deleteTodo('${todo.id}')">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.toggleTodo = async function(id) {
+            const todo = todos.find(t => t.id === id);
+            if (!todo) return;
+            try {
+                await updateDoc(doc(db, 'todos', id), { completed: !todo.completed });
+                loadTodos();
+            } catch (e) {
+                showToast('❌ আপডেট করতে ব্যর্থ');
+            }
+        };
+
+        window.deleteTodo = async function(id) {
+            if (!confirm('টাস্ক ডিলিট করবেন?')) return;
+            try {
+                await deleteDoc(doc(db, 'todos', id));
+                showToast('🗑️ টাস্ক ডিলিট করা হয়েছে');
+                loadTodos();
+            } catch (e) {
+                showToast('❌ ডিলিট করতে ব্যর্থ');
+            }
+        };
+
+        window.filterTodos = function(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.add('active');
+            renderTodos();
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
