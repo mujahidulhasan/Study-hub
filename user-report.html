@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইউজার রিপোর্ট - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .report-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+        .report-card:hover { border-color: #CBD5E1; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="user-report.html" class="nav-link active">রিপোর্ট</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-4xl px-4 py-6">
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-file-chart-line text-primary mr-2"></i> ইউজার রিপোর্ট
+            </h1>
+            <p class="text-sm text-slate-500">আপনার স্টাডি অগ্রগতির বিস্তারিত বিশ্লেষণ</p>
+        </div>
+
+        <!-- User Select -->
+        <div class="flex gap-2 mb-4">
+            <input type="text" id="reportUserId" placeholder="ইউজার আইডি দিন (rroomXXX)" 
+                   class="flex-1 px-4 py-2 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+            <button onclick="loadUserReport()" class="btn-primary px-6 py-2 text-sm">
+                <i class="fas fa-search mr-2"></i> দেখুন
+            </button>
+        </div>
+
+        <!-- Report Container -->
+        <div id="reportContainer" class="space-y-4">
+            <div class="report-card text-center py-8 text-slate-400">
+                <i class="fas fa-user-search text-4xl text-slate-300 mb-3 block"></i>
+                <p>ইউজার আইডি দিয়ে রিপোর্ট দেখুন</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, where, doc, getDoc } from './firebase-config.js';
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+            }
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        window.loadUserReport = async function() {
+            const userId = document.getElementById('reportUserId').value.trim();
+            if (!userId) { showToast('⚠️ ইউজার আইডি দিন'); return; }
+
+            const container = document.getElementById('reportContainer');
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl text-primary"></i>
+                    <p class="text-sm text-slate-400 mt-2">লোড হচ্ছে...</p>
+                </div>
+            `;
+
+            try {
+                // Get user data
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (!userDoc.exists()) {
+                    container.innerHTML = `
+                        <div class="report-card text-center py-8 text-red-400">
+                            <i class="fas fa-exclamation-circle text-4xl text-red-300 mb-3 block"></i>
+                            <p>ইউজার পাওয়া যায়নি</p>
+                        </div>
+                    `;
+                    return;
+                }
+                const userData = userDoc.data();
+
+                // Get sessions
+                const sessionsSnap = await getDocs(
+                    query(collection(db, 'study_sessions'), where('userId', '==', userId))
+                );
+
+                let totalStudy = 0;
+                let totalSelf = 0;
+                let totalClass = 0;
+                let totalScreen = 0;
+                let days = new Set();
+                let dailyData = {};
+
+                sessionsSnap.forEach(doc => {
+                    const data = doc.data();
+                    const dur = data.duration || 0;
+                    totalStudy += dur;
+                    days.add(data.date);
+
+                    if (data.type === 'self_study') totalSelf += dur;
+                    else if (data.type === 'class_time') totalClass += dur;
+                    else if (data.type === 'screen_time') totalScreen += dur;
+
+                    if (data.date) {
+                        dailyData[data.date] = (dailyData[data.date] || 0) + dur;
+                    }
+                });
+
+                const sortedDays = Object.entries(dailyData).sort((a, b) => a[0].localeCompare(b[0]));
+                const last7Days = sortedDays.slice(-7);
+
+                const h = Math.floor(totalStudy / 3600);
+                const m = Math.floor((totalStudy % 3600) / 60);
+                const totalStr = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+
+                container.innerHTML = `
+                    <div class="report-card">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">${userData.name || 'Unknown'}</h3>
+                                <p class="text-sm text-slate-400">${userData.group || 'No Group'} • ${userData.email || ''}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-xl font-bold text-emerald-600">${totalStr}</div>
+                                <div class="text-xs text-slate-400">মোট স্টাডি</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-xl font-bold text-blue-600">${formatTime(totalSelf)}</div>
+                                <div class="text-xs text-slate-400">Self Study</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-xl font-bold text-purple-600">${formatTime(totalClass)}</div>
+                                <div class="text-xs text-slate-400">Class Time</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-xl font-bold text-rose-600">${formatTime(totalScreen)}</div>
+                                <div class="text-xs text-slate-400">Screen Time</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-calendar mr-2"></i> ${days.size} দিন সক্রিয়
+                            </div>
+                            ${last7Days.length > 0 ? `
+                                <div class="mt-2 flex gap-1">
+                                    ${last7Days.map(([date, dur]) => {
+                                        const h2 = Math.floor(dur / 3600);
+                                        const m2 = Math.floor((dur % 3600) / 60);
+                                        return `<div class="flex-1 text-center p-1 bg-gray-50 rounded text-xs">
+                                            <div class="font-bold">${h2 > 0 ? h2 + 'ঘ' : m2 + 'মি'}</div>
+                                            <div class="text-slate-400">${date.slice(5)}</div>
+                                        </div>`;
+                                    }).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+
+            } catch (e) {
+                console.error('Error loading report:', e);
+                container.innerHTML = `
+                    <div class="report-card text-center py-8 text-red-400">
+                        <i class="fas fa-exclamation-circle text-4xl text-red-300 mb-3 block"></i>
+                        <p>রিপোর্ট লোড করতে ব্যর্থ</p>
+                    </div>
+                `;
+            }
+        };
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            return h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+        }
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
