@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>স্টাডি ট্র্যাকার - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="header-glass w-full max-w-5xl flex items-center gap-1">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <span class="text-2xl">📚</span>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link active">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="todo.html" class="nav-link">To-Do</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="btn-primary text-xs px-4 py-1.5">লগইন</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-3xl px-4 py-6">
+
+        <!-- Timer Card -->
+        <div class="card text-center p-6 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-500" id="sessionType">📖 Self Study</span>
+                <div class="flex items-center gap-2">
+                    <select id="studyType" class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-primary">
+                        <option value="self_study">📖 Self Study</option>
+                        <option value="class_time">📺 Class Time</option>
+                        <option value="screen_time">📱 Screen Time</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="timer-display my-6" id="timerDisplay">00:00:00</div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="startTimer()" class="btn-primary px-6 py-2.5">
+                    <i class="fas fa-play mr-2"></i> শুরু
+                </button>
+                <button onclick="pauseTimer()" class="btn-secondary px-6 py-2.5">
+                    <i class="fas fa-pause mr-2"></i> বিরতি
+                </button>
+                <button onclick="stopTimer()" class="btn-secondary px-6 py-2.5 text-red-500 border-red-200 hover:bg-red-50">
+                    <i class="fas fa-stop mr-2"></i> শেষ
+                </button>
+            </div>
+
+            <div class="mt-4 text-sm text-gray-500">
+                <span id="sessionStatus">⏸️ প্রস্তুত</span>
+            </div>
+        </div>
+
+        <!-- Today's Sessions -->
+        <div class="card mt-4">
+            <h3 class="font-bold text-slate-800 mb-3">📊 আজকের সেশন</h3>
+            <div id="todaySessions" class="space-y-2 max-h-64 overflow-y-auto">
+                <div class="text-center text-gray-400 text-sm py-4">কোনো সেশন নেই</div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-sm font-semibold">
+                <span>মোট আজ: <span id="todayTotal" class="text-primary">0m</span></span>
+                <span>সেশন: <span id="sessionCount" class="text-gray-600">0</span></span>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-3 gap-3 mt-4">
+            <div class="card text-center py-3">
+                <div class="text-xs text-gray-500">Self Study</div>
+                <div class="font-bold text-emerald-600" id="selfStudyTotal">0m</div>
+            </div>
+            <div class="card text-center py-3">
+                <div class="text-xs text-gray-500">Class Time</div>
+                <div class="font-bold text-blue-600" id="classTimeTotal">0m</div>
+            </div>
+            <div class="card text-center py-3">
+                <div class="text-xs text-gray-500">Screen Time</div>
+                <div class="font-bold text-rose-600" id="screenTimeTotal">0m</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, addDoc, getDocs, query, where, doc, updateDoc, increment, serverTimestamp } from './firebase-config.js';
+
+        // Timer variables
+        let seconds = 0;
+        let timerInterval = null;
+        let isRunning = false;
+        let currentSessionId = null;
+        let currentUser = null;
+
+        const timerDisplay = document.getElementById('timerDisplay');
+        const sessionStatus = document.getElementById('sessionStatus');
+
+        // Auth check
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                currentUser = user;
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+                loadTodaySessions();
+            } else {
+                authSection.innerHTML = `<a href="login.html" class="btn-primary text-xs px-4 py-1.5">লগইন</a>`;
+            }
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        // Timer functions
+        function formatTime(sec) {
+            const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+            const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+            const s = String(sec % 60).padStart(2, '0');
+            return `${h}:${m}:${s}`;
+        }
+
+        window.startTimer = function() {
+            if (!currentUser) {
+                showToast('❌ দয়া করে লগইন করুন');
+                return;
+            }
+            if (isRunning) return;
+            if (timerInterval) {
+                pauseTimer();
+                return;
+            }
+
+            isRunning = true;
+            sessionStatus.textContent = '▶️ চলছে...';
+            sessionStatus.className = 'text-emerald-600';
+
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerDisplay.textContent = formatTime(seconds);
+            }, 1000);
+        };
+
+        window.pauseTimer = function() {
+            if (!isRunning) return;
+            isRunning = false;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            sessionStatus.textContent = '⏸️ বিরতি';
+            sessionStatus.className = 'text-amber-600';
+        };
+
+        window.stopTimer = async function() {
+            if (seconds === 0) {
+                showToast('⚠️ কিছুই রেকর্ড হয়নি');
+                return;
+            }
+
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            const type = document.getElementById('studyType').value;
+            const typeLabel = type === 'self_study' ? 'Self Study' : type === 'class_time' ? 'Class Time' : 'Screen Time';
+            
+            const btn = document.querySelector('.btn-secondary:last-child');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> সেভ হচ্ছে...';
+            btn.disabled = true;
+
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const now = new Date().toISOString();
+
+                await addDoc(collection(db, 'study_sessions'), {
+                    userId: currentUser.uid,
+                    userName: currentUser.displayName || 'User',
+                    date: today,
+                    startTime: new Date(Date.now() - seconds * 1000).toISOString(),
+                    endTime: now,
+                    duration: seconds,
+                    type: type,
+                    isValid: seconds <= 7800, // 2h 10m max for self study
+                    createdAt: serverTimestamp()
+                });
+
+                showToast(`✅ ${typeLabel} রেকর্ড করা হয়েছে: ${formatTime(seconds)}`);
+                
+                // Reset timer
+                seconds = 0;
+                timerDisplay.textContent = '00:00:00';
+                sessionStatus.textContent = '⏸️ প্রস্তুত';
+                sessionStatus.className = 'text-gray-500';
+                isRunning = false;
+                
+                loadTodaySessions();
+
+            } catch (error) {
+                showToast('❌ সেভ করতে ব্যর্থ: ' + error.message);
+            }
+
+            btn.innerHTML = '<i class="fas fa-stop mr-2"></i> শেষ';
+            btn.disabled = false;
+        };
+
+        // Load today's sessions
+        async function loadTodaySessions() {
+            if (!currentUser) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            const container = document.getElementById('todaySessions');
+            let total = 0;
+            let count = 0;
+            let selfStudy = 0;
+            let classTime = 0;
+            let screenTime = 0;
+
+            try {
+                const q = query(
+                    collection(db, 'study_sessions'),
+                    where('userId', '==', currentUser.uid),
+                    where('date', '==', today)
+                );
+                const snap = await getDocs(q);
+                
+                if (snap.empty) {
+                    container.innerHTML = `<div class="text-center text-gray-400 text-sm py-4">আজকে কোনো সেশন নেই</div>`;
+                } else {
+                    container.innerHTML = '';
+                    snap.forEach(doc => {
+                        const data = doc.data();
+                        const dur = data.duration || 0;
+                        total += dur;
+                        count++;
+                        
+                        if (data.type === 'self_study') selfStudy += dur;
+                        else if (data.type === 'class_time') classTime += dur;
+                        else if (data.type === 'screen_time') screenTime += dur;
+
+                        const div = document.createElement('div');
+                        div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg text-sm';
+                        const typeIcon = data.type === 'self_study' ? '📖' : data.type === 'class_time' ? '📺' : '📱';
+                        div.innerHTML = `
+                            <span>${typeIcon} ${formatTime(dur)}</span>
+                            <span class="text-xs text-gray-400">${data.type.replace('_', ' ')}</span>
+                        `;
+                        container.prepend(div);
+                    });
+                }
+
+                document.getElementById('todayTotal').textContent = formatTime(total);
+                document.getElementById('sessionCount').textContent = count;
+                document.getElementById('selfStudyTotal').textContent = formatTime(selfStudy);
+                document.getElementById('classTimeTotal').textContent = formatTime(classTime);
+                document.getElementById('screenTimeTotal').textContent = formatTime(screenTime);
+
+            } catch (e) {
+                console.error('Error loading sessions:', e);
+            }
+        }
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
