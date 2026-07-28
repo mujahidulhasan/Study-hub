@@ -33,12 +33,12 @@ import {
 
 // 🔴 আপনার Firebase Project থেকে এই Config বসান
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBo-PFNNuRQ7Ghp-Q-ZA1ZrgECid5z0HXM",
+    authDomain: "study-hub-bd-a3118.firebaseapp.com",
+    projectId: "study-hub-bd-a3118",
+    storageBucket: "study-hub-bd-a3118.firebasestorage.app",
+    messagingSenderId: "807169027235",
+    appId: "1:807169027235:web:565dbdaf77aa4cfc35a316"
 };
 
 // Initialize Firebase
