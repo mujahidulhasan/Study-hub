@@ -1,0 +1,12 @@
+{
+    "name": "study-hub",
+    "version": "1.0.0",
+    "description": "Smart Study Tracking Platform - Reading Room Alternative",
+    "main": "index.html",
+    "scripts": {
+        "start": "echo 'Open index.html in browser'"
+    },
+    "keywords": ["study", "tracker", "leaderboard", "firebase"],
+    "author": "Your Name",
+    "license": "MIT"
+}
