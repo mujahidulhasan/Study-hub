@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রোফাইল - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .stat-box {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .stat-box:hover { border-color: #CBD5E1; }
+        .stat-box .number { font-size: 24px; font-weight: 800; color: #0F172A; }
+        .stat-box .label { font-size: 11px; color: #94A3B8; margin-top: 2px; }
+        .stat-box .icon { font-size: 20px; margin-bottom: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="todo.html" class="nav-link">টু-ডু</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-3xl px-4 py-6">
+
+        <!-- Profile Card -->
+        <div class="card p-6 md:p-8">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-blue-400 flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-slate-800" id="profileName">ইউজার</h2>
+                    <p class="text-sm text-slate-500" id="profileEmail">email@example.com</p>
+                    <div class="flex flex-wrap gap-2 mt-2 justify-center md:justify-start">
+                        <span class="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100" id="profileGroup">গ্রুপ: HSC 27</span>
+                        <span class="text-xs bg-purple-50 text-purple-600 px-3 py-1 rounded-full border border-purple-100" id="profileRole">রোল: ইউজার</span>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.location.href='tracker.html'" class="btn-primary text-sm px-4 py-2">
+                        <i class="fas fa-play mr-2"></i> স্টাডি শুরু
+                    </button>
+                    <button onclick="logout()" class="btn-secondary text-sm px-4 py-2 text-red-500 border-red-200 hover:bg-red-50">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="stat-box">
+                <div class="icon text-emerald-500"><i class="fas fa-clock"></i></div>
+                <div class="number" id="totalStudy">০</div>
+                <div class="label">মোট স্টাডি</div>
+            </div>
+            <div class="stat-box">
+                <div class="icon text-blue-500"><i class="fas fa-calendar-day"></i></div>
+                <div class="number" id="todayStudy">০</div>
+                <div class="label">আজকের স্টাডি</div>
+            </div>
+            <div class="stat-box">
+                <div class="icon text-amber-500"><i class="fas fa-fire"></i></div>
+                <div class="number" id="streak">০</div>
+                <div class="label">স্ট্রিক (দিন)</div>
+            </div>
+            <div class="stat-box">
+                <div class="icon text-purple-500"><i class="fas fa-trophy"></i></div>
+                <div class="number" id="rank">-#</div>
+                <div class="label">লিডারবোর্ড র‍্যাঙ্ক</div>
+            </div>
+        </div>
+
+        <!-- Edit Profile -->
+        <div class="card mt-6">
+            <h3 class="font-bold text-slate-800 mb-4"><i class="fas fa-edit text-primary mr-2"></i> প্রোফাইল আপডেট</h3>
+            <form id="profileForm" onsubmit="
