@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লিডারবোর্ড - Study Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .rank-1 { background: linear-gradient(135deg, #FFFBEB, #FFFFFF); border-color: #F59E0B; }
+        .rank-2 { background: linear-gradient(135deg, #F8FAFC, #FFFFFF); border-color: #CBD5E1; }
+        .rank-3 { background: linear-gradient(135deg, #FFF7ED, #FFFFFF); border-color: #FB923C; }
+        .rank-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+        .rank-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+        .badge-1 { background: #F59E0B; color: white; }
+        .badge-2 { background: #94A3B8; color: white; }
+        .badge-3 { background: #FB923C; color: white; }
+        .badge-normal { background: #F1F5F9; color: #64748B; }
+        .stat-col { text-align: center; padding: 0 8px; }
+        .stat-col .value { font-size: 13px; font-weight: 700; }
+        .stat-col .label { font-size: 8px; text-transform: uppercase; color: #94A3B8; letter-spacing: 0.5px; }
+        .filter-btn {
+            padding: 6px 18px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #E2E8F0;
+            background: white;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { background: #F1F5F9; }
+        .filter-btn.active { background: #2563EB; color: white; border-color: #2563EB; }
+        .group-tab {
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid #E2E8F0;
+            background: white;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .group-tab:hover { background: #F8FAFC; }
+        .group-tab.active { background: #EFF6FF; border-color: #3B82F6; color: #2563EB; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link active">লিডারবোর্ড</a>
+                    <a href="todo.html" class="nav-link">টু-ডু</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-4xl px-4 py-6">
+
+        <!-- Title -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-trophy text-yellow-500 mr-2"></i> লিডারবোর্ড
+            </h1>
+            <p class="text-sm text-slate-500">Reading Room এর সেরা পাঠকবৃন্দ</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-4">
+            <a href="#" class="filter-btn active">দৈনিক</a>
+            <a href="#" class="filter-btn">সাপ্তাহিক</a>
+            <a href="#" class="filter-btn">মাসিক</a>
+        </div>
+
+        <!-- Group Filters -->
+        <div class="flex flex-wrap items-center gap-1 mb-4 overflow-x-auto pb-2">
+            <a href="#" class="group-tab active"><i class="fas fa-layer-group mr-1"></i> সব গ্রুপ</a>
+            <a href="#" class="group-tab">HSC 27</a>
+            <a href="#" class="group-tab">HSC 26</a>
+            <a href="#" class="group-tab">SSC 27</a>
+            <a href="#" class="group-tab">Admission</a>
+            <a href="#" class="group-tab">Medical</a>
+        </div>
+
+        <!-- Leaderboard List -->
+        <div id="leaderboardContainer" class="space-y-1">
+            <!-- Loaded by JavaScript -->
+            <div class="skeleton-card"><div class="skeleton" style="width:100%;height:48px;"></div></div>
+            <div class="skeleton-card"><div class="skeleton" style="width:100%;height:48px;"></div></div>
+            <div class="skeleton-card"><div class="skeleton" style="width:100%;height:48px;"></div></div>
+            <div class="skeleton-card"><div class="skeleton" style="width:100%;height:48px;"></div></div>
+            <div class="skeleton-card"><div class="skeleton" style="width:100%;height:48px;"></div></div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-6">
+            <button id="loadMoreBtn" class="px-6 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 font-bold rounded-full transition-all text-sm">
+                <i class="fas fa-arrow-down mr-2"></i> আরো দেখুন
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, limit, where, doc, getDoc } from './firebase-config.js';
+
+        let currentPage = 1;
+        const pageSize = 15;
+        let isLoading = false;
+        let hasMore = true;
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+            }
+            loadLeaderboard();
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        async function loadLeaderboard() {
+            const container = document.getElementById('leaderboardContainer');
+            isLoading = true;
+
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const q = query(
+                    collection(db, 'leaderboard_daily', today, 'users'),
+                    orderBy('totalStudy', 'desc'),
+                    limit(pageSize * currentPage)
+                );
+                const snap = await getDocs(q);
+                
+                if (snap.empty) {
+                    container.innerHTML = `
+                        <div class="card text-center py-12 text-slate-500">
+                            <i class="fas fa-inbox text-4xl text-slate-300 mb-3 block"></i>
+                            <p>কোনো ডেটা নেই</p>
+                        </div>
+                    `;
+                    hasMore = false;
+                    document.getElementById('loadMoreBtn').style.display = 'none';
+                    return;
+                }
+
+                container.innerHTML = '';
+                let rank = 1;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const uid = doc.id;
+                    const totalStudy = data.totalStudy || 0;
+                    const selfStudy = data.selfStudy || 0;
+                    const classTime = data.classTime || 0;
+                    
+                    const h = Math.floor(totalStudy / 3600);
+                    const m = Math.floor((totalStudy % 3600) / 60);
+                    const timeStr = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+
+                    const div = document.createElement('div');
+                    let rankClass = 'rank-normal';
+                    let badgeClass = 'badge-normal';
+                    let badgeText = rank;
+                    
+                    if (rank === 1) { rankClass = 'rank-1'; badgeClass = 'badge-1'; badgeText = '<i class="fas fa-crown"></i>'; }
+                    else if (rank === 2) { rankClass = 'rank-2'; badgeClass = 'badge-2'; badgeText = '2'; }
+                    else if (rank === 3) { rankClass = 'rank-3'; badgeClass = 'badge-3'; badgeText = '3'; }
+
+                    div.className = `rank-card ${rankClass}`;
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <div class="rank-badge ${badgeClass}">${badgeText}</div>
+                            <div>
+                                <div class="font-semibold text-sm text-slate-800">${data.name || 'User'}</div>
+                                <div class="text-xs text-slate-400">${data.group || 'No Group'}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="stat-col">
+                                <div class="value text-emerald-600">${timeStr}</div>
+                                <div class="label">মোট</div>
+                            </div>
+                            <div class="stat-col hidden sm:block">
+                                <div class="value text-slate-700">${formatTime(selfStudy)}</div>
+                                <div class="label">Self</div>
+                            </div>
+                            <div class="stat-col hidden sm:block">
+                                <div class="value text-blue-500">${formatTime(classTime)}</div>
+                                <div class="label">Class</div>
+                            </div>
+                            <div class="w-px h-8 bg-gray-200 hidden sm:block"></div>
+                            <div class="text-xs text-slate-400 font-mono">#${uid.slice(0, 6)}</div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    rank++;
+                });
+
+                hasMore = rank > pageSize * currentPage;
+                document.getElementById('loadMoreBtn').style.display = hasMore ? 'inline-flex' : 'none';
+
+            } catch (e) {
+                console.error('Error loading leaderboard:', e);
+                showToast('❌ ডেটা লোড করতে ব্যর্থ');
+            }
+            isLoading = false;
+        }
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            return h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+        }
+
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            if (!isLoading && hasMore) {
+                currentPage++;
+                loadLeaderboard();
+            }
+        });
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
