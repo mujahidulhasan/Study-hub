@@ -3,290 +3,942 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Hub - স্মার্ট স্টাডি প্ল্যাটফর্ম</title>
     
-    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <!-- ===== SEO Meta Tags ===== -->
+    <title>Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম</title>
+    <meta name="description" content="Study Hub-এ আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।">
+    <meta name="keywords" content="study tracker, student, bangladesh, education, leaderboard, study hub">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://study-hub.vercel.app/">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <!-- ===== Open Graph / Social Media ===== -->
+    <meta property="og:title" content="Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম">
+    <meta property="og:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://study-hub.vercel.app/">
+    <meta property="og:image" content="https://study-hub.vercel.app/og-image.jpg">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        primaryDark: '#1d4ed8',
-                    }
-                }
-            }
+    <!-- ===== Twitter Card ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম">
+    <meta name="twitter:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন।">
+    
+    <!-- ===== Schema Markup (JSON-LD) ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Study Hub",
+        "description": "স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম",
+        "applicationCategory": "Education",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
         }
+    }
     </script>
+    
+    <!-- ===== Fonts & Icons ===== -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== Global Reset ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+        
+        /* ===== Typography ===== */
+        .font-bengali { font-family: 'Hind Siliguri', 'Inter', sans-serif; }
+        .font-english { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+        
+        /* ===== Glassmorphism Header ===== */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 9999px;
+            padding: 6px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+        
+        .theme-dark .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(51, 65, 85, 0.6);
+        }
+        
+        /* ===== Nav Links ===== */
+        .nav-link {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .nav-link:hover { background: #f1f5f9; color: #2563eb; }
+        .nav-link.active { background: #eff6ff; color: #2563eb; }
+        
+        .theme-dark .nav-link { color: #94a3b8; }
+        .theme-dark .nav-link:hover { background: #1e293b; color: #60a5fa; }
+        .theme-dark .nav-link.active { background: #1e293b; color: #60a5fa; }
+        
+        /* ===== Buttons ===== */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 28px;
+            background: #2563eb;
+            color: white;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+        
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 28px;
+            background: transparent;
+            color: #334155;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .theme-dark .btn-secondary {
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+        .theme-dark .btn-secondary:hover {
+            background: #1e293b;
+            border-color: #475569;
+        }
+        
+        /* ===== Cards ===== */
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            padding: 28px 24px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+            border-color: #2563eb;
+        }
+        .feature-card .icon {
+            font-size: 36px;
+            color: #2563eb;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #0f172a;
+        }
+        .feature-card p {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        .theme-dark .feature-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .theme-dark .feature-card h3 { color: #f8fafc; }
+        .theme-dark .feature-card p { color: #94a3b8; }
+        
+        /* ===== Stat Card ===== */
+        .stat-card {
+            text-align: center;
+            padding: 16px;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .stat-card .label {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .theme-dark .stat-card .number { color: #f8fafc; }
+        
+        /* ===== Testimonial ===== */
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04); }
+        .testimonial-card .quote {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #334155;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .testimonial-card .author .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .testimonial-card .author .role {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .theme-dark .testimonial-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .theme-dark .testimonial-card .quote { color: #cbd5e1; }
+        .theme-dark .testimonial-card .author { border-color: #334155; }
+        .theme-dark .testimonial-card .author .name { color: #f8fafc; }
+        
+        /* ===== FAQ ===== */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: #e2e8f0; }
+        .faq-item .question {
+            width: 100%;
+            padding: 16px 20px;
+            background: transparent;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: #0f172a;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        .faq-item .question:hover { color: #2563eb; }
+        .faq-item .answer {
+            padding: 0 20px 20px;
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.7;
+            display: none;
+        }
+        .faq-item .answer.open { display: block; }
+        .faq-item .icon { transition: transform 0.3s; }
+        .faq-item .icon.rotate { transform: rotate(180deg); }
+        
+        .theme-dark .faq-item {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .theme-dark .faq-item .question { color: #f8fafc; }
+        .theme-dark .faq-item .answer { color: #94a3b8; }
+        
+        /* ===== Footer ===== */
+        .footer-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-link:hover { color: #2563eb; }
+        .theme-dark .footer-link { color: #94a3b8; }
+        .theme-dark .footer-link:hover { color: #60a5fa; }
+        
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+        .theme-dark ::-webkit-scrollbar-thumb { background: #334155; }
+        
+        /* ===== Animations ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* ===== Dark Theme Override ===== */
+        .theme-dark body {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+        .theme-dark .bg-white { background: #1e293b !important; }
+        .theme-dark .bg-slate-50 { background: #0f172a !important; }
+        .theme-dark .bg-gray-50 { background: #0f172a !important; }
+        .theme-dark .border-gray-200 { border-color: #334155 !important; }
+        .theme-dark .border-gray-100 { border-color: #334155 !important; }
+        .theme-dark .text-gray-600 { color: #94a3b8 !important; }
+        .theme-dark .text-gray-500 { color: #94a3b8 !important; }
+        .theme-dark .text-slate-600 { color: #94a3b8 !important; }
+        .theme-dark .text-slate-500 { color: #94a3b8 !important; }
+        .theme-dark .text-slate-700 { color: #cbd5e1 !important; }
+        .theme-dark .text-slate-800 { color: #f8fafc !important; }
+        .theme-dark .text-slate-900 { color: #f8fafc !important; }
+        
+        /* ===== Responsive ===== */
+        @media (max-width: 640px) {
+            .glass-header { border-radius: 20px; }
+            .btn-primary, .btn-secondary { padding: 8px 20px; font-size: 13px; }
+            .feature-card { padding: 20px 16px; }
+            .stat-card .number { font-size: 24px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
-        <div class="header-glass w-full max-w-5xl flex items-center gap-1">
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
+    <header class="sticky top-3 z-50 w-full flex justify-center px-4">
+        <div class="glass-header w-full max-w-6xl flex items-center gap-1">
             
             <!-- Logo -->
-            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
-                <span class="text-2xl">📚</span>
-                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">
+            <a href="index.html" class="flex items-center gap-2 pl-4 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block font-english">
                     Study Hub
                 </span>
             </a>
             
-            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <div class="h-6 w-px bg-gray-200 mx-1 hidden sm:block"></div>
             
-            <!-- Nav Links -->
-            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar max-w-[60vw] sm:max-w-none">
-                <div class="flex items-center gap-1 px-2">
-                    <a href="index.html" class="nav-link active">হোম</a>
-                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
-                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
-                    <a href="todo.html" class="nav-link">To-Do</a>
-                    <a href="dashboard.html" class="nav-link">ড্যাশবোর্ড</a>
-                    <a href="admin/index.html" class="nav-link text-red-500 hover:text-red-600" id="adminLink" style="display:none;">
-                        <i class="fas fa-crown"></i> অ্যাডমিন
-                    </a>
+            <!-- Navigation -->
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-0.5 px-2">
+                    <a href="index.html" class="nav-link active font-bengali">হোম</a>
+                    <a href="tracker.html" class="nav-link font-bengali">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link font-bengali">লিডারবোর্ড</a>
+                    <a href="dashboard.html" class="nav-link font-bengali">ড্যাশবোর্ড</a>
+                    <a href="about.html" class="nav-link font-bengali hidden sm:inline">আমাদের সম্পর্কে</a>
                 </div>
             </nav>
             
-            <!-- Theme & Menu -->
-            <button onclick="toggleThemeDrawer()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0">
-                <i class="fas fa-palette"></i>
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0" title="থিম পরিবর্তন">
+                <i class="fas fa-moon" id="themeIcon"></i>
             </button>
             
+            <!-- Mobile Menu -->
             <button onclick="toggleMobileMenu()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0 sm:hidden">
                 <i class="fas fa-bars text-lg"></i>
             </button>
             
-            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <div class="h-6 w-px bg-gray-200 mx-1 hidden sm:block"></div>
             
             <!-- Auth Buttons -->
-            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0" id="authButtons">
-                <a href="login.html" class="btn-primary text-xs sm:text-sm px-4 py-1.5" id="loginBtn">লগইন</a>
-                <a href="signup.html" class="btn-secondary text-xs sm:text-sm px-4 py-1.5" id="signupBtn">রেজিস্টার</a>
+            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0 pr-1" id="authSection">
+                <a href="login.html" class="btn-primary text-xs sm:text-sm px-4 py-1.5">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+                <a href="signup.html" class="btn-secondary text-xs sm:text-sm px-4 py-1.5 hidden sm:inline-flex">
+                    <i class="fas fa-user-plus mr-2"></i> রেজিস্টার
+                </a>
             </div>
             
             <!-- Profile (when logged in) -->
-            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0" id="profileSection" style="display:none;">
+            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0 pr-1" id="profileSection" style="display:none;">
                 <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
                     <i class="fas fa-user-circle text-lg"></i>
                     <span class="text-sm font-medium hidden sm:inline" id="userNameDisplay">User</span>
                 </a>
-                <button onclick="logoutUser()" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                <button onclick="logoutUser()" class="p-2 text-gray-400 hover:text-red-500 transition-colors" title="লগআউট">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-[60] hidden"></div>
-    <div id="mobile-menu-drawer" class="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-[70] transform translate-x-full overflow-y-auto transition-transform duration-300">
+    <!-- ============================================================
+    MOBILE MENU
+    ============================================================ -->
+    <div id="mobileMenuOverlay" onclick="closeMobileMenu()" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity"></div>
+    <div id="mobileMenuDrawer" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[70] transform translate-x-full overflow-y-auto transition-transform duration-300">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <span class="font-bold text-gray-800">মেনু</span>
-            <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-red-500">
+            <span class="font-bold text-slate-800 font-bengali"><i class="fas fa-bars text-primary mr-2"></i> মেনু</span>
+            <button onclick="closeMobileMenu()" class="text-gray-500 hover:text-red-500 transition-colors">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
-        <div class="p-4 flex flex-col gap-2">
-            <a href="index.html" class="block px-4 py-2 text-sm font-medium text-primary bg-blue-50 rounded-lg">হোম</a>
-            <a href="tracker.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">ট্র্যাকার</a>
-            <a href="leaderboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">লিডারবোর্ড</a>
-            <a href="group-leaderboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">গ্রুপ লিডারবোর্ড</a>
-            <a href="screen-time.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">স্ক্রিন টাইম</a>
-            <a href="todo.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">To-Do List</a>
-            <a href="dashboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">ড্যাশবোর্ড</a>
-            <a href="quiz-creator.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">কুইজ ক্রিয়েটর</a>
-            <a href="profile.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">প্রোফাইল</a>
-            <hr class="my-2">
-            <a href="admin/index.html" class="block px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg" id="mobileAdminLink" style="display:none;">
+        <div class="p-4 flex flex-col gap-1">
+            <a href="index.html" class="block px-4 py-3 text-sm font-medium text-primary bg-blue-50 rounded-lg font-bengali">হোম</a>
+            <a href="tracker.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">ট্র্যাকার</a>
+            <a href="leaderboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">লিডারবোর্ড</a>
+            <a href="group-leaderboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">গ্রুপ লিডারবোর্ড</a>
+            <a href="screen-time.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">স্ক্রিন টাইম</a>
+            <a href="todo.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">টু-ডু লিস্ট</a>
+            <a href="dashboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">ড্যাশবোর্ড</a>
+            <a href="quiz-creator.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">কুইজ ক্রিয়েটর</a>
+            <a href="profile.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">প্রোফাইল</a>
+            <a href="about.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">আমাদের সম্পর্কে</a>
+            <hr class="my-2 border-gray-200">
+            <a href="admin/index.html" class="block px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg font-bengali" id="mobileAdminLink" style="display:none;">
                 <i class="fas fa-crown mr-2"></i> অ্যাডমিন প্যানেল
             </a>
         </div>
     </div>
+<!-- ============================================================
+    MAIN CONTENT
+    ============================================================ -->
+    <main>
 
-    <!-- Theme Drawer -->
-    <div id="theme-drawer-overlay" onclick="toggleThemeDrawer()" class="fixed inset-0 bg-black/50 z-[60] hidden"></div>
-    <div id="theme-drawer" class="fixed top-0 left-0 h-full w-64 bg-white shadow-2xl z-[70] transform -translate-x-full overflow-y-auto transition-transform duration-300">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <span class="font-bold text-gray-800"><i class="fas fa-palette text-primary mr-2"></i>থিম</span>
-            <button onclick="toggleThemeDrawer()" class="text-gray-500 hover:text-red-500">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <div class="p-4 flex flex-col gap-2">
-            <button onclick="setTheme('system')" class="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-primary bg-blue-50">
-                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-desktop text-xs"></i></div>
-                <span class="font-bold text-sm">System</span>
-                <i class="fas fa-check-circle text-primary ml-auto"></i>
-            </button>
-            <button onclick="setTheme('light')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
-                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-sun text-xs"></i></div>
-                <span class="font-bold text-sm">Light</span>
-            </button>
-            <button onclick="setTheme('dark')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
-                <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center"><i class="fas fa-moon text-xs"></i></div>
-                <span class="font-bold text-sm">Premium Dark</span>
-            </button>
-            <button onclick="setTheme('neon')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
-                <div class="w-8 h-8 rounded-full bg-black text-green-400 flex items-center justify-center"><i class="fas fa-bolt text-xs"></i></div>
-                <span class="font-bold text-sm">Cyberpunk Neon</span>
-            </button>
-            <button onclick="setTheme('nature')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
-                <div class="w-8 h-8 rounded-full bg-green-50 text-green-700 flex items-center justify-center"><i class="fas fa-leaf text-xs"></i></div>
-                <span class="font-bold text-sm">Nature Green</span>
-            </button>
-            <button onclick="setTheme('ocean')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
-                <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fas fa-water text-xs"></i></div>
-                <span class="font-bold text-sm">Ocean Breeze</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="grow w-full bg-[#f8fafc] py-6 px-4 min-h-screen">
-        <div class="container mx-auto max-w-5xl">
+        <!-- ============================================================
+        HERO SECTION
+        ============================================================ -->
+        <section class="relative overflow-hidden pt-8 pb-16 md:pt-16 md:pb-24">
+            <!-- Background Blobs -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/30 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-100/30 rounded-full blur-[100px]"></div>
+            </div>
             
-            <!-- Hero Section -->
-            <section class="text-center py-8 md:py-16">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-primary text-xs font-bold mb-4">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                    </span>
-                    আপনার ডিজিটাল স্টাডি রুম
-                </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
-                    পড়াশোনা হোক <br/>
-                    <span class="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
-                        স্মার্ট ও গোছানো
-                    </span>
-                </h1>
-                <p class="text-sm md:text-lg text-gray-600 max-w-2xl mx-auto mt-4 leading-relaxed">
-                    Study Hub-এর সাথে আপনার পড়াশোনাকে নিয়ে যান অনন্য উচ্চতায়। 
-                    টাইম ট্র্যাকিং, লিডারবোর্ড, টো-ডু লিস্ট এবং আরও অনেক কিছু।
-                </p>
-                <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-                    <a href="tracker.html" class="btn-primary px-8 py-3 text-base">
-                        <i class="fas fa-play mr-2"></i> স্টার্ট স্টাডি
-                    </a>
-                    <a href="leaderboard.html" class="btn-secondary px-8 py-3 text-base">
-                        <i class="fas fa-trophy mr-2"></i> লিডারবোর্ড দেখুন
-                    </a>
-                </div>
-            </section>
-
-            <!-- Features Grid -->
-            <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                <div class="card text-center hover:shadow-lg transition-all">
-                    <div class="text-3xl mb-2">⏱️</div>
-                    <h3 class="font-bold text-sm">স্টাডি ট্র্যাকার</h3>
-                    <p class="text-xs text-gray-500">সময় কাউন্ট করুন</p>
-                </div>
-                <div class="card text-center hover:shadow-lg transition-all">
-                    <div class="text-3xl mb-2">🏆</div>
-                    <h3 class="font-bold text-sm">লিডারবোর্ড</h3>
-                    <p class="text-xs text-gray-500">দেখুন কে কত পড়ছে</p>
-                </div>
-                <div class="card text-center hover:shadow-lg transition-all">
-                    <div class="text-3xl mb-2">✅</div>
-                    <h3 class="font-bold text-sm">To-Do List</h3>
-                    <p class="text-xs text-gray-500">প্ল্যান করুন</p>
-                </div>
-                <div class="card text-center hover:shadow-lg transition-all">
-                    <div class="text-3xl mb-2">📊</div>
-                    <h3 class="font-bold text-sm">রিপোর্ট</h3>
-                    <p class="text-xs text-gray-500">বিশ্লেষণ করুন</p>
-                </div>
-            </section>
-
-            <!-- Stats -->
-            <section class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-primary" id="totalUsers">0</div>
-                    <div class="text-xs text-gray-500">মোট ইউজার</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-emerald-600" id="totalStudyToday">0h</div>
-                    <div class="text-xs text-gray-500">আজকের স্টাডি</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-blue-600" id="activeUsers">0</div>
-                    <div class="text-xs text-gray-500">এখন অনলাইন</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-amber-600" id="totalQuizzes">0</div>
-                    <div class="text-xs text-gray-500">মোট কুইজ</div>
-                </div>
-            </section>
-
-            <!-- Recent Leaderboard Preview -->
-            <section class="mt-8">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-slate-800">🔥 টপ স্টুডেন্ট</h2>
-                    <a href="leaderboard.html" class="text-sm text-primary hover:underline">সব দেখুন →</a>
-                </div>
-                <div id="leaderboardPreview" class="space-y-2">
-                    <!-- Loaded by JS -->
-                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
-                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
-                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-200 bg-gray-50 mt-auto pt-12 pb-6">
-        <div class="container mx-auto px-4 max-w-5xl">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <a href="index.html" class="text-2xl font-bold text-slate-800">📚 Study Hub</a>
-                    <p class="text-sm text-gray-600 mt-2">আপনার পড়াশোনার ডিজিটাল সঙ্গী।</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-slate-800 mb-3">ফিচারসমূহ</h3>
-                    <ul class="space-y-1 text-sm text-gray-600">
-                        <li><a href="tracker.html" class="hover:text-primary">স্টাডি ট্র্যাকার</a></li>
-                        <li><a href="leaderboard.html" class="hover:text-primary">লিডারবোর্ড</a></li>
-                        <li><a href="todo.html" class="hover:text-primary">To-Do List</a></li>
-                        <li><a href="quiz-creator.html" class="hover:text-primary">কুইজ</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-slate-800 mb-3">লিংক</h3>
-                    <ul class="space-y-1 text-sm text-gray-600">
-                        <li><a href="about.html" class="hover:text-primary">About</a></li>
-                        <li><a href="profile.html" class="hover:text-primary">প্রোফাইল</a></li>
-                        <li><a href="login.html" class="hover:text-primary">লগইন</a></li>
-                    </ul>
+            <div class="container mx-auto px-4 max-w-6xl relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Left Content -->
+                    <div class="space-y-6 animate-fade-up">
+                        <!-- Badge -->
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-primary text-xs font-bold tracking-wide font-english">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                            </span>
+                            পার্সোনাল ডিজিটাল স্টাডি রুম
+                        </div>
+                        
+                        <!-- Heading -->
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-slate-900 font-bengali">
+                            পড়াশোনা হোক
+                            <span class="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
+                                স্মার্ট ও গোছানো
+                            </span>
+                        </h1>
+                        
+                        <!-- Description -->
+                        <p class="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-bengali">
+                            Study Hub-এর সাথে আপনার পড়াশোনাকে নিয়ে যান অনন্য উচ্চতায়। 
+                            টাইম ট্র্যাকিং, লিডারবোর্ড, টু-ডু লিস্ট এবং আরও অনেক কিছু।
+                        </p>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <a href="tracker.html" class="btn-primary font-bengali">
+                                <i class="fas fa-play mr-2"></i> স্টার্ট স্টাডি
+                            </a>
+                            <a href="leaderboard.html" class="btn-secondary font-bengali">
+                                <i class="fas fa-trophy mr-2"></i> লিডারবোর্ড
+                            </a>
+                        </div>
+                        
+                        <!-- Trust Badge -->
+                        <div class="flex items-center gap-4 pt-4">
+                            <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600">A</div>
+                                <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600">R</div>
+                                <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-white flex items-center justify-center text-xs font-bold text-white">+</div>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-slate-700 font-english" id="heroUserCount">৫,০০০+</div>
+                                <div class="text-xs text-slate-500 font-bengali">শিক্ষার্থী নিয়মিত পড়ছেন</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Content - Dashboard Preview -->
+                    <div class="relative animate-fade-up delay-200 hidden lg:block">
+                        <div class="relative bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-2xl shadow-blue-500/10 p-6 ring-1 ring-white/50">
+                            
+                            <!-- Progress Card -->
+                            <div class="bg-white rounded-xl p-4 mb-4 shadow-sm border border-blue-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-slate-600 font-bengali">দৈনিক লক্ষ্য</span>
+                                    <span class="text-primary font-bold text-sm font-english">৮৫%</span>
+                                </div>
+                                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:85%;"></div>
+                                </div>
+                                <p class="text-[10px] text-slate-400 mt-1 text-right font-bengali">আজকের অগ্রগতি</p>
+                            </div>
+                            
+                            <!-- Course Progress -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm border border-blue-50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs font-bold text-slate-600 font-bengali">কোর্স সম্পন্ন</span>
+                                    <span class="text-primary font-bold text-sm font-english">১২/১৫</span>
+                                </div>
+                                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:80%;"></div>
+                                </div>
+                                <div class="flex gap-2 mt-3">
+                                    <span class="text-[10px] text-slate-600 bg-gray-50 px-2 py-1 rounded border border-gray-100 font-bengali">পদার্থবিজ্ঞান</span>
+                                    <span class="text-[10px] text-slate-600 bg-gray-50 px-2 py-1 rounded border border-gray-100 font-bengali">রসায়ন</span>
+                                    <span class="text-[10px] text-primary bg-blue-50 px-2 py-1 rounded border border-blue-100 font-bengali">+৩ টি</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Floating Icons -->
+                            <div class="absolute -right-3 top-12 bg-white p-3 rounded-full border border-blue-100 shadow-xl animate-bounce">
+                                <i class="fas fa-book text-blue-600 text-lg"></i>
+                            </div>
+                            <div class="absolute -left-3 bottom-16 bg-white p-3 rounded-full border border-blue-100 shadow-xl animate-bounce" style="animation-delay: 0.5s;">
+                                <i class="fas fa-clock text-blue-600 text-lg"></i>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
-            <div class="border-t border-gray-200 mt-8 pt-6 text-center text-sm text-gray-500">
-                &copy; 2026 Study Hub. সকল অধিকার সংরক্ষিত।
+        </section>
+
+        <!-- ============================================================
+        STATS SECTION
+        ============================================================ -->
+        <section class="py-8 md:py-12 bg-white border-y border-gray-100">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="stat-card animate-fade-up delay-100">
+                        <div class="number font-english" id="statUsers">০</div>
+                        <div class="label font-bengali">মোট ইউজার</div>
+                    </div>
+                    <div class="stat-card animate-fade-up delay-200">
+                        <div class="number font-english text-emerald-600" id="statStudy">০ঘ</div>
+                        <div class="label font-bengali">আজকের স্টাডি</div>
+                    </div>
+                    <div class="stat-card animate-fade-up delay-300">
+                        <div class="number font-english text-blue-600" id="statActive">০</div>
+                        <div class="label font-bengali">এখন অনলাইন</div>
+                    </div>
+                    <div class="stat-card animate-fade-up delay-400">
+                        <div class="number font-english text-amber-600" id="statQuizzes">০</div>
+                        <div class="label font-bengali">মোট কুইজ</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+        FEATURES SECTION
+        ============================================================ -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 max-w-6xl">
+                
+                <div class="text-center mb-12 animate-fade-up">
+                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">ফিচারসমূহ</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
+                        কেন Study Hub?
+                    </h2>
+                    <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali">
+                        আপনার পড়াশোনাকে স্মার্ট, গোছানো এবং প্রতিযোগিতামূলক করতে আমাদের সব ফিচার
+                    </p>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Feature 1 -->
+                    <div class="feature-card animate-fade-up delay-100">
+                        <i class="fas fa-clock icon"></i>
+                        <h3 class="font-bengali">স্টাডি ট্র্যাকার</h3>
+                        <p class="font-bengali">আপনার পড়ার সময় কাউন্ট করুন, বিশ্লেষণ করুন এবং উন্নত করুন</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="feature-card animate-fade-up delay-200">
+                        <i class="fas fa-trophy icon"></i>
+                        <h3 class="font-bengali">লিডারবোর্ড</h3>
+                        <p class="font-bengali">অন্যদের সাথে প্রতিযোগিতা করে নিজের অবস্থান জানুন</p>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="feature-card animate-fade-up delay-300">
+                        <i class="fas fa-list-check icon"></i>
+                        <h3 class="font-bengali">টু-ডু লিস্ট</h3>
+                        <p class="font-bengali">দৈনিক কাজের তালিকা তৈরি করুন এবং সম্পন্ন করুন</p>
+                    </div>
+                    
+                    <!-- Feature 4 -->
+                    <div class="feature-card animate-fade-up delay-100">
+                        <i class="fas fa-users icon"></i>
+                        <h3 class="font-bengali">গ্রুপ স্টাডি</h3>
+                        <p class="font-bengali">টিমভিত্তিক স্টাডি এবং গ্রুপ লিডারবোর্ড</p>
+                    </div>
+                    
+                    <!-- Feature 5 -->
+                    <div class="feature-card animate-fade-up delay-200">
+                        <i class="fas fa-mobile-screen icon"></i>
+                        <h3 class="font-bengali">স্ক্রিন টাইম</h3>
+                        <p class="font-bengali">আপনার ডিভাইস ব্যবহারের সময় ট্র্যাক করুন</p>
+                    </div>
+                    
+                    <!-- Feature 6 -->
+                    <div class="feature-card animate-fade-up delay-300">
+                        <i class="fas fa-pen-to-square icon"></i>
+                        <h3 class="font-bengali">কুইজ সিস্টেম</h3>
+                        <p class="font-bengali">নিজেকে যাচাই করুন এবং কুইজ লিডারবোর্ডে উঠুন</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================
+        TESTIMONIALS SECTION
+        ============================================================ -->
+        <section class="py-16 md:py-24 bg-slate-50/60">
+            <div class="container mx-auto px-4 max-w-6xl">
+                
+                <div class="text-center mb-12 animate-fade-up">
+                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">শিক্ষার্থীদের মতামত</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
+                        তারা যা বলছে
+                    </h2>
+                    <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali">
+                        Study Hub ব্যবহার করে হাজারো শিক্ষার্থী তাদের পড়াশোনা বদলে দিয়েছে
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card animate-fade-up delay-100">
+                        <div class="flex text-amber-400 mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="quote font-bengali">
+                            "Study Hub আমার পড়াশোনার রুটিন বদলে দিয়েছে। টাইম ট্র্যাকিং এবং লিডারবোর্ড আমাকে বেশি পড়তে উৎসাহিত করে।"
+                        </p>
+                        <div class="author">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="name font-bengali">তাহমিনা তাবাচ্ছুম</div>
+                                <div class="role font-bengali">Admission 25-26</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card animate-fade-up delay-200">
+                        <div class="flex text-amber-400 mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="quote font-bengali">
+                            "To-Do লিস্ট এবং সেশন রিপোর্ট আমার পড়ার পরিকল্পনা করতে অনেক সাহায্য করে। প্রতিদিনের অগ্রগতি দেখতে খুব ভালো লাগে।"
+                        </p>
+                        <div class="author">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="name font-bengali">ইব্রাহিম খলিলুল্লাহ</div>
+                                <div class="role font-bengali">HSC 27</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card animate-fade-up delay-300">
+                        <div class="flex text-amber-400 mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="quote font-bengali">
+                            "গ্রুপ লিডারবোর্ড আমাদের টিমের মধ্যে প্রতিযোগিতা বাড়িয়েছে। সবাই একে অপরকে উৎসাহিত করে বেশি বেশি পড়তে।"
+                        </p>
+                        <div class="author">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="name font-bengali">হাসান আবিদ</div>
+                                <div class="role font-bengali">HSC 27</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+        FAQ SECTION
+        ============================================================ -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4 max-w-3xl">
+                
+                <div class="text-center mb-12 animate-fade-up">
+                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">সচরাচর জিজ্ঞাসা</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
+                        প্রায়শই জিজ্ঞাসিত প্রশ্ন
+                    </h2>
+                </div>
+                
+                <div class="space-y-3">
+                    
+                    <!-- FAQ 1 -->
+                    <div class="faq-item animate-fade-up delay-100">
+                        <button class="question font-bengali" onclick="toggleFaq(this)">
+                            <span>Study Hub কী?</span>
+                            <i class="fas fa-chevron-down icon text-primary"></i>
+                        </button>
+                        <div class="answer font-bengali">
+                            Study Hub একটি স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম যা শিক্ষার্থীদের তাদের পড়াশোনার সময় ট্র্যাক করতে, লিডারবোর্ডে প্রতিযোগিতা করতে এবং টু-ডু লিস্ট তৈরি করতে সাহায্য করে।
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="faq-item animate-fade-up delay-200">
+                        <button class="question font-bengali" onclick="toggleFaq(this)">
+                            <span>কীভাবে স্টাডি ট্র্যাক করব?</span>
+                            <i class="fas fa-chevron-down icon text-primary"></i>
+                        </button>
+                        <div class="answer font-bengali">
+                            ট্র্যাকার পেজে গিয়ে "স্টার্ট" বাটনে ক্লিক করুন। পড়া শেষ হলে "স্টপ" ক্লিক করুন। আপনার সময় স্বয়ংক্রিয়ভাবে সেভ হয়ে যাবে।
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="faq-item animate-fade-up delay-300">
+                        <button class="question font-bengali" onclick="toggleFaq(this)">
+                            <span>লিডারবোর্ড কীভাবে কাজ করে?</span>
+                            <i class="fas fa-chevron-down icon text-primary"></i>
+                        </button>
+                        <div class="answer font-bengali">
+                            লিডারবোর্ডে দৈনিক, সাপ্তাহিক এবং মাসিক ভিত্তিতে সব ইউজারের মোট স্টাডি সময় দেখানো হয়। আপনি গ্রুপ এবং টিম অনুযায়ী ফিল্টার করতে পারেন।
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="faq-item animate-fade-up delay-400">
+                        <button class="question font-bengali" onclick="toggleFaq(this)">
+                            <span>কুইজ কীভাবে তৈরি করব?</span>
+                            <i class="fas fa-chevron-down icon text-primary"></i>
+                        </button>
+                        <div class="answer font-bengali">
+                            কুইজ ক্রিয়েটর পেজে গিয়ে কুইজের শিরোনাম এবং প্রশ্নগুলো যোগ করুন। সেভ করলেই আপনার কুইজ লাইভ হয়ে যাবে এবং অন্যরা অংশগ্রহণ করতে পারবে।
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 5 -->
+                    <div class="faq-item animate-fade-up delay-500">
+                        <button class="question font-bengali" onclick="toggleFaq(this)">
+                            <span>Study Hub কি ফ্রি?</span>
+                            <i class="fas fa-chevron-down icon text-primary"></i>
+                        </button>
+                        <div class="answer font-bengali">
+                            হ্যাঁ, Study Hub সম্পূর্ণ ফ্রি। আপনি সকল ফিচার ব্যবহার করতে পারবেন কোনো চার্জ ছাড়াই।
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="bg-white border-t border-gray-200 mt-auto pt-12 pb-6">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Brand -->
+                <div class="col-span-2 md:col-span-1">
+                    <a href="index.html" class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-primary"></i>
+                        <span class="font-bengali">Study Hub</span>
+                    </a>
+                    <p class="text-sm text-slate-500 mt-2 font-bengali">
+                        আপনার পড়াশোনার ডিজিটাল সঙ্গী। ট্র্যাকিং, লিডারবোর্ড এবং আরও অনেক কিছু।
+                    </p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">ফিচারসমূহ</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="tracker.html" class="footer-link font-bengali">স্টাডি ট্র্যাকার</a></li>
+                        <li><a href="leaderboard.html" class="footer-link font-bengali">লিডারবোর্ড</a></li>
+                        <li><a href="todo.html" class="footer-link font-bengali">টু-ডু লিস্ট</a></li>
+                        <li><a href="quiz-creator.html" class="footer-link font-bengali">কুইজ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">রিসোর্স</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="about.html" class="footer-link font-bengali">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#" class="footer-link font-bengali">ব্লগ</a></li>
+                        <li><a href="#" class="footer-link font-bengali">সাপোর্ট</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Account -->
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">অ্যাকাউন্ট</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="login.html" class="footer-link font-bengali">লগইন</a></li>
+                        <li><a href="signup.html" class="footer-link font-bengali">রেজিস্টার</a></li>
+                        <li><a href="profile.html" class="footer-link font-bengali">প্রোফাইল</a></li>
+                        <li><a href="admin/index.html" class="footer-link font-bengali" id="footerAdminLink" style="display:none;">অ্যাডমিন</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-gray-200 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-slate-500 font-bengali">
+                    &copy; 2026 Study Hub. সর্বস্বত্ব সংরক্ষিত।
+                </p>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-primary transition-colors font-bengali">গোপনীয়তা নীতি</a>
+                    <a href="#" class="hover:text-primary transition-colors font-bengali">শর্তাবলী</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Toast -->
-    <div id="toast-notification"></div>
+    <!-- ============================================================
+    TOAST NOTIFICATION
+    ============================================================ -->
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl text-sm font-medium shadow-xl opacity-0 invisible transition-all duration-500 z-[9999] font-bengali">
+        <span id="toastMessage"></span>
+    </div>
 
-    <!-- Scripts -->
-    <script type="module" src="firebase-config.js"></script>
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
     <script type="module">
+        // ===== Firebase Imports =====
         import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, limit, doc, getDoc } from './firebase-config.js';
-        import { isAdmin, requireAdmin } from './admin.js';
+        
+        // ===== DOM Elements =====
+        const authSection = document.getElementById('authSection');
+        const profileSection = document.getElementById('profileSection');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const mobileAdminLink = document.getElementById('mobileAdminLink');
+        const footerAdminLink = document.getElementById('footerAdminLink');
+        const themeIcon = document.getElementById('themeIcon');
 
-        // Global functions for HTML onclick
+        // ===== Auth State =====
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Logged in
+                authSection.style.display = 'none';
+                profileSection.style.display = 'flex';
+                
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        userNameDisplay.textContent = data.name || 'User';
+                        
+                        if (data.role === 'admin') {
+                            mobileAdminLink.style.display = 'block';
+                            footerAdminLink.style.display = 'block';
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error loading user data:', e);
+                }
+            } else {
+                authSection.style.display = 'flex';
+                profileSection.style.display = 'none';
+                mobileAdminLink.style.display = 'none';
+                footerAdminLink.style.display = 'none';
+            }
+        });
+
+        // ===== Logout =====
+        window.logoutUser = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => {
+                    window.location.reload();
+                });
+            });
+        };
+
+        // ===== Mobile Menu =====
         window.toggleMobileMenu = function() {
-            const drawer = document.getElementById('mobile-menu-drawer');
-            const overlay = document.getElementById('mobile-menu-overlay');
+            const drawer = document.getElementById('mobileMenuDrawer');
+            const overlay = document.getElementById('mobileMenuOverlay');
             if (drawer.classList.contains('translate-x-full')) {
                 drawer.classList.remove('translate-x-full');
                 overlay.classList.remove('hidden');
@@ -298,90 +950,61 @@
             }
         };
 
-        window.toggleThemeDrawer = function() {
-            const drawer = document.getElementById('theme-drawer');
-            const overlay = document.getElementById('theme-drawer-overlay');
-            if (drawer.classList.contains('-translate-x-full')) {
-                drawer.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        window.closeMobileMenu = function() {
+            const drawer = document.getElementById('mobileMenuDrawer');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            drawer.classList.add('translate-x-full');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        };
+
+        // ===== Theme Toggle =====
+        window.toggleTheme = function() {
+            const isDark = document.body.classList.contains('theme-dark');
+            if (isDark) {
+                document.body.classList.remove('theme-dark');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
             } else {
-                drawer.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
+                document.body.classList.add('theme-dark');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
             }
         };
 
-        window.setTheme = function(theme) {
-            localStorage.setItem('theme', theme);
-            document.body.className = '';
-            if (theme === 'dark') document.body.classList.add('theme-dark');
-            else if (theme === 'neon') document.body.classList.add('theme-neon');
-            else if (theme === 'nature') document.body.classList.add('theme-nature');
-            else if (theme === 'ocean') document.body.classList.add('theme-ocean');
-            // else system/light - no class
-            toggleThemeDrawer();
-            showToast('থিম পরিবর্তন করা হয়েছে: ' + theme);
-        };
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('theme-dark');
+            themeIcon.className = 'fas fa-sun';
+        }
 
-        window.logoutUser = function() {
-            signOut(auth).then(() => {
-                window.location.reload();
-            });
-        };
-
-        window.showToast = function(message) {
-            const toast = document.getElementById('toast-notification');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        };
-
-        // Auth State
-        onAuthStateChanged(auth, async (user) => {
-            const loginBtn = document.getElementById('loginBtn');
-            const signupBtn = document.getElementById('signupBtn');
-            const authButtons = document.getElementById('authButtons');
-            const profileSection = document.getElementById('profileSection');
-            const userNameDisplay = document.getElementById('userNameDisplay');
-            const adminLink = document.getElementById('adminLink');
-            const mobileAdminLink = document.getElementById('mobileAdminLink');
-
-            if (user) {
-                // Logged in
-                authButtons.style.display = 'none';
-                profileSection.style.display = 'flex';
-                
-                // Get user data
-                const userDoc = await getDoc(doc(db, 'users', user.uid));
-                if (userDoc.exists()) {
-                    const data = userDoc.data();
-                    userNameDisplay.textContent = data.name || 'User';
-                    
-                    // Check if admin
-                    if (data.role === 'admin') {
-                        adminLink.style.display = 'inline-flex';
-                        mobileAdminLink.style.display = 'block';
-                    }
-                }
-            } else {
-                authButtons.style.display = 'flex';
-                profileSection.style.display = 'none';
-                adminLink.style.display = 'none';
-                mobileAdminLink.style.display = 'none';
+        // ===== FAQ Toggle =====
+        window.toggleFaq = function(btn) {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('.icon');
+            const isOpen = answer.classList.contains('open');
+            
+            // Close all
+            document.querySelectorAll('.faq-item .answer').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.faq-item .icon').forEach(el => el.classList.remove('rotate'));
+            
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.classList.add('rotate');
             }
-        });
+        };
 
-        // Load stats
+        // ===== Load Stats =====
         async function loadStats() {
             try {
+                // Total Users
                 const usersSnap = await getDocs(collection(db, 'users'));
-                document.getElementById('totalUsers').textContent = usersSnap.size;
-
-                const quizzesSnap = await getDocs(collection(db, 'quizzes'));
-                document.getElementById('totalQuizzes').textContent = quizzesSnap.size;
-
-                // Get today's study total
+                const userCount = usersSnap.size;
+                document.getElementById('statUsers').textContent = userCount;
+                document.getElementById('heroUserCount').textContent = userCount > 0 ? userCount.toLocaleString() + '+' : '৫,০০০+';
+                
+                // Today's Study
                 const today = new Date().toISOString().split('T')[0];
                 const sessionsSnap = await getDocs(collection(db, 'study_sessions'));
                 let totalToday = 0;
@@ -391,68 +1014,46 @@
                         totalToday += data.duration || 0;
                     }
                 });
-                const hours = Math.floor(totalToday / 3600);
-                const mins = Math.floor((totalToday % 3600) / 60);
-                document.getElementById('totalStudyToday').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+                const h = Math.floor(totalToday / 3600);
+                const m = Math.floor((totalToday % 3600) / 60);
+                document.getElementById('statStudy').textContent = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+                
+                // Active Users (users with sessions today)
+                const activeUsers = new Set();
+                sessionsSnap.forEach(doc => {
+                    if (doc.data().date === today) activeUsers.add(doc.data().userId);
+                });
+                document.getElementById('statActive').textContent = activeUsers.size;
+                
+                // Total Quizzes
+                const quizzesSnap = await getDocs(collection(db, 'quizzes'));
+                document.getElementById('statQuizzes').textContent = quizzesSnap.size;
+                
             } catch (e) {
                 console.error('Error loading stats:', e);
             }
         }
 
-        // Load leaderboard preview
-        async function loadLeaderboardPreview() {
-            try {
-                const today = new Date().toISOString().split('T')[0];
-                const q = query(
-                    collection(db, 'leaderboard_daily', today, 'users'),
-                    orderBy('totalStudy', 'desc'),
-                    limit(5)
-                );
-                const snap = await getDocs(q);
-                const container = document.getElementById('leaderboardPreview');
-                container.innerHTML = '';
-                
-                let rank = 1;
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    const uid = doc.id;
-                    const div = document.createElement('div');
-                    div.className = `rank-card ${rank <= 3 ? 'rank-' + rank : 'rank-normal'}`;
-                    div.innerHTML = `
-                        <div class="flex items-center gap-2">
-                            <div class="rank-badge ${rank <= 3 ? 'badge-' + rank : 'badge-normal'}">${rank <= 3 ? (rank === 1 ? '👑' : rank) : rank}</div>
-                            <span class="font-bold text-sm">${data.name || 'User'}</span>
-                        </div>
-                        <div class="text-sm font-bold text-emerald-600">${formatTime(data.totalStudy || 0)}</div>
-                    `;
-                    container.appendChild(div);
-                    rank++;
-                });
+        // ===== Toast =====
+        window.showToast = function(message) {
+            const toast = document.getElementById('toastNotification');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.classList.remove('opacity-0', 'invisible');
+            toast.classList.add('opacity-100', 'visible');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'visible');
+                toast.classList.add('opacity-0', 'invisible');
+            }, 3000);
+        };
 
-                if (rank === 1) {
-                    container.innerHTML = `<div class="card text-center py-8 text-gray-500">কোনো ডেটা নেই</div>`;
-                }
-            } catch (e) {
-                console.error('Error loading preview:', e);
-            }
-        }
-
-        function formatTime(seconds) {
-            const h = Math.floor(seconds / 3600);
-            const m = Math.floor((seconds % 3600) / 60);
-            return h > 0 ? `${h}h ${m}m` : `${m}m`;
-        }
-
-        // Load theme from localStorage
-        const savedTheme = localStorage.getItem('theme') || 'system';
-        if (savedTheme === 'dark') document.body.classList.add('theme-dark');
-        else if (savedTheme === 'neon') document.body.classList.add('theme-neon');
-        else if (savedTheme === 'nature') document.body.classList.add('theme-nature');
-        else if (savedTheme === 'ocean') document.body.classList.add('theme-ocean');
-
-        // Initialize
+        // ===== Init =====
         loadStats();
-        loadLeaderboardPreview();
+
+        // ===== Expose showToast globally =====
+        window.showToast = showToast;
+
     </script>
+
 </body>
-  </html>
+</html>
