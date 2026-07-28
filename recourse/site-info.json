@@ -1,0 +1,43 @@
+{
+    "siteName": "DuetDreamer",
+    "siteTagline": "স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম",
+    "siteDescription": "আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।",
+    "siteKeywords": "study tracker, student, bangladesh, education, leaderboard, study hub",
+    "siteUrl": "https://study-hub.vercel.app",
+    "siteLogo": "/resources/logo.png",
+    "favicon": "/resources/favicon.ico",
+    "theme": {
+        "primary": "#2563eb",
+        "secondary": "#0ea5e9",
+        "accent": "#f59e0b"
+    },
+    "social": {
+        "facebook": "https://facebook.com/studyhub",
+        "youtube": "https://youtube.com/studyhub",
+        "telegram": "https://t.me/studyhub"
+    },
+    "contact": {
+        "email": "info@studyhub.com",
+        "phone": "+8801XXX-XXXXXX"
+    },
+    "features": [
+        "স্টাডি ট্র্যাকার",
+        "লিডারবোর্ড",
+        "টু-ডু লিস্ট",
+        "গ্রুপ স্টাডি",
+        "স্ক্রিন টাইম",
+        "কুইজ সিস্টেম"
+    ],
+    "testimonials": [
+        {
+            "name": "তাহমিনা তাবাচ্ছুম",
+            "group": "Admission 25-26",
+            "quote": "Study Hub আমার পড়াশোনার রুটিন বদলে দিয়েছে।"
+        },
+        {
+            "name": "ইব্রাহিম খলিলুল্লাহ",
+            "group": "HSC 27",
+            "quote": "To-Do লিস্ট এবং সেশন রিপোর্ট আমার পড়ার পরিকল্পনা করতে অনেক সাহায্য করে।"
+        }
+    ]
+}
