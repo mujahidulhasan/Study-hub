@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রেজিস্টার - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <a href="index.html" class="text-4xl">📚</a>
+            <h1 class="text-2xl font-bold text-slate-800 mt-2">অ্যাকাউন্ট তৈরি করুন</h1>
+            <p class="text-sm text-gray-500">Study Hub-এ জয়েন করুন</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <!-- Name -->
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">পূর্ণ নাম</label>
+                    <input type="text" id="signupName" required
+                           class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
+                           placeholder="আপনার নাম">
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">ইমেইল</label>
+                    <input type="email" id="signupEmail" required
+                           class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
+                           placeholder="your@email.com">
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">পাসওয়ার্ড</label>
+                    <input type="password" id="signupPassword" required minlength="6"
+                           class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
+                           placeholder="৬ অক্ষরের বেশি">
+                </div>
+
+                <!-- Group -->
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">গ্রুপ</label>
+                    <select id="signupGroup" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+                        <option value="SSC 26">SSC 26</option>
+                        <option value="SSC 27">SSC 27</option>
+                        <option value="HSC 26">HSC 26</option>
+                        <option value="HSC 27" selected>HSC 27</option>
+                        <option value="HSC 28">HSC 28</option>
+                        <option value="Admission">Admission</option>
+                        <option value="Admission 25-26">Admission 25-26</option>
+                        <option value="Medical">Medical</option>
+                        <option value="No Group">No Group</option>
+                    </select>
+                </div>
+
+                <!-- Gender -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">জেন্ডার</label>
+                    <select id="signupGender" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+                        <option value="Male">👨 Male</option>
+                        <option value="Female">👩 Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Signup Button -->
+                <button type="submit" id="signupBtn"
+                        class="w-full btn-primary py-3 text-base">
+                    <i class="fas fa-user-plus mr-2"></i> অ্যাকাউন্ট তৈরি করুন
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-4 my-6">
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <span class="text-xs text-gray-400">অথবা</span>
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                </div>
+
+                <!-- Google Signup -->
+                <button type="button" onclick="handleGoogleSignup()"
+                        class="w-full flex items-center justify-center gap-3 py-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all text-sm font-medium text-slate-700">
+                    <img src="https://www.google.com/favicon.ico" class="w-5 h-5" alt="Google">
+                    Google দিয়ে সাইনআপ করুন
+                </button>
+
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="login.html" class="text-primary font-semibold hover:underline">লগইন করুন</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, createUserWithEmailAndPassword, signInWithPopup, provider, db, doc, setDoc, onAuthStateChanged } from './firebase-config.js';
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) window.location.href = 'index.html';
+        });
+
+        window.handleSignup = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const group = document.getElementById('signupGroup').value;
+            const gender = document.getElementById('signupGender').value;
+            const btn = document.getElementById('signupBtn');
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> অ্যাকাউন্ট তৈরি হচ্ছে...';
+            btn.disabled = true;
+
+            try {
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                const uid = userCred.user.uid;
+
+                // Save user data
+                await setDoc(doc(db, 'users', uid), {
+                    name: name,
+                    email: email,
+                    group: group,
+                    gender: gender,
+                    role: 'user',
+                    createdAt: new Date().toISOString(),
+                    settings: { theme: 'system' }
+                });
+
+                showToast('✅ অ্যাকাউন্ট তৈরি সফল!');
+                setTimeout(() => window.location.href = 'index.html', 1200);
+            } catch (error) {
+                let msg = 'সাইনআপ ব্যর্থ!';
+                if (error.code === 'auth/email-already-in-use') msg = 'এই ইমেইল ইতিমধ্যে ব্যবহার করা হচ্ছে';
+                else if (error.code === 'auth/weak-password') msg = 'পাসওয়ার্ড খুব ছোট (৬+ অক্ষর দিন)';
+                showToast('❌ ' + msg);
+                btn.innerHTML = '<i class="fas fa-user-plus mr-2"></i> অ্যাকাউন্ট তৈরি করুন';
+                btn.disabled = false;
+            }
+        };
+
+        window.handleGoogleSignup = async function() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                await setDoc(doc(db, 'users', user.uid), {
+                    name: user.displayName || 'User',
+                    email: user.email,
+                    group: 'No Group',
+                    gender: 'Other',
+                    role: 'user',
+                    createdAt: new Date().toISOString(),
+                    settings: { theme: 'system' }
+                }, { merge: true });
+                showToast('✅ Google সাইনআপ সফল!');
+                setTimeout(() => window.location.href = 'index.html', 1200);
+            } catch (error) {
+                showToast('❌ Google সাইনআপ ব্যর্থ');
+            }
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
