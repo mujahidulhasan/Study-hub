@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কুইজ লিডারবোর্ড - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .quiz-rank-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+        }
+        .quiz-rank-card:hover { border-color: #CBD5E1; }
+        .score-badge {
+            padding: 2px 12px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .score-high { background: #DCFCE7; color: #16A34A; }
+        .score-medium { background: #FEF3C7; color: #D97706; }
+        .score-low { background: #FEE2E2; color: #DC2626; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="quiz-leaderboard.html" class="nav-link active">কুইজ লিডারবোর্ড</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-3xl px-4 py-6">
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-trophy text-yellow-500 mr-2"></i> কুইজ লিডারবোর্ড
+            </h1>
+            <p class="text-sm text-slate-500">সেরা কুইজ পারফর্মারদের তালিকা</p>
+        </div>
+
+        <!-- Quiz Select -->
+        <div class="flex gap-2 mb-4">
+            <select id="quizSelect" class="flex-1 px-4 py-2 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+                <option value="">একটি কুইজ সিলেক্ট করুন</option>
+            </select>
+            <button onclick="loadQuizLeaderboard()" class="btn-primary px-6 py-2 text-sm">
+                <i class="fas fa-search mr-2"></i> দেখুন
+            </button>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboardContainer">
+            <div class="text-center text-slate-400 text-sm py-8">
+                <i class="fas fa-list-check text-3xl text-slate-300 mb-3 block"></i>
+                <p>কুইজ সিলেক্ট করে লিডারবোর্ড দেখুন</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, doc, getDoc } from './firebase-config.js';
+
+        let allQuizzes = [];
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+            }
+            loadQuizzes();
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        async function loadQuizzes() {
+            try {
+                const snap = await getDocs(collection(db, 'quizzes'));
+                const select = document.getElementById('quizSelect');
+                allQuizzes = [];
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    allQuizzes.push({ id: doc.id, ...data });
+                    select.innerHTML += `<option value="${doc.id}">${data.title || 'কুইজ'}</option>`;
+                });
+            } catch (e) {
+                console.error('Error loading quizzes:', e);
+            }
+        }
+
+        window.loadQuizLeaderboard = async function() {
+            const quizId = document.getElementById('quizSelect').value;
+            if (!quizId) { showToast('⚠️ একটি কুইজ সিলেক্ট করুন'); return; }
+
+            const container = document.getElementById('leaderboardContainer');
+            container.innerHTML = `
+                <div class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl text-primary"></i>
+                    <p class="text-sm text-slate-400 mt-2">লোড হচ্ছে...</p>
+                </div>
+            `;
+
+            try {
+                const resultsSnap = await getDocs(
+                    query(collection(db, 'quiz_results'), orderBy('score', 'desc'))
+                );
+
+                const results = [];
+                resultsSnap.forEach(doc => {
+                    const data = doc.data();
+                    if (data.quizId === quizId) {
+                        results.push({ id: doc.id, ...data });
+                    }
+                });
+
+                if (results.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center text-slate-400 text-sm py-8">
+                            <i class="fas fa-inbox text-3xl text-slate-300 mb-3 block"></i>
+                            <p>এই কুইজে এখনো কেউ অংশগ্রহণ করেনি</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Get quiz details
+                const quizDoc = await getDoc(doc(db, 'quizzes', quizId));
+                const quizData = quizDoc.exists() ? quizDoc.data() : { totalQuestions: 0 };
+                const totalQ = quizData.totalQuestions || 0;
+
+                container.innerHTML = `
+                    <div class="mb-4 p-4 bg-white rounded-xl border border-gray-200">
+                        <h3 class="font-bold">${quizData.title || 'কুইজ'}</h3>
+                        <p class="text-sm text-slate-400">মোট প্রশ্ন: ${totalQ}</p>
+                    </div>
+                `;
+
+                let rank = 1;
+                results.forEach(result => {
+                    const pct = totalQ > 0 ? Math.round((result.score / totalQ) * 100) : 0;
+                    let scoreClass = 'score-low';
+                    if (pct >= 70) scoreClass = 'score-high';
+                    else if (pct >= 40) scoreClass = 'score-medium';
+
+                    const div = document.createElement('div');
+                    div.className = 'quiz-rank-card';
+                    div.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-sm text-slate-600">${rank}</span>
+                            <div>
+                                <div class="font-semibold text-sm">${result.userName || 'User'}</div>
+                                <div class="text-xs text-slate-400">${result.submittedAt ? new Date(result.submittedAt).toLocaleDateString() : ''}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="score-badge ${scoreClass}">${result.score}/${totalQ}</span>
+                            <span class="text-sm font-bold ${pct >= 70 ? 'text-emerald-600' : pct >= 40 ? 'text-amber-600' : 'text-red-600'}">${pct}%</span>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    rank++;
+                });
+
+            } catch (e) {
+                console.error('Error loading quiz leaderboard:', e);
+                container.innerHTML = `
+                    <div class="text-center text-red-400 text-sm py-8">
+                        <i class="fas fa-exclamation-circle text-3xl text-red-300 mb-3 block"></i>
+                        <p>লিডারবোর্ড লোড করতে ব্যর্থ</p>
+                    </div>
+                `;
+            }
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
