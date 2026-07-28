@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ইউজার ম্যানেজমেন্ট - অ্যাডমিন</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .admin-nav-link {
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 8px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .admin-nav-link:hover { background: #f1f5f9; color: #2563eb; }
+        .admin-nav-link.active { background: #eff6ff; color: #2563eb; }
+        .user-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid #F1F5F9;
+            transition: all 0.2s;
+        }
+        .user-row:hover { background: #F8FAFC; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Admin Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="text-2xl"><i class="fas fa-graduation-cap text-primary"></i></a>
+                <span class="font-bold text-slate-800">অ্যাডমিন প্যানেল</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">v1.0</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-gray-600 hidden sm:inline" id="adminName">অ্যাডমিন</span>
+                <button onclick="logoutAdmin()" class="text-sm text-red-500 hover:text-red-700">
+                    <i class="fas fa-sign-out-alt"></i> প্রস্থান
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Nav -->
+    <nav class="bg-white border-b border-gray-200 overflow-x-auto no-scrollbar">
+        <div class="container mx-auto max-w-7xl px-4 py-2 flex gap-1">
+            <a href="index.html" class="admin-nav-link">📊 ড্যাশবোর্ড</a>
+            <a href="users.html" class="admin-nav-link active">👥 ইউজার</a>
+            <a href="sessions.html" class="admin-nav-link">📚 সেশন</a>
+            <a href="leaderboard.html" class="admin-nav-link">🏆 লিডারবোর্ড</a>
+            <a href="tasks.html" class="admin-nav-link">📝 টাস্ক</a>
+            <a href="quizzes.html" class="admin-nav-link">❓ কুইজ</a>
+            <a href="settings.html" class="admin-nav-link">⚙️ সেটিংস</a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-6xl px-4 py-6">
+
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-xl font-extrabold text-slate-800">
+                <i class="fas fa-users text-primary mr-2"></i> ইউজার ম্যানেজমেন্ট
+            </h1>
+            <span class="text-sm text-slate-500" id="userCount">০ জন ইউজার</span>
+        </div>
+
+        <!-- Search -->
+        <div class="flex gap-2 mb-4">
+            <input type="text" id="searchInput" placeholder="ইউজার খুঁজুন..." 
+                   class="flex-1 px-4 py-2 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm">
+            <button onclick="searchUsers()" class="btn-primary px-6 py-2 text-sm">
+                <i class="fas fa-search mr-2"></i> খুঁজুন
+            </button>
+        </div>
+
+        <!-- User List -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="grid grid-cols-4 gap-2 px-4 py-3 bg-gray-50 text-xs font-semibold text-slate-500 border-b border-gray-200">
+                <span>ইউজার</span>
+                <span>গ্রুপ</span>
+                <span>রোল</span>
+                <span class="text-right">অ্যাকশন</span>
+            </div>
+            <div id="userList">
+                <div class="text-center text-slate-400 text-sm py-8">লোড হচ্ছে...</div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center gap-2 mt-4" id="pagination">
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from '../firebase-config.js';
+        import { isAdmin } from '../admin.js';
+
+        let allUsers = [];
+        let currentPage = 1;
+        const pageSize = 20;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) { window.location.href = '../login.html'; return; }
+            const admin = await isAdmin(user.uid);
+            if (!admin) { window.location.href = '../index.html'; return; }
+            document.getElementById('adminName').textContent = user.displayName || 'অ্যাডমিন';
+            loadUsers();
+        });
+
+        window.logoutAdmin = function() {
+            import('../firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.href = '../login.html');
+            });
+        };
+
+        async function loadUsers() {
+            try {
+                const snap = await getDocs(collection(db, 'users'));
+                allUsers = [];
+                snap.forEach(doc => {
+                    allUsers.push({ id: doc.id, ...doc.data() });
+                });
+                document.getElementById('userCount').textContent = `${allUsers.length} জন ইউজার`;
+                renderUsers();
+            } catch (e) {
+                console.error('Error loading users:', e);
+                showToast('❌ ইউজার লোড করতে ব্যর্থ');
+            }
+        }
+
+        window.searchUsers = function() {
+            renderUsers();
+        };
+
+        function renderUsers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = allUsers;
+            if (searchTerm) {
+                filtered = allUsers.filter(u => 
+                    (u.name || '').toLowerCase().includes(searchTerm) ||
+                    (u.email || '').toLowerCase().includes(searchTerm) ||
+                    (u.group || '').toLowerCase().includes(searchTerm)
+                );
+            }
+
+            const start = (currentPage - 1) * pageSize;
+            const paginated = filtered.slice(start, start + pageSize);
+            const container = document.getElementById('userList');
+
+            if (paginated.length === 0) {
+                container.innerHTML = '<div class="text-center text-slate-400 text-sm py-8">কোনো ইউজার নেই</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            paginated.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'user-row';
+                div.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-[120px]">
+                        <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
+                            ${(user.name || 'U').charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm">${user.name || 'Unknown'}</div>
+                            <div class="text-xs text-slate-400">${user.email || ''}</div>
+                        </div>
+                    </div>
+                    <span class="text-sm">${user.group || 'No Group'}</span>
+                    <span class="text-sm">
+                        <span class="px-2 py-0.5 rounded-full text-xs ${user.role === 'admin' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}">
+                            ${user.role || 'user'}
+                        </span>
+                    </span>
+                    <div class="flex gap-2 justify-end">
+                        ${user.role !== 'admin' ? `
+                            <button onclick="promoteUser('${user.id}')" class="text-xs text-primary hover:underline">প্রমোট</button>
+                            <button onclick="deleteUser('${user.id}')" class="text-xs text-red-500 hover:underline">ডিলিট</button>
+                        ` : `
+                            <span class="text-xs text-slate-400">সুপার অ্যাডমিন</span>
+                        `}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Pagination
+            const totalPages = Math.ceil(filtered.length / pageSize);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = `px-3 py-1 rounded-lg text-sm ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-100 text-slate-600 hover:bg-gray-200'}`;
+                btn.onclick = () => { currentPage = i; renderUsers(); };
+                pagination.appendChild(btn);
+            }
+        }
+
+        window.promoteUser = async function(userId) {
+            if (!confirm('এই ইউজারকে অ্যাডমিন করবেন?')) return;
+            try {
+                await updateDoc(doc(db, 'users', userId), { role: 'admin' });
+                showToast('✅ ইউজারকে অ্যাডমিন করা হয়েছে');
+                loadUsers();
+            } catch (e) {
+                showToast('❌ প্রমোট করতে ব্যর্থ');
+            }
+        };
+
+        window.deleteUser = async function(userId) {
+            if (!confirm('এই ইউজার ডিলিট করবেন? সব ডেটা মুছে যাবে!')) return;
+            try {
+                await deleteDoc(doc(db, 'users', userId));
+                showToast('🗑️ ইউজার ডিলিট করা হয়েছে');
+                loadUsers();
+            } catch (e) {
+                showToast('❌ ডিলিট করতে ব্যর্থ');
+            }
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
