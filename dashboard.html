@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পাবলিক ড্যাশবোর্ড - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #F1F5F9;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .stat-card .number { font-size: 28px; font-weight: 800; }
+        .stat-card .label { font-size: 12px; color: #94A3B8; margin-top: 2px; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="dashboard.html" class="nav-link active">ড্যাশবোর্ড</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-5xl px-4 py-6">
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-chart-simple text-primary mr-2"></i> পাবলিক ড্যাশবোর্ড
+            </h1>
+            <p class="text-sm text-slate-500">পুরো প্ল্যাটফর্মের সারাংশ</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="stat-card">
+                <div class="number text-primary" id="dashUsers">০</div>
+                <div class="label">মোট ইউজার</div>
+            </div>
+            <div class="stat-card">
+                <div class="number text-emerald-600" id="dashStudy">০ঘ</div>
+                <div class="label">মোট স্টাডি (আজ)</div>
+            </div>
+            <div class="stat-card">
+                <div class="number text-amber-600" id="dashActive">০</div>
+                <div class="label">এখন অনলাইন</div>
+            </div>
+            <div class="stat-card">
+                <div class="number text-purple-600" id="dashQuizzes">০</div>
+                <div class="label">মোট কুইজ</div>
+            </div>
+        </div>
+
+        <!-- Group Distribution -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="card">
+                <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-layer-group text-primary mr-2"></i> গ্রুপ ডিস্ট্রিবিউশন</h3>
+                <div id="groupDistribution" class="space-y-2">
+                    <div class="text-center text-slate-400 text-sm py-4">লোড হচ্ছে...</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-trophy text-yellow-500 mr-2"></i> টপ স্টুডেন্ট</h3>
+                <div id="topStudents" class="space-y-2">
+                    <div class="text-center text-slate-400 text-sm py-4">লোড হচ্ছে...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card mt-6">
+            <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-clock text-primary mr-2"></i> সাম্প্রতিক কার্যক্রম</h3>
+            <div id="recentActivity" class="space-y-1 max-h-48 overflow-y-auto">
+                <div class="text-center text-slate-400 text-sm py-4">লোড হচ্ছে...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, limit, where } from './firebase-config.js';
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+            }
+            loadDashboard();
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        async function loadDashboard() {
+            try {
+                // Total Users
+                const usersSnap = await getDocs(collection(db, 'users'));
+                document.getElementById('dashUsers').textContent = usersSnap.size;
+
+                // Today's study
+                const today = new Date().toISOString().split('T')[0];
+                const sessionsSnap = await getDocs(collection(db, 'study_sessions'));
+                let totalToday = 0;
+                sessionsSnap.forEach(doc => {
+                    if (doc.data().date === today) totalToday += doc.data().duration || 0;
+                });
+                const h = Math.floor(totalToday / 3600);
+                const m = Math.floor((totalToday % 3600) / 60);
+                document.getElementById('dashStudy').textContent = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+
+                // Quizzes
+                const quizzesSnap = await getDocs(collection(db, 'quizzes'));
+                document.getElementById('dashQuizzes').textContent = quizzesSnap.size;
+
+                // Active users (simplified - users with sessions today)
+                let activeUsers = new Set();
+                sessionsSnap.forEach(doc => {
+                    if (doc.data().date === today) activeUsers.add(doc.data().userId);
+                });
+                document.getElementById('dashActive').textContent = activeUsers.size;
+
+                // Group Distribution
+                const groupData = {};
+                usersSnap.forEach(doc => {
+                    const group = doc.data().group || 'No Group';
+                    groupData[group] = (groupData[group] || 0) + 1;
+                });
+                const groupContainer = document.getElementById('groupDistribution');
+                const sortedGroups = Object.entries(groupData).sort((a, b) => b[1] - a[1]);
+                if (sortedGroups.length === 0) {
+                    groupContainer.innerHTML = '<div class="text-center text-slate-400 text-sm py-4">কোনো ডেটা নেই</div>';
+                } else {
+                    groupContainer.innerHTML = '';
+                    sortedGroups.forEach(([group, count]) => {
+                        const div = document.createElement('div');
+                        const pct = Math.round((count / usersSnap.size) * 100);
+                        div.className = 'flex items-center gap-3';
+                        div.innerHTML = `
+                            <span class="text-sm w-24 truncate">${group}</span>
+                            <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width:${pct}%"></div>
+                            </div>
+                            <span class="text-xs text-slate-500">${count} (${pct}%)</span>
+                        `;
+                        groupContainer.appendChild(div);
+                    });
+                }
+
+                // Top Students
+                const topContainer = document.getElementById('topStudents');
+                const topQuery = query(collection(db, 'users'), orderBy('createdAt', 'desc'), limit(5));
+                const topSnap = await getDocs(topQuery);
+                if (topSnap.empty) {
+                    topContainer.innerHTML = '<div class="text-center text-slate-400 text-sm py-4">কোনো ডেটা নেই</div>';
+                } else {
+                    topContainer.innerHTML = '';
+                    topSnap.forEach(doc => {
+                        const data = doc.data();
+                        const div = document.createElement('div');
+                        div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg text-sm';
+                        div.innerHTML = `
+                            <span><i class="fas fa-user-circle text-primary mr-2"></i> ${data.name || 'User'}</span>
+                            <span class="text-xs text-slate-400">${data.group || 'No Group'}</span>
+                        `;
+                        topContainer.appendChild(div);
+                    });
+                }
+
+                // Recent Activity
+                const activityContainer = document.getElementById('recentActivity');
+                const recentSessions = query(collection(db, 'study_sessions'), orderBy('createdAt', 'desc'), limit(10));
+                const recentSnap = await getDocs(recentSessions);
+                if (recentSnap.empty) {
+                    activityContainer.innerHTML = '<div class="text-center text-slate-400 text-sm py-4">কোনো কার্যক্রম নেই</div>';
+                } else {
+                    activityContainer.innerHTML = '';
+                    recentSnap.forEach(doc => {
+                        const data = doc.data();
+                        const dur = data.duration || 0;
+                        const m = Math.floor(dur / 60);
+                        const h = Math.floor(m / 60);
+                        const timeStr = h > 0 ? `${h}ঘ ${m % 60}মি` : `${m}মি`;
+                        const div = document.createElement('div');
+                        div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg text-sm';
+                        div.innerHTML = `
+                            <span>${data.userName || 'User'} <span class="text-xs text-slate-400">${data.type || 'self_study'}</span></span>
+                            <span class="text-xs text-slate-500">${timeStr} • ${data.date || ''}</span>
+                        `;
+                        activityContainer.appendChild(div);
+                    });
+                }
+
+            } catch (e) {
+                console.error('Error loading dashboard:', e);
+            }
+        }
+    </script>
+</body>
+</html>
