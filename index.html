@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Hub - স্মার্ট স্টাডি প্ল্যাটফর্ম</title>
+    
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        primaryDark: '#1d4ed8',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="header-glass w-full max-w-5xl flex items-center gap-1">
+            
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <span class="text-2xl">📚</span>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">
+                    Study Hub
+                </span>
+            </a>
+            
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            
+            <!-- Nav Links -->
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar max-w-[60vw] sm:max-w-none">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link active">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="todo.html" class="nav-link">To-Do</a>
+                    <a href="dashboard.html" class="nav-link">ড্যাশবোর্ড</a>
+                    <a href="admin/index.html" class="nav-link text-red-500 hover:text-red-600" id="adminLink" style="display:none;">
+                        <i class="fas fa-crown"></i> অ্যাডমিন
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Theme & Menu -->
+            <button onclick="toggleThemeDrawer()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0">
+                <i class="fas fa-palette"></i>
+            </button>
+            
+            <button onclick="toggleMobileMenu()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0 sm:hidden">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+            
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            
+            <!-- Auth Buttons -->
+            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0" id="authButtons">
+                <a href="login.html" class="btn-primary text-xs sm:text-sm px-4 py-1.5" id="loginBtn">লগইন</a>
+                <a href="signup.html" class="btn-secondary text-xs sm:text-sm px-4 py-1.5" id="signupBtn">রেজিস্টার</a>
+            </div>
+            
+            <!-- Profile (when logged in) -->
+            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0" id="profileSection" style="display:none;">
+                <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                    <i class="fas fa-user-circle text-lg"></i>
+                    <span class="text-sm font-medium hidden sm:inline" id="userNameDisplay">User</span>
+                </a>
+                <button onclick="logoutUser()" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-[60] hidden"></div>
+    <div id="mobile-menu-drawer" class="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-[70] transform translate-x-full overflow-y-auto transition-transform duration-300">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <span class="font-bold text-gray-800">মেনু</span>
+            <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-red-500">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="p-4 flex flex-col gap-2">
+            <a href="index.html" class="block px-4 py-2 text-sm font-medium text-primary bg-blue-50 rounded-lg">হোম</a>
+            <a href="tracker.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">ট্র্যাকার</a>
+            <a href="leaderboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">লিডারবোর্ড</a>
+            <a href="group-leaderboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">গ্রুপ লিডারবোর্ড</a>
+            <a href="screen-time.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">স্ক্রিন টাইম</a>
+            <a href="todo.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">To-Do List</a>
+            <a href="dashboard.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">ড্যাশবোর্ড</a>
+            <a href="quiz-creator.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">কুইজ ক্রিয়েটর</a>
+            <a href="profile.html" class="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg">প্রোফাইল</a>
+            <hr class="my-2">
+            <a href="admin/index.html" class="block px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg" id="mobileAdminLink" style="display:none;">
+                <i class="fas fa-crown mr-2"></i> অ্যাডমিন প্যানেল
+            </a>
+        </div>
+    </div>
+
+    <!-- Theme Drawer -->
+    <div id="theme-drawer-overlay" onclick="toggleThemeDrawer()" class="fixed inset-0 bg-black/50 z-[60] hidden"></div>
+    <div id="theme-drawer" class="fixed top-0 left-0 h-full w-64 bg-white shadow-2xl z-[70] transform -translate-x-full overflow-y-auto transition-transform duration-300">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <span class="font-bold text-gray-800"><i class="fas fa-palette text-primary mr-2"></i>থিম</span>
+            <button onclick="toggleThemeDrawer()" class="text-gray-500 hover:text-red-500">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="p-4 flex flex-col gap-2">
+            <button onclick="setTheme('system')" class="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-primary bg-blue-50">
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-desktop text-xs"></i></div>
+                <span class="font-bold text-sm">System</span>
+                <i class="fas fa-check-circle text-primary ml-auto"></i>
+            </button>
+            <button onclick="setTheme('light')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><i class="fas fa-sun text-xs"></i></div>
+                <span class="font-bold text-sm">Light</span>
+            </button>
+            <button onclick="setTheme('dark')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
+                <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center"><i class="fas fa-moon text-xs"></i></div>
+                <span class="font-bold text-sm">Premium Dark</span>
+            </button>
+            <button onclick="setTheme('neon')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
+                <div class="w-8 h-8 rounded-full bg-black text-green-400 flex items-center justify-center"><i class="fas fa-bolt text-xs"></i></div>
+                <span class="font-bold text-sm">Cyberpunk Neon</span>
+            </button>
+            <button onclick="setTheme('nature')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
+                <div class="w-8 h-8 rounded-full bg-green-50 text-green-700 flex items-center justify-center"><i class="fas fa-leaf text-xs"></i></div>
+                <span class="font-bold text-sm">Nature Green</span>
+            </button>
+            <button onclick="setTheme('ocean')" class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 hover:border-blue-200">
+                <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fas fa-water text-xs"></i></div>
+                <span class="font-bold text-sm">Ocean Breeze</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="grow w-full bg-[#f8fafc] py-6 px-4 min-h-screen">
+        <div class="container mx-auto max-w-5xl">
+            
+            <!-- Hero Section -->
+            <section class="text-center py-8 md:py-16">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-primary text-xs font-bold mb-4">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    আপনার ডিজিটাল স্টাডি রুম
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
+                    পড়াশোনা হোক <br/>
+                    <span class="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
+                        স্মার্ট ও গোছানো
+                    </span>
+                </h1>
+                <p class="text-sm md:text-lg text-gray-600 max-w-2xl mx-auto mt-4 leading-relaxed">
+                    Study Hub-এর সাথে আপনার পড়াশোনাকে নিয়ে যান অনন্য উচ্চতায়। 
+                    টাইম ট্র্যাকিং, লিডারবোর্ড, টো-ডু লিস্ট এবং আরও অনেক কিছু।
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+                    <a href="tracker.html" class="btn-primary px-8 py-3 text-base">
+                        <i class="fas fa-play mr-2"></i> স্টার্ট স্টাডি
+                    </a>
+                    <a href="leaderboard.html" class="btn-secondary px-8 py-3 text-base">
+                        <i class="fas fa-trophy mr-2"></i> লিডারবোর্ড দেখুন
+                    </a>
+                </div>
+            </section>
+
+            <!-- Features Grid -->
+            <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="card text-center hover:shadow-lg transition-all">
+                    <div class="text-3xl mb-2">⏱️</div>
+                    <h3 class="font-bold text-sm">স্টাডি ট্র্যাকার</h3>
+                    <p class="text-xs text-gray-500">সময় কাউন্ট করুন</p>
+                </div>
+                <div class="card text-center hover:shadow-lg transition-all">
+                    <div class="text-3xl mb-2">🏆</div>
+                    <h3 class="font-bold text-sm">লিডারবোর্ড</h3>
+                    <p class="text-xs text-gray-500">দেখুন কে কত পড়ছে</p>
+                </div>
+                <div class="card text-center hover:shadow-lg transition-all">
+                    <div class="text-3xl mb-2">✅</div>
+                    <h3 class="font-bold text-sm">To-Do List</h3>
+                    <p class="text-xs text-gray-500">প্ল্যান করুন</p>
+                </div>
+                <div class="card text-center hover:shadow-lg transition-all">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h3 class="font-bold text-sm">রিপোর্ট</h3>
+                    <p class="text-xs text-gray-500">বিশ্লেষণ করুন</p>
+                </div>
+            </section>
+
+            <!-- Stats -->
+            <section class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-primary" id="totalUsers">0</div>
+                    <div class="text-xs text-gray-500">মোট ইউজার</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-emerald-600" id="totalStudyToday">0h</div>
+                    <div class="text-xs text-gray-500">আজকের স্টাডি</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="activeUsers">0</div>
+                    <div class="text-xs text-gray-500">এখন অনলাইন</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-amber-600" id="totalQuizzes">0</div>
+                    <div class="text-xs text-gray-500">মোট কুইজ</div>
+                </div>
+            </section>
+
+            <!-- Recent Leaderboard Preview -->
+            <section class="mt-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-slate-800">🔥 টপ স্টুডেন্ট</h2>
+                    <a href="leaderboard.html" class="text-sm text-primary hover:underline">সব দেখুন →</a>
+                </div>
+                <div id="leaderboardPreview" class="space-y-2">
+                    <!-- Loaded by JS -->
+                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
+                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
+                    <div class="skeleton-card"><div class="skeleton" style="width:100%;height:40px;"></div></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-gray-50 mt-auto pt-12 pb-6">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <a href="index.html" class="text-2xl font-bold text-slate-800">📚 Study Hub</a>
+                    <p class="text-sm text-gray-600 mt-2">আপনার পড়াশোনার ডিজিটাল সঙ্গী।</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-slate-800 mb-3">ফিচারসমূহ</h3>
+                    <ul class="space-y-1 text-sm text-gray-600">
+                        <li><a href="tracker.html" class="hover:text-primary">স্টাডি ট্র্যাকার</a></li>
+                        <li><a href="leaderboard.html" class="hover:text-primary">লিডারবোর্ড</a></li>
+                        <li><a href="todo.html" class="hover:text-primary">To-Do List</a></li>
+                        <li><a href="quiz-creator.html" class="hover:text-primary">কুইজ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-slate-800 mb-3">লিংক</h3>
+                    <ul class="space-y-1 text-sm text-gray-600">
+                        <li><a href="about.html" class="hover:text-primary">About</a></li>
+                        <li><a href="profile.html" class="hover:text-primary">প্রোফাইল</a></li>
+                        <li><a href="login.html" class="hover:text-primary">লগইন</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-6 text-center text-sm text-gray-500">
+                &copy; 2026 Study Hub. সকল অধিকার সংরক্ষিত।
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, limit, doc, getDoc } from './firebase-config.js';
+        import { isAdmin, requireAdmin } from './admin.js';
+
+        // Global functions for HTML onclick
+        window.toggleMobileMenu = function() {
+            const drawer = document.getElementById('mobile-menu-drawer');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            if (drawer.classList.contains('translate-x-full')) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        };
+
+        window.toggleThemeDrawer = function() {
+            const drawer = document.getElementById('theme-drawer');
+            const overlay = document.getElementById('theme-drawer-overlay');
+            if (drawer.classList.contains('-translate-x-full')) {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        };
+
+        window.setTheme = function(theme) {
+            localStorage.setItem('theme', theme);
+            document.body.className = '';
+            if (theme === 'dark') document.body.classList.add('theme-dark');
+            else if (theme === 'neon') document.body.classList.add('theme-neon');
+            else if (theme === 'nature') document.body.classList.add('theme-nature');
+            else if (theme === 'ocean') document.body.classList.add('theme-ocean');
+            // else system/light - no class
+            toggleThemeDrawer();
+            showToast('থিম পরিবর্তন করা হয়েছে: ' + theme);
+        };
+
+        window.logoutUser = function() {
+            signOut(auth).then(() => {
+                window.location.reload();
+            });
+        };
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        // Auth State
+        onAuthStateChanged(auth, async (user) => {
+            const loginBtn = document.getElementById('loginBtn');
+            const signupBtn = document.getElementById('signupBtn');
+            const authButtons = document.getElementById('authButtons');
+            const profileSection = document.getElementById('profileSection');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const adminLink = document.getElementById('adminLink');
+            const mobileAdminLink = document.getElementById('mobileAdminLink');
+
+            if (user) {
+                // Logged in
+                authButtons.style.display = 'none';
+                profileSection.style.display = 'flex';
+                
+                // Get user data
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    userNameDisplay.textContent = data.name || 'User';
+                    
+                    // Check if admin
+                    if (data.role === 'admin') {
+                        adminLink.style.display = 'inline-flex';
+                        mobileAdminLink.style.display = 'block';
+                    }
+                }
+            } else {
+                authButtons.style.display = 'flex';
+                profileSection.style.display = 'none';
+                adminLink.style.display = 'none';
+                mobileAdminLink.style.display = 'none';
+            }
+        });
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const usersSnap = await getDocs(collection(db, 'users'));
+                document.getElementById('totalUsers').textContent = usersSnap.size;
+
+                const quizzesSnap = await getDocs(collection(db, 'quizzes'));
+                document.getElementById('totalQuizzes').textContent = quizzesSnap.size;
+
+                // Get today's study total
+                const today = new Date().toISOString().split('T')[0];
+                const sessionsSnap = await getDocs(collection(db, 'study_sessions'));
+                let totalToday = 0;
+                sessionsSnap.forEach(doc => {
+                    const data = doc.data();
+                    if (data.date === today && data.isValid !== false) {
+                        totalToday += data.duration || 0;
+                    }
+                });
+                const hours = Math.floor(totalToday / 3600);
+                const mins = Math.floor((totalToday % 3600) / 60);
+                document.getElementById('totalStudyToday').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            } catch (e) {
+                console.error('Error loading stats:', e);
+            }
+        }
+
+        // Load leaderboard preview
+        async function loadLeaderboardPreview() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const q = query(
+                    collection(db, 'leaderboard_daily', today, 'users'),
+                    orderBy('totalStudy', 'desc'),
+                    limit(5)
+                );
+                const snap = await getDocs(q);
+                const container = document.getElementById('leaderboardPreview');
+                container.innerHTML = '';
+                
+                let rank = 1;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const uid = doc.id;
+                    const div = document.createElement('div');
+                    div.className = `rank-card ${rank <= 3 ? 'rank-' + rank : 'rank-normal'}`;
+                    div.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <div class="rank-badge ${rank <= 3 ? 'badge-' + rank : 'badge-normal'}">${rank <= 3 ? (rank === 1 ? '👑' : rank) : rank}</div>
+                            <span class="font-bold text-sm">${data.name || 'User'}</span>
+                        </div>
+                        <div class="text-sm font-bold text-emerald-600">${formatTime(data.totalStudy || 0)}</div>
+                    `;
+                    container.appendChild(div);
+                    rank++;
+                });
+
+                if (rank === 1) {
+                    container.innerHTML = `<div class="card text-center py-8 text-gray-500">কোনো ডেটা নেই</div>`;
+                }
+            } catch (e) {
+                console.error('Error loading preview:', e);
+            }
+        }
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            return h > 0 ? `${h}h ${m}m` : `${m}m`;
+        }
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        if (savedTheme === 'dark') document.body.classList.add('theme-dark');
+        else if (savedTheme === 'neon') document.body.classList.add('theme-neon');
+        else if (savedTheme === 'nature') document.body.classList.add('theme-nature');
+        else if (savedTheme === 'ocean') document.body.classList.add('theme-ocean');
+
+        // Initialize
+        loadStats();
+        loadLeaderboardPreview();
+    </script>
+</body>
+  </html>
