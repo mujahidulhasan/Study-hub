@@ -1,0 +1,438 @@
+/* =========================================
+   Study Hub - Premium Custom CSS
+   ========================================= */
+
+/* Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    transition: all 0.3s ease;
+    min-height: 100vh;
+}
+
+/* Scrollbar Hide */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* =========================================
+   Header & Navbar
+   ========================================= */
+.header-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    border-radius: 9999px;
+    padding: 6px;
+    box-shadow: 0 4px 24px rgba(37, 99, 235, 0.08);
+}
+
+.nav-link {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.nav-link:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
+.nav-link.active {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+/* =========================================
+   Buttons
+   ========================================= */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    background: #2563eb;
+    color: white;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    background: #f1f5f9;
+    color: #334155;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-secondary:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+/* =========================================
+   Cards
+   ========================================= */
+.card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    padding: 16px;
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   Rank Cards (Leaderboard)
+   ========================================= */
+.rank-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 4px;
+    min-height: 44px;
+}
+.rank-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.rank-1 {
+    background: linear-gradient(135deg, #FFFBEB, #FFFFFF);
+    border-color: #FCD34D;
+}
+.rank-2 {
+    background: linear-gradient(135deg, #F8FAFC, #FFFFFF);
+    border-color: #E2E8F0;
+}
+.rank-3 {
+    background: linear-gradient(135deg, #FFF7ED, #FFFFFF);
+    border-color: #FB923C;
+}
+
+.rank-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-right: 8px;
+}
+.badge-1 {
+    background: linear-gradient(135deg, #FCD34D, #F59E0B);
+    color: white;
+}
+.badge-2 {
+    background: linear-gradient(135deg, #94A3B8, #64748B);
+    color: white;
+}
+.badge-3 {
+    background: linear-gradient(135deg, #FB923C, #EA580C);
+    color: white;
+}
+.badge-normal {
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 11px;
+}
+
+/* =========================================
+   Stats Container
+   ========================================= */
+.stats-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    justify-content: flex-end;
+}
+.stat-col {
+    text-align: center;
+    padding: 0 6px;
+    flex: 1;
+}
+.stat-col .time-display {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.stat-col .time-label {
+    font-size: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #94a3b8;
+    margin-top: 1px;
+}
+.data-divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e8f0;
+    margin: 0 4px;
+}
+
+/* =========================================
+   Filter Buttons
+   ========================================= */
+.filter-btn {
+    padding: 4px 14px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-btn:hover {
+    background: #f1f5f9;
+}
+.filter-btn.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+}
+
+.group-tab {
+    padding: 3px 12px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+.group-tab:hover {
+    background: #f8fafc;
+}
+.group-tab.active {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #2563eb;
+}
+
+/* =========================================
+   Popup
+   ========================================= */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.popup-content {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.popup-overlay.active .popup-content {
+    transform: translateY(0);
+}
+
+/* =========================================
+   Toast Notification
+   ========================================= */
+#toast-notification {
+    visibility: hidden;
+    min-width: 280px;
+    background: #1e293b;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+}
+#toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+/* =========================================
+   Skeleton Loading
+   ========================================= */
+.skeleton {
+    background: #e2e8f0;
+    background-image: linear-gradient(90deg, #e2e8f0 0px, #f1f5f9 40px, #e2e8f0 80px);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 4px;
+}
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.skeleton-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #f1f5f9;
+    min-height: 44px;
+}
+
+/* =========================================
+   Timer Display
+   ========================================= */
+.timer-display {
+    font-size: 48px;
+    font-weight: 800;
+    font-family: 'Poppins', monospace;
+    color: #0f172a;
+    letter-spacing: 2px;
+}
+.timer-running {
+    color: #2563eb;
+}
+.timer-paused {
+    color: #f59e0b;
+}
+
+/* =========================================
+   Theme System Classes
+   ========================================= */
+.theme-dark body {
+    background: #0f172a;
+    color: #f8fafc;
+}
+.theme-dark .card,
+.theme-dark .rank-card,
+.theme-dark .popup-content {
+    background: #1e293b;
+    border-color: #334155;
+}
+.theme-dark .header-glass {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: #334155;
+}
+.theme-dark .filter-btn,
+.theme-dark .group-tab {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+}
+.theme-dark .filter-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+.theme-dark .rank-1 {
+    background: linear-gradient(135deg, #3f3f1b, #1e293b);
+    border-color: #b4a024;
+}
+.theme-dark .rank-2 {
+    background: linear-gradient(135deg, #2d3748, #1e293b);
+    border-color: #475569;
+}
+.theme-dark .rank-3 {
+    background: linear-gradient(135deg, #4c2d1b, #1e293b);
+    border-color: #b45309;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+@media (max-width: 640px) {
+    .rank-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .stats-container {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .timer-display {
+        font-size: 36px;
+    }
+    .header-glass {
+        border-radius: 20px;
+        padding: 4px;
+    }
+  }
