@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>স্ক্রিন টাইম - Study Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { font-family: 'Hind Siliguri', sans-serif !important; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-2 z-50 w-full flex justify-center px-4 mt-2">
+        <div class="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-full w-full max-w-5xl flex items-center gap-1 p-1.5 shadow-lg shadow-blue-500/5">
+            <a href="index.html" class="flex items-center gap-2 pl-3 pr-2 shrink-0 no-underline">
+                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
+                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block">Study Hub</span>
+            </a>
+            <div class="h-6 w-px bg-gray-200 mx-2 hidden sm:block"></div>
+            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1 px-2">
+                    <a href="index.html" class="nav-link">হোম</a>
+                    <a href="tracker.html" class="nav-link">ট্র্যাকার</a>
+                    <a href="leaderboard.html" class="nav-link">লিডারবোর্ড</a>
+                    <a href="screen-time.html" class="nav-link active">স্ক্রিন টাইম</a>
+                </div>
+            </nav>
+            <div class="flex items-center gap-2 shrink-0 ml-auto" id="authSection">
+                <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container mx-auto max-w-3xl px-4 py-6">
+
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-extrabold text-slate-800">
+                <i class="fas fa-mobile-screen text-rose-500 mr-2"></i> স্ক্রিন টাইম
+            </h1>
+            <p class="text-sm text-slate-500">আপনার ডিভাইস ব্যবহারের সময় ট্র্যাক করুন</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <div class="card text-center">
+                <div class="text-2xl font-bold text-rose-600" id="todayScreen">০মি</div>
+                <div class="text-xs text-slate-400">আজকের স্ক্রিন টাইম</div>
+            </div>
+            <div class="card text-center">
+                <div class="text-2xl font-bold text-amber-600" id="weeklyScreen">০মি</div>
+                <div class="text-xs text-slate-400">এই সপ্তাহে</div>
+            </div>
+            <div class="card text-center">
+                <div class="text-2xl font-bold text-emerald-600" id="avgScreen">০মি</div>
+                <div class="text-xs text-slate-400">গড় (প্রতিদিন)</div>
+            </div>
+        </div>
+
+        <!-- Top Apps -->
+        <div class="card">
+            <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-chart-pie text-primary mr-2"></i> অ্যাপ ব্যবহার</h3>
+            <div id="appList" class="space-y-2">
+                <div class="text-center text-slate-400 text-sm py-4">কোনো ডেটা নেই</div>
+            </div>
+        </div>
+
+        <!-- Add Screen Time -->
+        <div class="card mt-4">
+            <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-plus-circle text-primary mr-2"></i> স্ক্রিন টাইম যোগ করুন</h3>
+            <div class="flex flex-wrap gap-3">
+                <select id="appSelect" class="flex-1 min-w-[120px] px-4 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                    <option value="youtube">YouTube</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="reading">Reading</option>
+                    <option value="other">Other</option>
+                </select>
+                <input type="number" id="screenMinutes" placeholder="মিনিট" min="1" class="w-24 px-4 py-2 rounded-xl border border-gray-200 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+                <button onclick="addScreenTime()" class="btn-primary text-sm px-6 py-2">
+                    <i class="fas fa-save mr-2"></i> যোগ করুন
+                </button>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div class="card mt-4">
+            <h3 class="font-bold text-slate-800 mb-3"><i class="fas fa-history text-primary mr-2"></i> ইতিহাস</h3>
+            <div id="screenHistory" class="max-h-64 overflow-y-auto space-y-1">
+                <div class="text-center text-slate-400 text-sm py-4">কোনো ইতিহাস নেই</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast-notification"></div>
+
+    <script type="module">
+        import { auth, onAuthStateChanged, db, collection, addDoc, getDocs, query, where, serverTimestamp } from './firebase-config.js';
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            const authSection = document.getElementById('authSection');
+            if (user) {
+                currentUser = user;
+                authSection.innerHTML = `
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline">${user.displayName || 'User'}</span>
+                    </a>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+                loadScreenData();
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="inline-flex items-center justify-center rounded-full bg-primary text-white px-5 py-1.5 text-sm font-medium hover:bg-primaryDark shadow-lg shadow-blue-500/30 transition-all">
+                        <i class="fas fa-sign-in-alt mr-2"></i> লগইন
+                    </a>
+                `;
+            }
+        });
+
+        window.logout = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => window.location.reload());
+            });
+        };
+
+        window.addScreenTime = async function() {
+            if (!currentUser) { showToast('❌ লগইন করুন'); return; }
+            const app = document.getElementById('appSelect').value;
+            const minutes = parseInt(document.getElementById('screenMinutes').value);
+            if (!minutes || minutes < 1) { showToast('⚠️ সঠিক মিনিট দিন'); return; }
+
+            try {
+                await addDoc(collection(db, 'screen_time'), {
+                    userId: currentUser.uid,
+                    app: app,
+                    duration: minutes * 60,
+                    date: new Date().toISOString().split('T')[0],
+                    createdAt: serverTimestamp()
+                });
+                document.getElementById('screenMinutes').value = '';
+                showToast('✅ স্ক্রিন টাইম যোগ করা হয়েছে');
+                loadScreenData();
+            } catch (e) {
+                showToast('❌ যোগ করতে ব্যর্থ');
+            }
+        };
+
+        async function loadScreenData() {
+            if (!currentUser) return;
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const q = query(collection(db, 'screen_time'), where('userId', '==', currentUser.uid));
+                const snap = await getDocs(q);
+                
+                let todayTotal = 0;
+                let weeklyTotal = 0;
+                let appData = {};
+                let history = [];
+
+                const weekStart = new Date();
+                weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const dur = data.duration || 0;
+                    const date = data.date;
+                    const app = data.app || 'other';
+
+                    if (date === today) todayTotal += dur;
+                    
+                    const d = new Date(date);
+                    if (d >= weekStart) weeklyTotal += dur;
+
+                    appData[app] = (appData[app] || 0) + dur;
+                    history.push({ app, duration: dur, date });
+                });
+
+                // Update stats
+                document.getElementById('todayScreen').textContent = formatTime(todayTotal);
+                document.getElementById('weeklyScreen').textContent = formatTime(weeklyTotal);
+                
+                const days = Math.max(1, new Set(history.map(h => h.date)).size);
+                document.getElementById('avgScreen').textContent = formatTime(Math.round(weeklyTotal / days));
+
+                // App list
+                const appContainer = document.getElementById('appList');
+                const sortedApps = Object.entries(appData).sort((a, b) => b[1] - a[1]);
+                if (sortedApps.length === 0) {
+                    appContainer.innerHTML = '<div class="text-center text-slate-400 text-sm py-4">কোনো ডেটা নেই</div>';
+                } else {
+                    appContainer.innerHTML = '';
+                    sortedApps.forEach(([app, total]) => {
+                        const div = document.createElement('div');
+                        div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg text-sm';
+                        const icons = { youtube: 'fab fa-youtube text-red-500', facebook: 'fab fa-facebook text-blue-600', instagram: 'fab fa-instagram text-pink-500', gaming: 'fas fa-gamepad text-purple-500', reading: 'fas fa-book text-emerald-500', other: 'fas fa-mobile text-gray-500' };
+                        div.innerHTML = `
+                            <span><i class="${icons[app] || icons.other} mr-2"></i> ${app.charAt(0).toUpperCase() + app.slice(1)}</span>
+                            <span class="font-semibold">${formatTime(total)}</span>
+                        `;
+                        appContainer.appendChild(div);
+                    });
+                }
+
+                // History
+                const historyContainer = document.getElementById('screenHistory');
+                const sortedHistory = history.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
+                if (sortedHistory.length === 0) {
+                    historyContainer.innerHTML = '<div class="text-center text-slate-400 text-sm py-4">কোনো ইতিহাস নেই</div>';
+                } else {
+                    historyContainer.innerHTML = '';
+                    sortedHistory.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg text-sm';
+                        div.innerHTML = `
+                            <span>${item.app.charAt(0).toUpperCase() + item.app.slice(1)}</span>
+                            <span class="text-slate-500">${formatTime(item.duration)} - ${item.date}</span>
+                        `;
+                        historyContainer.appendChild(div);
+                    });
+                }
+
+            } catch (e) {
+                console.error('Error loading screen data:', e);
+            }
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const h = Math.floor(m / 60);
+            return h > 0 ? `${h}ঘ ${m % 60}মি` : `${m}মি`;
+        }
+
+        window.showToast = function(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+    </script>
+</body>
+</html>
