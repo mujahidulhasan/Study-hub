@@ -4,26 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ===== SEO Meta Tags ===== -->
+    <!-- ===== SEO Meta Tags (site-info.json থেকে লোড হবে) ===== -->
     <title>Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম</title>
-    <meta name="description" content="Study Hub-এ আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।">
-    <meta name="keywords" content="study tracker, student, bangladesh, education, leaderboard, study hub">
+    <meta name="description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।">
+    <meta name="keywords" content="study tracker, student, bangladesh, education, leaderboard">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://study-hub.vercel.app/">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/resources/logo.png">
     
-    <!-- ===== Open Graph / Social Media ===== -->
+    <!-- ===== Open Graph ===== -->
     <meta property="og:title" content="Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম">
-    <meta property="og:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।">
+    <meta property="og:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://study-hub.vercel.app/">
-    <meta property="og:image" content="https://study-hub.vercel.app/og-image.jpg">
+    <meta property="og:image" content="https://study-hub.vercel.app/resources/og-image.jpg">
     
-    <!-- ===== Twitter Card ===== -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম">
-    <meta name="twitter:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন।">
-    
-    <!-- ===== Schema Markup (JSON-LD) ===== -->
+    <!-- ===== Schema Markup ===== -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -46,256 +43,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ===== Global Reset ===== */
+        /* ===== Global ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Inter', 'Hind Siliguri', sans-serif;
             background: #f8fafc;
             color: #0f172a;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.4s, color 0.4s;
             min-height: 100vh;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
-        
-        /* ===== Typography ===== */
         .font-bengali { font-family: 'Hind Siliguri', 'Inter', sans-serif; }
         .font-english { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
-        
-        /* ===== Glassmorphism Header ===== */
-        .glass-header {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            border-radius: 9999px;
-            padding: 6px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-        }
-        
-        .theme-dark .glass-header {
-            background: rgba(15, 23, 42, 0.85);
-            border-color: rgba(51, 65, 85, 0.6);
-        }
-        
-        /* ===== Nav Links ===== */
-        .nav-link {
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #64748b;
-            border-radius: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-            text-decoration: none;
-        }
-        .nav-link:hover { background: #f1f5f9; color: #2563eb; }
-        .nav-link.active { background: #eff6ff; color: #2563eb; }
-        
-        .theme-dark .nav-link { color: #94a3b8; }
-        .theme-dark .nav-link:hover { background: #1e293b; color: #60a5fa; }
-        .theme-dark .nav-link.active { background: #1e293b; color: #60a5fa; }
-        
-        /* ===== Buttons ===== */
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 28px;
-            background: #2563eb;
-            color: white;
-            border-radius: 9999px;
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            text-decoration: none;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-        }
-        .btn-primary:hover {
-            background: #1d4ed8;
-            transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
-        }
-        .btn-primary:active { transform: scale(0.97); }
-        
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 28px;
-            background: transparent;
-            color: #334155;
-            border-radius: 9999px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        .btn-secondary:hover {
-            background: #f8fafc;
-            border-color: #94a3b8;
-        }
-        .theme-dark .btn-secondary {
-            color: #e2e8f0;
-            border-color: #334155;
-        }
-        .theme-dark .btn-secondary:hover {
-            background: #1e293b;
-            border-color: #475569;
-        }
-        
-        /* ===== Cards ===== */
-        .feature-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid #f1f5f9;
-            padding: 28px 24px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            text-align: center;
-        }
-        .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-            border-color: #2563eb;
-        }
-        .feature-card .icon {
-            font-size: 36px;
-            color: #2563eb;
-            margin-bottom: 16px;
-            display: block;
-        }
-        .feature-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #0f172a;
-        }
-        .feature-card p {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        
-        .theme-dark .feature-card {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .theme-dark .feature-card h3 { color: #f8fafc; }
-        .theme-dark .feature-card p { color: #94a3b8; }
-        
-        /* ===== Stat Card ===== */
-        .stat-card {
-            text-align: center;
-            padding: 16px;
-        }
-        .stat-card .number {
-            font-size: 32px;
-            font-weight: 800;
-            color: #0f172a;
-        }
-        .stat-card .label {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-        .theme-dark .stat-card .number { color: #f8fafc; }
-        
-        /* ===== Testimonial ===== */
-        .testimonial-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid #f1f5f9;
-            padding: 24px;
-            transition: all 0.3s;
-        }
-        .testimonial-card:hover { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04); }
-        .testimonial-card .quote {
-            font-size: 14px;
-            line-height: 1.8;
-            color: #334155;
-        }
-        .testimonial-card .author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #f1f5f9;
-        }
-        .testimonial-card .author .name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .testimonial-card .author .role {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-        
-        .theme-dark .testimonial-card {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .theme-dark .testimonial-card .quote { color: #cbd5e1; }
-        .theme-dark .testimonial-card .author { border-color: #334155; }
-        .theme-dark .testimonial-card .author .name { color: #f8fafc; }
-        
-        /* ===== FAQ ===== */
-        .faq-item {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #f1f5f9;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        .faq-item:hover { border-color: #e2e8f0; }
-        .faq-item .question {
-            width: 100%;
-            padding: 16px 20px;
-            background: transparent;
-            border: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            color: #0f172a;
-            text-align: left;
-            transition: all 0.3s;
-        }
-        .faq-item .question:hover { color: #2563eb; }
-        .faq-item .answer {
-            padding: 0 20px 20px;
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.7;
-            display: none;
-        }
-        .faq-item .answer.open { display: block; }
-        .faq-item .icon { transition: transform 0.3s; }
-        .faq-item .icon.rotate { transform: rotate(180deg); }
-        
-        .theme-dark .faq-item {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .theme-dark .faq-item .question { color: #f8fafc; }
-        .theme-dark .faq-item .answer { color: #94a3b8; }
-        
-        /* ===== Footer ===== */
-        .footer-link {
-            color: #64748b;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        .footer-link:hover { color: #2563eb; }
-        .theme-dark .footer-link { color: #94a3b8; }
-        .theme-dark .footer-link:hover { color: #60a5fa; }
         
         /* ===== Scrollbar ===== */
         ::-webkit-scrollbar { width: 6px; }
@@ -303,21 +63,381 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
         .theme-dark ::-webkit-scrollbar-thumb { background: #334155; }
         
-        /* ===== Animations ===== */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
+        /* ============================================================
+           NEW HEADER - Premium Glassmorphism
+        ============================================================ */
+        .header-wrapper {
+            position: sticky;
+            top: 12px;
+            z-index: 100;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0 16px;
+        }
+        
+        .header-glass {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 6px 8px;
+            box-shadow: 
+                0 4px 24px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .header-glass:hover {
+            box-shadow: 
+                0 8px 40px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Dark Theme Header */
+        .theme-dark .header-glass {
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(51, 65, 85, 0.4);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        }
+        .theme-dark .header-glass:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ===== Logo ===== */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 12px 4px 8px;
+            text-decoration: none;
+            flex-shrink: 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .header-logo:hover { background: rgba(37, 99, 235, 0.06); }
+        
+        .header-logo .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .header-logo:hover .logo-icon { transform: scale(1.05) rotate(-3deg); }
+        
+        .header-logo .logo-text {
+            font-weight: 800;
+            font-size: 18px;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .theme-dark .header-logo .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-logo .logo-badge {
+            font-size: 8px;
+            font-weight: 700;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            padding: 1px 8px;
+            border-radius: 99px;
+            -webkit-text-fill-color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+        .theme-dark .header-logo .logo-badge {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+            -webkit-text-fill-color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.2);
+        }
+        
+        /* ===== Nav Links ===== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            overflow-x: auto;
+            padding: 0 4px;
+            scrollbar-width: none;
+        }
+        .nav-links::-webkit-scrollbar { display: none; }
+        
+        .nav-link {
+            padding: 6px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 99px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 60%; }
+        
+        .nav-link:hover {
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.06);
+        }
+        .nav-link.active {
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+        }
+        
+        .theme-dark .nav-link {
+            color: #94a3b8;
+        }
+        .theme-dark .nav-link:hover,
+        .theme-dark .nav-link.active {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.1);
+        }
+        .theme-dark .nav-link::after { background: #60a5fa; }
+        
+        /* ===== Header Actions ===== */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+            padding-left: 4px;
+        }
+        
+        .header-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .header-btn:hover {
+            background: rgba(37, 99, 235, 0.08);
+            color: #2563eb;
+            transform: scale(1.05);
+        }
+        .theme-dark .header-btn {
+            color: #94a3b8;
+        }
+        .theme-dark .header-btn:hover {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+        
+        .header-btn-auth {
+            padding: 6px 18px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .header-btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        }
+        .header-btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
+        }
+        .header-btn-secondary {
+            background: transparent;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+        }
+        .header-btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .theme-dark .header-btn-secondary {
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+        .theme-dark .header-btn-secondary:hover {
+            background: #1e293b;
+            border-color: #475569;
+        }
+        
+        /* ===== Mobile Menu Trigger ===== */
+        .mobile-trigger {
+            display: none;
+        }
+        
+        /* ===== Responsive Header ===== */
+        @media (max-width: 768px) {
+            .header-glass { border-radius: 16px; padding: 4px 6px; }
+            .header-logo .logo-text { font-size: 15px; }
+            .header-logo .logo-badge { display: none; }
+            .nav-links { gap: 0; }
+            .nav-link { padding: 4px 10px; font-size: 11px; }
+            .header-btn { width: 34px; height: 34px; font-size: 14px; }
+            .header-btn-auth { padding: 4px 14px; font-size: 11px; }
+            .mobile-trigger { display: flex; }
+            .desktop-only { display: none; }
+        }
+        
+        @media (max-width: 480px) {
+            .header-logo .logo-icon { width: 32px; height: 32px; font-size: 14px; }
+            .header-logo .logo-text { font-size: 13px; }
+            .nav-link { padding: 3px 8px; font-size: 10px; }
+            .header-btn { width: 30px; height: 30px; font-size: 12px; }
+        }
+        
+        /* ============================================================
+           HERO SECTION WITH GIF
+        ============================================================ */
+        .hero-section {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        
+        .hero-bg video,
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            transition: opacity 0.8s ease;
+        }
+        
+        .hero-bg .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.85) 0%,
+                rgba(255,255,255,0.4) 50%,
+                rgba(255,255,255,0.85) 100%
+            );
+        }
+        
+        .theme-dark .hero-bg .overlay {
+            background: linear-gradient(135deg,
+                rgba(15,23,42,0.9) 0%,
+                rgba(15,23,42,0.5) 50%,
+                rgba(15,23,42,0.9) 100%
+            );
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* ============================================================
+           ANIMATIONS
+        ============================================================ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-delay {
+            animation: float 4s ease-in-out 1.5s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(37,99,235,0.2); }
+            50% { box-shadow: 0 0 40px rgba(37,99,235,0.4); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-up {
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .animate-slide-up {
+            animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
         }
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
         
-        /* ===== Dark Theme Override ===== */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #2563eb;
+            animation: typing 3s steps(30) 1s forwards, blink 0.8s step-end infinite;
+            width: 0;
+            max-width: fit-content;
+        }
+        
+        /* ============================================================
+           THEME SYSTEM
+        ============================================================ */
         .theme-dark body {
             background: #0f172a;
             color: #f8fafc;
@@ -326,488 +446,623 @@
         .theme-dark .bg-slate-50 { background: #0f172a !important; }
         .theme-dark .bg-gray-50 { background: #0f172a !important; }
         .theme-dark .border-gray-200 { border-color: #334155 !important; }
-        .theme-dark .border-gray-100 { border-color: #334155 !important; }
-        .theme-dark .text-gray-600 { color: #94a3b8 !important; }
-        .theme-dark .text-gray-500 { color: #94a3b8 !important; }
         .theme-dark .text-slate-600 { color: #94a3b8 !important; }
         .theme-dark .text-slate-500 { color: #94a3b8 !important; }
         .theme-dark .text-slate-700 { color: #cbd5e1 !important; }
         .theme-dark .text-slate-800 { color: #f8fafc !important; }
         .theme-dark .text-slate-900 { color: #f8fafc !important; }
         
-        /* ===== Responsive ===== */
-        @media (max-width: 640px) {
-            .glass-header { border-radius: 20px; }
-            .btn-primary, .btn-secondary { padding: 8px 20px; font-size: 13px; }
-            .feature-card { padding: 20px 16px; }
-            .stat-card .number { font-size: 24px; }
+        /* ============================================================
+           RESPONSIVE HERO
+        ============================================================ */
+        @media (max-width: 768px) {
+            .hero-section { min-height: 60vh; padding: 20px 0; }
+            .hero-content { padding: 0 16px; }
+            .typing-effect { white-space: normal; border-right: none; animation: none; width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-    HEADER
+    HEADER - New Premium Design
     ============================================================ -->
-    <header class="sticky top-3 z-50 w-full flex justify-center px-4">
-        <div class="glass-header w-full max-w-6xl flex items-center gap-1">
+    <div class="header-wrapper">
+        <header class="header-glass">
             
             <!-- Logo -->
-            <a href="index.html" class="flex items-center gap-2 pl-4 pr-2 shrink-0 no-underline">
-                <i class="fas fa-graduation-cap text-2xl text-primary"></i>
-                <span class="font-bold text-lg bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent hidden sm:block font-english">
-                    Study Hub
-                </span>
+            <a href="index.html" class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">Study Hub</span>
+                <span class="logo-badge">v2.0</span>
             </a>
-            
-            <div class="h-6 w-px bg-gray-200 mx-1 hidden sm:block"></div>
             
             <!-- Navigation -->
-            <nav class="flex-grow flex items-center overflow-x-auto no-scrollbar">
-                <div class="flex items-center gap-0.5 px-2">
-                    <a href="index.html" class="nav-link active font-bengali">হোম</a>
-                    <a href="tracker.html" class="nav-link font-bengali">ট্র্যাকার</a>
-                    <a href="leaderboard.html" class="nav-link font-bengali">লিডারবোর্ড</a>
-                    <a href="dashboard.html" class="nav-link font-bengali">ড্যাশবোর্ড</a>
-                    <a href="about.html" class="nav-link font-bengali hidden sm:inline">আমাদের সম্পর্কে</a>
-                </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active font-bengali">হোম</a>
+                <a href="tracker.html" class="nav-link font-bengali">ট্র্যাকার</a>
+                <a href="leaderboard.html" class="nav-link font-bengali">লিডারবোর্ড</a>
+                <a href="dashboard.html" class="nav-link font-bengali desktop-only">ড্যাশবোর্ড</a>
+                <a href="about.html" class="nav-link font-bengali desktop-only">আমাদের সম্পর্কে</a>
             </nav>
             
-            <!-- Theme Toggle -->
-            <button onclick="toggleTheme()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0" title="থিম পরিবর্তন">
-                <i class="fas fa-moon" id="themeIcon"></i>
-            </button>
-            
-            <!-- Mobile Menu -->
-            <button onclick="toggleMobileMenu()" class="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors shrink-0 sm:hidden">
-                <i class="fas fa-bars text-lg"></i>
-            </button>
-            
-            <div class="h-6 w-px bg-gray-200 mx-1 hidden sm:block"></div>
-            
-            <!-- Auth Buttons -->
-            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0 pr-1" id="authSection">
-                <a href="login.html" class="btn-primary text-xs sm:text-sm px-4 py-1.5">
-                    <i class="fas fa-sign-in-alt mr-2"></i> লগইন
-                </a>
-                <a href="signup.html" class="btn-secondary text-xs sm:text-sm px-4 py-1.5 hidden sm:inline-flex">
-                    <i class="fas fa-user-plus mr-2"></i> রেজিস্টার
-                </a>
-            </div>
-            
-            <!-- Profile (when logged in) -->
-            <div class="flex items-center gap-2 shrink-0 ml-auto sm:ml-0 pr-1" id="profileSection" style="display:none;">
-                <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
-                    <i class="fas fa-user-circle text-lg"></i>
-                    <span class="text-sm font-medium hidden sm:inline" id="userNameDisplay">User</span>
-                </a>
-                <button onclick="logoutUser()" class="p-2 text-gray-400 hover:text-red-500 transition-colors" title="লগআউট">
-                    <i class="fas fa-sign-out-alt"></i>
+            <!-- Actions -->
+            <div class="header-actions">
+                
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="header-btn" title="থিম পরিবর্তন" id="themeToggleBtn">
+                    <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- ============================================================
-    MOBILE MENU
-    ============================================================ -->
-    <div id="mobileMenuOverlay" onclick="closeMobileMenu()" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity"></div>
-    <div id="mobileMenuDrawer" class="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-[70] transform translate-x-full overflow-y-auto transition-transform duration-300">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <span class="font-bold text-slate-800 font-bengali"><i class="fas fa-bars text-primary mr-2"></i> মেনু</span>
-            <button onclick="closeMobileMenu()" class="text-gray-500 hover:text-red-500 transition-colors">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <div class="p-4 flex flex-col gap-1">
-            <a href="index.html" class="block px-4 py-3 text-sm font-medium text-primary bg-blue-50 rounded-lg font-bengali">হোম</a>
-            <a href="tracker.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">ট্র্যাকার</a>
-            <a href="leaderboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">লিডারবোর্ড</a>
-            <a href="group-leaderboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">গ্রুপ লিডারবোর্ড</a>
-            <a href="screen-time.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">স্ক্রিন টাইম</a>
-            <a href="todo.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">টু-ডু লিস্ট</a>
-            <a href="dashboard.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">ড্যাশবোর্ড</a>
-            <a href="quiz-creator.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">কুইজ ক্রিয়েটর</a>
-            <a href="profile.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">প্রোফাইল</a>
-            <a href="about.html" class="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 rounded-lg font-bengali">আমাদের সম্পর্কে</a>
-            <hr class="my-2 border-gray-200">
-            <a href="admin/index.html" class="block px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg font-bengali" id="mobileAdminLink" style="display:none;">
-                <i class="fas fa-crown mr-2"></i> অ্যাডমিন প্যানেল
-            </a>
-        </div>
-    </div>
-<!-- ============================================================
-    MAIN CONTENT
-    ============================================================ -->
-    <main>
-
-        <!-- ============================================================
-        HERO SECTION
-        ============================================================ -->
-        <section class="relative overflow-hidden pt-8 pb-16 md:pt-16 md:pb-24">
-            <!-- Background Blobs -->
-            <div class="absolute inset-0 pointer-events-none">
-                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/30 rounded-full blur-[120px]"></div>
-                <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-100/30 rounded-full blur-[100px]"></div>
+                
+                <!-- Mobile Menu Trigger -->
+                <button onclick="toggleMobileMenu()" class="header-btn mobile-trigger" title="মেনু">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Auth Buttons -->
+                <div id="authSection" class="flex items-center gap-2">
+                    <a href="login.html" class="header-btn-auth header-btn-primary font-bengali">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span class="desktop-only">লগইন</span>
+                    </a>
+                    <a href="signup.html" class="header-btn-auth header-btn-secondary font-bengali desktop-only">
+                        <i class="fas fa-user-plus"></i> রেজিস্টার
+                    </a>
+                </div>
+                
+                <!-- Profile (when logged in) -->
+                <div id="profileSection" style="display:none;" class="flex items-center gap-2">
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline" id="userNameDisplay">User</span>
+                    </a>
+                    <button onclick="logoutUser()" class="header-btn" title="লগআউট">
+                        <i class="fas fa-sign-out-alt text-red-400 hover:text-red-500"></i>
+                    </button>
+                </div>
+                
             </div>
             
-            <div class="container mx-auto px-4 max-w-6xl relative z-10">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
+        </header>
+    </div>
+    <!-- ============================================================
+    HERO SECTION WITH GIF
+    ============================================================ -->
+    <section class="hero-section">
+        
+        <!-- Background with GIF -->
+        <div class="hero-bg">
+            <!-- Day/Night GIF based on theme -->
+            <picture>
+                <source srcset="/resources/hero-night.gif" media="(prefers-color-scheme: dark)">
+                <img src="/resources/hero-day.gif" alt="Study Hub Hero" loading="lazy">
+            </picture>
+            <div class="overlay"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="space-y-6">
                     
-                    <!-- Left Content -->
-                    <div class="space-y-6 animate-fade-up">
-                        <!-- Badge -->
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-primary text-xs font-bold tracking-wide font-english">
-                            <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                            </span>
-                            পার্সোনাল ডিজিটাল স্টাডি রুম
-                        </div>
-                        
-                        <!-- Heading -->
-                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-slate-900 font-bengali">
-                            পড়াশোনা হোক
-                            <span class="bg-gradient-to-r from-primary to-cyan-500 bg-clip-text text-transparent">
-                                স্মার্ট ও গোছানো
-                            </span>
-                        </h1>
-                        
-                        <!-- Description -->
-                        <p class="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-bengali">
-                            Study Hub-এর সাথে আপনার পড়াশোনাকে নিয়ে যান অনন্য উচ্চতায়। 
-                            টাইম ট্র্যাকিং, লিডারবোর্ড, টু-ডু লিস্ট এবং আরও অনেক কিছু।
-                        </p>
-                        
-                        <!-- CTA Buttons -->
-                        <div class="flex flex-wrap gap-3 pt-2">
-                            <a href="tracker.html" class="btn-primary font-bengali">
-                                <i class="fas fa-play mr-2"></i> স্টার্ট স্টাডি
-                            </a>
-                            <a href="leaderboard.html" class="btn-secondary font-bengali">
-                                <i class="fas fa-trophy mr-2"></i> লিডারবোর্ড
-                            </a>
-                        </div>
-                        
-                        <!-- Trust Badge -->
-                        <div class="flex items-center gap-4 pt-4">
+                    <!-- Animated Badge -->
+                    <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-lg animate-slide-up delay-1">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                        </span>
+                        <span class="text-xs font-bold text-primary tracking-wide font-english animate-pulse">
+                            🚀 ৫,০০০+ শিক্ষার্থী পড়ছেন
+                        </span>
+                    </div>
+                    
+                    <!-- Main Heading with Typing Effect -->
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight text-slate-900 font-bengali animate-slide-up delay-2">
+                        পড়াশোনা হোক
+                        <br>
+                        <span class="bg-gradient-to-r from-primary via-blue-500 to-cyan-400 bg-clip-text text-transparent">
+                            স্মার্ট ও মজাদার
+                        </span>
+                    </h1>
+                    
+                    <!-- Subtitle with Typewriter -->
+                    <p class="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-bengali animate-slide-up delay-3">
+                        <span class="typing-effect font-bengali">ট্র্যাক করুন, প্রতিযোগিতা করুন, উন্নত হোন</span>
+                    </p>
+                    
+                    <!-- CTA Buttons with Hover Effects -->
+                    <div class="flex flex-wrap gap-4 pt-2 animate-slide-up delay-4">
+                        <a href="tracker.html" class="btn-primary font-bengali group">
+                            <i class="fas fa-play mr-2 group-hover:animate-pulse"></i> 
+                            এখনই শুরু করুন
+                            <span class="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
+                        </a>
+                        <a href="leaderboard.html" class="btn-secondary font-bengali group">
+                            <i class="fas fa-trophy mr-2 text-amber-500"></i>
+                            লিডারবোর্ড দেখুন
+                        </a>
+                    </div>
+                    
+                    <!-- Floating Stats -->
+                    <div class="flex items-center gap-8 pt-4 animate-slide-up delay-5">
+                        <div class="flex items-center gap-3">
                             <div class="flex -space-x-2">
-                                <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600">A</div>
-                                <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600">R</div>
-                                <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-white flex items-center justify-center text-xs font-bold text-white">+</div>
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">A</div>
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">R</div>
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">+</div>
                             </div>
                             <div>
                                 <div class="font-bold text-sm text-slate-700 font-english" id="heroUserCount">৫,০০০+</div>
-                                <div class="text-xs text-slate-500 font-bengali">শিক্ষার্থী নিয়মিত পড়ছেন</div>
+                                <div class="text-xs text-slate-500 font-bengali">সক্রিয় শিক্ষার্থী</div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Right Content - Dashboard Preview -->
-                    <div class="relative animate-fade-up delay-200 hidden lg:block">
-                        <div class="relative bg-white/70 backdrop-blur-xl rounded-2xl border border-white/60 shadow-2xl shadow-blue-500/10 p-6 ring-1 ring-white/50">
-                            
-                            <!-- Progress Card -->
-                            <div class="bg-white rounded-xl p-4 mb-4 shadow-sm border border-blue-50">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-bold text-slate-600 font-bengali">দৈনিক লক্ষ্য</span>
-                                    <span class="text-primary font-bold text-sm font-english">৮৫%</span>
-                                </div>
-                                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:85%;"></div>
-                                </div>
-                                <p class="text-[10px] text-slate-400 mt-1 text-right font-bengali">আজকের অগ্রগতি</p>
-                            </div>
-                            
-                            <!-- Course Progress -->
-                            <div class="bg-white rounded-xl p-4 shadow-sm border border-blue-50">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-bold text-slate-600 font-bengali">কোর্স সম্পন্ন</span>
-                                    <span class="text-primary font-bold text-sm font-english">১২/১৫</span>
-                                </div>
-                                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:80%;"></div>
-                                </div>
-                                <div class="flex gap-2 mt-3">
-                                    <span class="text-[10px] text-slate-600 bg-gray-50 px-2 py-1 rounded border border-gray-100 font-bengali">পদার্থবিজ্ঞান</span>
-                                    <span class="text-[10px] text-slate-600 bg-gray-50 px-2 py-1 rounded border border-gray-100 font-bengali">রসায়ন</span>
-                                    <span class="text-[10px] text-primary bg-blue-50 px-2 py-1 rounded border border-blue-100 font-bengali">+৩ টি</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Floating Icons -->
-                            <div class="absolute -right-3 top-12 bg-white p-3 rounded-full border border-blue-100 shadow-xl animate-bounce">
-                                <i class="fas fa-book text-blue-600 text-lg"></i>
-                            </div>
-                            <div class="absolute -left-3 bottom-16 bg-white p-3 rounded-full border border-blue-100 shadow-xl animate-bounce" style="animation-delay: 0.5s;">
-                                <i class="fas fa-clock text-blue-600 text-lg"></i>
-                            </div>
-                            
+                        <div class="h-10 w-px bg-gray-200"></div>
+                        <div>
+                            <div class="font-bold text-sm text-slate-700 font-english" id="heroStudyToday">০ঘ</div>
+                            <div class="text-xs text-slate-500 font-bengali">আজকের স্টাডি</div>
                         </div>
                     </div>
                     
                 </div>
+                
+                <!-- Right Content - Interactive 3D Card -->
+                <div class="relative animate-slide-up delay-3 hidden lg:block">
+                    <div class="relative bg-white/60 backdrop-blur-xl rounded-2xl border border-white/50 shadow-2xl shadow-blue-500/10 p-6 ring-1 ring-white/30 transform hover:scale-[1.02] transition-all duration-500 hover:shadow-3xl">
+                        
+                        <!-- Decorative Elements -->
+                        <div class="absolute -top-3 -right-3 w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                        <div class="absolute -bottom-3 -left-3 w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full blur-xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
+                        
+                        <!-- Progress Card -->
+                        <div class="relative bg-white rounded-xl p-5 mb-4 shadow-lg border border-blue-50/50 hover:shadow-xl transition-all duration-300">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-slate-600 font-bengali flex items-center gap-2">
+                                    <i class="fas fa-flag-checkered text-primary"></i>
+                                    দৈনিক লক্ষ্য
+                                </span>
+                                <span class="text-primary font-bold text-sm font-english bg-blue-50 px-3 py-1 rounded-full">৮৫%</span>
+                            </div>
+                            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full animate-pulse-glow" style="width:85%;"></div>
+                            </div>
+                            <div class="flex justify-between mt-2">
+                                <span class="text-[10px] text-slate-400 font-bengali">আজকের অগ্রগতি</span>
+                                <span class="text-[10px] font-bold text-slate-600 font-english">১২/১৪ ঘণ্টা</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Course Progress -->
+                        <div class="relative bg-white rounded-xl p-5 shadow-lg border border-blue-50/50 hover:shadow-xl transition-all duration-300">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-slate-600 font-bengali flex items-center gap-2">
+                                    <i class="fas fa-book-open text-primary"></i>
+                                    কোর্স সম্পন্ন
+                                </span>
+                                <span class="text-primary font-bold text-sm font-english bg-blue-50 px-3 py-1 rounded-full">১২/১৫</span>
+                            </div>
+                            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:80%;"></div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="text-[10px] text-slate-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-atom text-blue-400 text-[8px]"></i>
+                                    পদার্থবিজ্ঞান
+                                </span>
+                                <span class="text-[10px] text-slate-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-flask text-emerald-400 text-[8px]"></i>
+                                    রসায়ন
+                                </span>
+                                <span class="text-[10px] text-primary bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-plus text-[8px]"></i>
+                                    ৩ টি
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Animated Icons -->
+                        <div class="absolute -right-4 top-12 bg-white p-3.5 rounded-full border border-blue-100 shadow-xl animate-float">
+                            <i class="fas fa-rocket text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="absolute -left-4 bottom-16 bg-white p-3.5 rounded-full border border-blue-100 shadow-xl animate-float-delay">
+                            <i class="fas fa-brain text-purple-600 text-xl"></i>
+                        </div>
+                        <div class="absolute -bottom-2 right-1/4 bg-white p-2.5 rounded-full border border-amber-100 shadow-xl animate-bounce">
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                
             </div>
-        </section>
-
-        <!-- ============================================================
-        STATS SECTION
-        ============================================================ -->
-        <section class="py-8 md:py-12 bg-white border-y border-gray-100">
-            <div class="container mx-auto px-4 max-w-6xl">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="stat-card animate-fade-up delay-100">
-                        <div class="number font-english" id="statUsers">০</div>
-                        <div class="label font-bengali">মোট ইউজার</div>
-                    </div>
-                    <div class="stat-card animate-fade-up delay-200">
-                        <div class="number font-english text-emerald-600" id="statStudy">০ঘ</div>
-                        <div class="label font-bengali">আজকের স্টাডি</div>
-                    </div>
-                    <div class="stat-card animate-fade-up delay-300">
-                        <div class="number font-english text-blue-600" id="statActive">০</div>
-                        <div class="label font-bengali">এখন অনলাইন</div>
-                    </div>
-                    <div class="stat-card animate-fade-up delay-400">
-                        <div class="number font-english text-amber-600" id="statQuizzes">০</div>
-                        <div class="label font-bengali">মোট কুইজ</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-        FEATURES SECTION
-        ============================================================ -->
-        <section class="py-16 md:py-24">
-            <div class="container mx-auto px-4 max-w-6xl">
-                
-                <div class="text-center mb-12 animate-fade-up">
-                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">ফিচারসমূহ</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
-                        কেন Study Hub?
-                    </h2>
-                    <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali">
-                        আপনার পড়াশোনাকে স্মার্ট, গোছানো এবং প্রতিযোগিতামূলক করতে আমাদের সব ফিচার
-                    </p>
-                </div>
-                
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    <!-- Feature 1 -->
-                    <div class="feature-card animate-fade-up delay-100">
-                        <i class="fas fa-clock icon"></i>
-                        <h3 class="font-bengali">স্টাডি ট্র্যাকার</h3>
-                        <p class="font-bengali">আপনার পড়ার সময় কাউন্ট করুন, বিশ্লেষণ করুন এবং উন্নত করুন</p>
-                    </div>
-                    
-                    <!-- Feature 2 -->
-                    <div class="feature-card animate-fade-up delay-200">
-                        <i class="fas fa-trophy icon"></i>
-                        <h3 class="font-bengali">লিডারবোর্ড</h3>
-                        <p class="font-bengali">অন্যদের সাথে প্রতিযোগিতা করে নিজের অবস্থান জানুন</p>
-                    </div>
-                    
-                    <!-- Feature 3 -->
-                    <div class="feature-card animate-fade-up delay-300">
-                        <i class="fas fa-list-check icon"></i>
-                        <h3 class="font-bengali">টু-ডু লিস্ট</h3>
-                        <p class="font-bengali">দৈনিক কাজের তালিকা তৈরি করুন এবং সম্পন্ন করুন</p>
-                    </div>
-                    
-                    <!-- Feature 4 -->
-                    <div class="feature-card animate-fade-up delay-100">
-                        <i class="fas fa-users icon"></i>
-                        <h3 class="font-bengali">গ্রুপ স্টাডি</h3>
-                        <p class="font-bengali">টিমভিত্তিক স্টাডি এবং গ্রুপ লিডারবোর্ড</p>
-                    </div>
-                    
-                    <!-- Feature 5 -->
-                    <div class="feature-card animate-fade-up delay-200">
-                        <i class="fas fa-mobile-screen icon"></i>
-                        <h3 class="font-bengali">স্ক্রিন টাইম</h3>
-                        <p class="font-bengali">আপনার ডিভাইস ব্যবহারের সময় ট্র্যাক করুন</p>
-                    </div>
-                    
-                    <!-- Feature 6 -->
-                    <div class="feature-card animate-fade-up delay-300">
-                        <i class="fas fa-pen-to-square icon"></i>
-                        <h3 class="font-bengali">কুইজ সিস্টেম</h3>
-                        <p class="font-bengali">নিজেকে যাচাই করুন এবং কুইজ লিডারবোর্ডে উঠুন</p>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-        <!-- ============================================================
-        TESTIMONIALS SECTION
-        ============================================================ -->
-        <section class="py-16 md:py-24 bg-slate-50/60">
-            <div class="container mx-auto px-4 max-w-6xl">
-                
-                <div class="text-center mb-12 animate-fade-up">
-                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">শিক্ষার্থীদের মতামত</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
-                        তারা যা বলছে
-                    </h2>
-                    <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali">
-                        Study Hub ব্যবহার করে হাজারো শিক্ষার্থী তাদের পড়াশোনা বদলে দিয়েছে
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-3 gap-6">
-                    
-                    <!-- Testimonial 1 -->
-                    <div class="testimonial-card animate-fade-up delay-100">
-                        <div class="flex text-amber-400 mb-3">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="quote font-bengali">
-                            "Study Hub আমার পড়াশোনার রুটিন বদলে দিয়েছে। টাইম ট্র্যাকিং এবং লিডারবোর্ড আমাকে বেশি পড়তে উৎসাহিত করে।"
-                        </p>
-                        <div class="author">
-                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <div class="name font-bengali">তাহমিনা তাবাচ্ছুম</div>
-                                <div class="role font-bengali">Admission 25-26</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Testimonial 2 -->
-                    <div class="testimonial-card animate-fade-up delay-200">
-                        <div class="flex text-amber-400 mb-3">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="quote font-bengali">
-                            "To-Do লিস্ট এবং সেশন রিপোর্ট আমার পড়ার পরিকল্পনা করতে অনেক সাহায্য করে। প্রতিদিনের অগ্রগতি দেখতে খুব ভালো লাগে।"
-                        </p>
-                        <div class="author">
-                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <div class="name font-bengali">ইব্রাহিম খলিলুল্লাহ</div>
-                                <div class="role font-bengali">HSC 27</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Testimonial 3 -->
-                    <div class="testimonial-card animate-fade-up delay-300">
-                        <div class="flex text-amber-400 mb-3">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p class="quote font-bengali">
-                            "গ্রুপ লিডারবোর্ড আমাদের টিমের মধ্যে প্রতিযোগিতা বাড়িয়েছে। সবাই একে অপরকে উৎসাহিত করে বেশি বেশি পড়তে।"
-                        </p>
-                        <div class="author">
-                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <div class="name font-bengali">হাসান আবিদ</div>
-                                <div class="role font-bengali">HSC 27</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-        FAQ SECTION
-        ============================================================ -->
-        <section class="py-16 md:py-24">
-            <div class="container mx-auto px-4 max-w-3xl">
-                
-                <div class="text-center mb-12 animate-fade-up">
-                    <span class="text-xs font-bold text-primary uppercase tracking-wider font-english">সচরাচর জিজ্ঞাসা</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 font-bengali">
-                        প্রায়শই জিজ্ঞাসিত প্রশ্ন
-                    </h2>
-                </div>
-                
-                <div class="space-y-3">
-                    
-                    <!-- FAQ 1 -->
-                    <div class="faq-item animate-fade-up delay-100">
-                        <button class="question font-bengali" onclick="toggleFaq(this)">
-                            <span>Study Hub কী?</span>
-                            <i class="fas fa-chevron-down icon text-primary"></i>
-                        </button>
-                        <div class="answer font-bengali">
-                            Study Hub একটি স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম যা শিক্ষার্থীদের তাদের পড়াশোনার সময় ট্র্যাক করতে, লিডারবোর্ডে প্রতিযোগিতা করতে এবং টু-ডু লিস্ট তৈরি করতে সাহায্য করে।
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 2 -->
-                    <div class="faq-item animate-fade-up delay-200">
-                        <button class="question font-bengali" onclick="toggleFaq(this)">
-                            <span>কীভাবে স্টাডি ট্র্যাক করব?</span>
-                            <i class="fas fa-chevron-down icon text-primary"></i>
-                        </button>
-                        <div class="answer font-bengali">
-                            ট্র্যাকার পেজে গিয়ে "স্টার্ট" বাটনে ক্লিক করুন। পড়া শেষ হলে "স্টপ" ক্লিক করুন। আপনার সময় স্বয়ংক্রিয়ভাবে সেভ হয়ে যাবে।
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 3 -->
-                    <div class="faq-item animate-fade-up delay-300">
-                        <button class="question font-bengali" onclick="toggleFaq(this)">
-                            <span>লিডারবোর্ড কীভাবে কাজ করে?</span>
-                            <i class="fas fa-chevron-down icon text-primary"></i>
-                        </button>
-                        <div class="answer font-bengali">
-                            লিডারবোর্ডে দৈনিক, সাপ্তাহিক এবং মাসিক ভিত্তিতে সব ইউজারের মোট স্টাডি সময় দেখানো হয়। আপনি গ্রুপ এবং টিম অনুযায়ী ফিল্টার করতে পারেন।
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 4 -->
-                    <div class="faq-item animate-fade-up delay-400">
-                        <button class="question font-bengali" onclick="toggleFaq(this)">
-                            <span>কুইজ কীভাবে তৈরি করব?</span>
-                            <i class="fas fa-chevron-down icon text-primary"></i>
-                        </button>
-                        <div class="answer font-bengali">
-                            কুইজ ক্রিয়েটর পেজে গিয়ে কুইজের শিরোনাম এবং প্রশ্নগুলো যোগ করুন। সেভ করলেই আপনার কুইজ লাইভ হয়ে যাবে এবং অন্যরা অংশগ্রহণ করতে পারবে।
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 5 -->
-                    <div class="faq-item animate-fade-up delay-500">
-                        <button class="question font-bengali" onclick="toggleFaq(this)">
-                            <span>Study Hub কি ফ্রি?</span>
-                            <i class="fas fa-chevron-down icon text-primary"></i>
-                        </button>
-                        <div class="answer font-bengali">
-                            হ্যাঁ, Study Hub সম্পূর্ণ ফ্রি। আপনি সকল ফিচার ব্যবহার করতে পারবেন কোনো চার্জ ছাড়াই।
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-    </main>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-bounce hidden md:block">
+            <a href="#features" class="text-slate-400 hover:text-primary transition-colors">
+                <i class="fas fa-chevron-down text-xl"></i>
+            </a>
+        </div>
+        
+    </section>
 
     <!-- ============================================================
-    FOOTER
+    STATS SECTION - Animated Counters
+    ============================================================ -->
+    <section class="py-12 md:py-16 bg-white/80 backdrop-blur-sm border-y border-gray-100/50" id="features">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                
+                <div class="stat-card animate-slide-up delay-1 group">
+                    <div class="number font-english text-3xl md:text-4xl" id="statUsers">
+                        <span class="counter" data-target="5000">0</span>+
+                    </div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-users text-primary text-xs"></i>
+                        মোট ইউজার
+                    </div>
+                </div>
+                
+                <div class="stat-card animate-slide-up delay-2 group">
+                    <div class="number font-english text-3xl md:text-4xl text-emerald-600" id="statStudy">
+                        <span class="counter" data-target="127">0</span>ঘ
+                    </div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-clock text-emerald-500 text-xs"></i>
+                        আজকের স্টাডি
+                    </div>
+                </div>
+                
+                <div class="stat-card animate-slide-up delay-3 group">
+                    <div class="number font-english text-3xl md:text-4xl text-blue-600" id="statActive">
+                        <span class="counter" data-target="342">0</span>
+                    </div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-circle text-green-500 text-xs animate-pulse"></i>
+                        এখন অনলাইন
+                    </div>
+                </div>
+                
+                <div class="stat-card animate-slide-up delay-4 group">
+                    <div class="number font-english text-3xl md:text-4xl text-amber-600" id="statQuizzes">
+                        <span class="counter" data-target="89">0</span>
+                    </div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-pen-to-square text-amber-500 text-xs"></i>
+                        মোট কুইজ
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FEATURES SECTION - Interactive Cards
+    ============================================================ -->
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 max-w-6xl">
+            
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-sparkles mr-1"></i> ফিচারসমূহ
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    কেন <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Study Hub</span>?
+                </h2>
+                <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali animate-slide-up delay-2">
+                    আপনার পড়াশোনাকে স্মার্ট, গোছানো এবং মজাদার করতে তৈরি করা হয়েছে
+                </p>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Feature 1 -->
+                <div class="feature-card group animate-slide-up delay-1">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-clock icon"></i>
+                    </div>
+                    <h3 class="font-bengali">স্টাডি ট্র্যাকার</h3>
+                    <p class="font-bengali">আপনার পড়ার সময় কাউন্ট করুন, বিশ্লেষণ করুন এবং উন্নত করুন</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card group animate-slide-up delay-2">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-trophy icon"></i>
+                    </div>
+                    <h3 class="font-bengali">লিডারবোর্ড</h3>
+                    <p class="font-bengali">অন্যদের সাথে প্রতিযোগিতা করে নিজের অবস্থান জানুন</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card group animate-slide-up delay-3">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-list-check icon"></i>
+                    </div>
+                    <h3 class="font-bengali">টু-ডু লিস্ট</h3>
+                    <p class="font-bengali">দৈনিক কাজের তালিকা তৈরি করুন এবং সম্পন্ন করুন</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card group animate-slide-up delay-1">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users icon"></i>
+                    </div>
+                    <h3 class="font-bengali">গ্রুপ স্টাডি</h3>
+                    <p class="font-bengali">টিমভিত্তিক স্টাডি এবং গ্রুপ লিডারবোর্ড</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card group animate-slide-up delay-2">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-mobile-screen icon"></i>
+                    </div>
+                    <h3 class="font-bengali">স্ক্রিন টাইম</h3>
+                    <p class="font-bengali">আপনার ডিভাইস ব্যবহারের সময় ট্র্যাক করুন</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card group animate-slide-up delay-3">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-pen-to-square icon"></i>
+                    </div>
+                    <h3 class="font-bengali">কুইজ সিস্টেম</h3>
+                    <p class="font-bengali">নিজেকে যাচাই করুন এবং কুইজ লিডারবোর্ডে উঠুন</p>
+                    <div class="feature-hover-effect"></div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================
+    TESTIMONIALS SECTION - Interactive Cards
+    ============================================================ -->
+    <section class="py-16 md:py-24 bg-gradient-to-b from-slate-50/60 to-white/40">
+        <div class="container mx-auto px-4 max-w-6xl">
+            
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-quote-left mr-1"></i> শিক্ষার্থীদের মতামত
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    তারা যা <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">বলছে</span>
+                </h2>
+                <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali animate-slide-up delay-2">
+                    Study Hub ব্যবহার করে হাজারো শিক্ষার্থী তাদের পড়াশোনা বদলে দিয়েছে
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card group animate-slide-up delay-1 hover:scale-[1.02] transition-all duration-300">
+                    <div class="flex text-amber-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="quote-icon text-4xl text-primary/10 mb-2">"</div>
+                    <p class="quote font-bengali">
+                        "Study Hub আমার পড়াশোনার রুটিন বদলে দিয়েছে। টাইম ট্র্যাকিং এবং লিডারবোর্ড আমাকে বেশি পড়তে উৎসাহিত করে।"
+                    </p>
+                    <div class="author">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-500 text-white flex items-center justify-center font-bold text-sm">
+                            T
+                        </div>
+                        <div>
+                            <div class="name font-bengali">তাহমিনা তাবাচ্ছুম</div>
+                            <div class="role font-bengali">Admission 25-26</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card group animate-slide-up delay-2 hover:scale-[1.02] transition-all duration-300">
+                    <div class="flex text-amber-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="quote-icon text-4xl text-primary/10 mb-2">"</div>
+                    <p class="quote font-bengali">
+                        "To-Do লিস্ট এবং সেশন রিপোর্ট আমার পড়ার পরিকল্পনা করতে অনেক সাহায্য করে। প্রতিদিনের অগ্রগতি দেখতে খুব ভালো লাগে।"
+                    </p>
+                    <div class="author">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-white flex items-center justify-center font-bold text-sm">
+                            I
+                        </div>
+                        <div>
+                            <div class="name font-bengali">ইব্রাহিম খলিলুল্লাহ</div>
+                            <div class="role font-bengali">HSC 27</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card group animate-slide-up delay-3 hover:scale-[1.02] transition-all duration-300">
+                    <div class="flex text-amber-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="quote-icon text-4xl text-primary/10 mb-2">"</div>
+                    <p class="quote font-bengali">
+                        "গ্রুপ লিডারবোর্ড আমাদের টিমের মধ্যে প্রতিযোগিতা বাড়িয়েছে। সবাই একে অপরকে উৎসাহিত করে বেশি বেশি পড়তে।"
+                    </p>
+                    <div class="author">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center font-bold text-sm">
+                            H
+                        </div>
+                        <div>
+                            <div class="name font-bengali">হাসান আবিদ</div>
+                            <div class="role font-bengali">HSC 27</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FAQ SECTION - Interactive Accordion
+    ============================================================ -->
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 max-w-3xl">
+            
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-circle-question mr-1"></i> সচরাচর জিজ্ঞাসা
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    প্রায়শই জিজ্ঞাসিত <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">প্রশ্ন</span>
+                </h2>
+            </div>
+            
+            <div class="space-y-3">
+                
+                <!-- FAQ 1 -->
+                <div class="faq-item group animate-slide-up delay-1">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">১</span>
+                            Study Hub কী?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        Study Hub একটি স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম যা শিক্ষার্থীদের তাদের পড়াশোনার সময় ট্র্যাক করতে, লিডারবোর্ডে প্রতিযোগিতা করতে এবং টু-ডু লিস্ট তৈরি করতে সাহায্য করে। এটি সম্পূর্ণ ফ্রি এবং সব বয়সের শিক্ষার্থীদের জন্য তৈরি।
+                    </div>
+                </div>
+                
+                <!-- FAQ 2 -->
+                <div class="faq-item group animate-slide-up delay-2">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">২</span>
+                            কীভাবে স্টাডি ট্র্যাক করব?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        ট্র্যাকার পেজে গিয়ে "স্টার্ট" বাটনে ক্লিক করুন। পড়া শেষ হলে "স্টপ" ক্লিক করুন। আপনার সময় স্বয়ংক্রিয়ভাবে সেভ হয়ে যাবে। আপনি Self Study, Class Time এবং Screen Time-এর মধ্যে সিলেক্ট করতে পারেন।
+                    </div>
+                </div>
+                
+                <!-- FAQ 3 -->
+                <div class="faq-item group animate-slide-up delay-3">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৩</span>
+                            লিডারবোর্ড কীভাবে কাজ করে?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        লিডারবোর্ডে দৈনিক, সাপ্তাহিক এবং মাসিক ভিত্তিতে সব ইউজারের মোট স্টাডি সময় দেখানো হয়। আপনি গ্রুপ (HSC, SSC, Admission) এবং টিম অনুযায়ী ফিল্টার করতে পারেন। প্রতিদিন সকাল ৫টায় লিডারবোর্ড রিফ্রেশ হয়।
+                    </div>
+                </div>
+                
+                <!-- FAQ 4 -->
+                <div class="faq-item group animate-slide-up delay-4">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৪</span>
+                            কুইজ কীভাবে তৈরি করব?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        কুইজ ক্রিয়েটর পেজে গিয়ে কুইজের শিরোনাম এবং প্রশ্নগুলো যোগ করুন। প্রতিটি প্রশ্নে ৪টি অপশন এবং সঠিক উত্তর সিলেক্ট করুন। সেভ করলেই আপনার কুইজ লাইভ হয়ে যাবে এবং অন্যরা অংশগ্রহণ করতে পারবে।
+                    </div>
+                </div>
+                
+                <!-- FAQ 5 -->
+                <div class="faq-item group animate-slide-up delay-5">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৫</span>
+                            Study Hub কি সম্পূর্ণ ফ্রি?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        হ্যাঁ, Study Hub সম্পূর্ণ ফ্রি। আপনি সকল ফিচার ব্যবহার করতে পারবেন কোনো চার্জ ছাড়াই। ভবিষ্যতেও এটি ফ্রি থাকবে, কারণ আমাদের লক্ষ্য শিক্ষার্থীদের পড়াশোনাকে সহজ করা।
+                    </div>
+                </div>
+                
+                <!-- FAQ 6 -->
+                <div class="faq-item group animate-slide-up delay-6">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৬</span>
+                            থিম কীভাবে পরিবর্তন করব?
+                        </span>
+                        <i class="fas fa-chevron-down icon text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        হেডারের ডান পাশে থাকা <i class="fas fa-moon text-primary"></i> আইকনে ক্লিক করুন। আপনি System, Light, Dark এবং আরও ৮টি প্রিমিয়াম থিমের মধ্যে বেছে নিতে পারবেন। আপনার পছন্দের থিম স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে।
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CTA SECTION - Final Call to Action
+    ============================================================ -->
+    <section class="py-16 md:py-20 bg-gradient-to-r from-primary to-blue-600 relative overflow-hidden">
+        <!-- Background Animation -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-white rounded-full blur-3xl animate-float-delay"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white font-bengali animate-slide-up">
+                আজই শুরু করুন আপনার <br class="md:hidden">
+                <span class="text-amber-200">স্মার্ট স্টাডি</span> যাত্রা
+            </h2>
+            <p class="text-blue-100 max-w-2xl mx-auto mt-4 text-base md:text-lg font-bengali animate-slide-up delay-1">
+                Study Hub-এ জয়েন করুন এবং আপনার পড়াশোনাকে নিয়ে যান নতুন উচ্চতায়
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center mt-8 animate-slide-up delay-2">
+                <a href="signup.html" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary rounded-full font-bold text-base hover:scale-105 transition-all duration-300 shadow-xl shadow-blue-500/30">
+                    <i class="fas fa-user-plus"></i>
+                    ফ্রি অ্যাকাউন্ট তৈরি করুন
+                    <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+                </a>
+                <a href="tracker.html" class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white/50 text-white rounded-full font-bold text-base hover:bg-white/10 hover:border-white transition-all duration-300">
+                    <i class="fas fa-play"></i>
+                    ট্র্যাকার ব্যবহার করুন
+                </a>
+            </div>
+            <p class="text-blue-200/70 text-sm mt-6 font-bengali animate-slide-up delay-3">
+                <i class="fas fa-check-circle mr-1 text-amber-300"></i>
+                ৫,০০০+ শিক্ষার্থী ইতিমধ্যে জয়েন করেছে
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FOOTER - Premium Design
     ============================================================ -->
     <footer class="bg-white border-t border-gray-200 mt-auto pt-12 pb-6">
         <div class="container mx-auto px-4 max-w-6xl">
@@ -819,45 +1074,52 @@
                         <i class="fas fa-graduation-cap text-primary"></i>
                         <span class="font-bengali">Study Hub</span>
                     </a>
-                    <p class="text-sm text-slate-500 mt-2 font-bengali">
+                    <p class="text-sm text-slate-500 mt-2 font-bengali leading-relaxed">
                         আপনার পড়াশোনার ডিজিটাল সঙ্গী। ট্র্যাকিং, লিডারবোর্ড এবং আরও অনেক কিছু।
                     </p>
-                    <div class="flex gap-4 mt-4">
-                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-primary transition-colors"><i class="fab fa-telegram"></i></a>
+                    <div class="flex gap-3 mt-4">
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all duration-300">
+                            <i class="fab fa-telegram-plane"></i>
+                        </a>
                     </div>
                 </div>
                 
                 <!-- Features -->
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">ফিচারসমূহ</h4>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">ফিচারসমূহ</h4>
                     <ul class="space-y-1.5">
-                        <li><a href="tracker.html" class="footer-link font-bengali">স্টাডি ট্র্যাকার</a></li>
-                        <li><a href="leaderboard.html" class="footer-link font-bengali">লিডারবোর্ড</a></li>
-                        <li><a href="todo.html" class="footer-link font-bengali">টু-ডু লিস্ট</a></li>
-                        <li><a href="quiz-creator.html" class="footer-link font-bengali">কুইজ</a></li>
+                        <li><a href="tracker.html" class="footer-link font-bengali text-sm">স্টাডি ট্র্যাকার</a></li>
+                        <li><a href="leaderboard.html" class="footer-link font-bengali text-sm">লিডারবোর্ড</a></li>
+                        <li><a href="todo.html" class="footer-link font-bengali text-sm">টু-ডু লিস্ট</a></li>
+                        <li><a href="quiz-creator.html" class="footer-link font-bengali text-sm">কুইজ</a></li>
                     </ul>
                 </div>
                 
                 <!-- Resources -->
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">রিসোর্স</h4>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">রিসোর্স</h4>
                     <ul class="space-y-1.5">
-                        <li><a href="about.html" class="footer-link font-bengali">আমাদের সম্পর্কে</a></li>
-                        <li><a href="#" class="footer-link font-bengali">ব্লগ</a></li>
-                        <li><a href="#" class="footer-link font-bengali">সাপোর্ট</a></li>
+                        <li><a href="about.html" class="footer-link font-bengali text-sm">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">ব্লগ</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">সাপোর্ট</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">গোপনীয়তা নীতি</a></li>
                     </ul>
                 </div>
                 
                 <!-- Account -->
                 <div>
-                    <h4 class="font-bold text-slate-800 mb-3 font-bengali">অ্যাকাউন্ট</h4>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">অ্যাকাউন্ট</h4>
                     <ul class="space-y-1.5">
-                        <li><a href="login.html" class="footer-link font-bengali">লগইন</a></li>
-                        <li><a href="signup.html" class="footer-link font-bengali">রেজিস্টার</a></li>
-                        <li><a href="profile.html" class="footer-link font-bengali">প্রোফাইল</a></li>
-                        <li><a href="admin/index.html" class="footer-link font-bengali" id="footerAdminLink" style="display:none;">অ্যাডমিন</a></li>
+                        <li><a href="login.html" class="footer-link font-bengali text-sm">লগইন</a></li>
+                        <li><a href="signup.html" class="footer-link font-bengali text-sm">রেজিস্টার</a></li>
+                        <li><a href="profile.html" class="footer-link font-bengali text-sm">প্রোফাইল</a></li>
+                        <li><a href="admin/index.html" class="footer-link font-bengali text-sm" id="footerAdminLink" style="display:none;">অ্যাডমিন</a></li>
                     </ul>
                 </div>
                 
@@ -867,9 +1129,10 @@
                 <p class="text-sm text-slate-500 font-bengali">
                     &copy; 2026 Study Hub. সর্বস্বত্ব সংরক্ষিত।
                 </p>
-                <div class="flex gap-6 text-sm text-slate-500">
-                    <a href="#" class="hover:text-primary transition-colors font-bengali">গোপনীয়তা নীতি</a>
-                    <a href="#" class="hover:text-primary transition-colors font-bengali">শর্তাবলী</a>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">গোপনীয়তা নীতি</a>
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">শর্তাবলী</a>
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">কুকিজ</a>
                 </div>
             </div>
         </div>
@@ -878,29 +1141,31 @@
     <!-- ============================================================
     TOAST NOTIFICATION
     ============================================================ -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl text-sm font-medium shadow-xl opacity-0 invisible transition-all duration-500 z-[9999] font-bengali">
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3.5 rounded-xl text-sm font-medium shadow-2xl opacity-0 invisible transition-all duration-500 z-[9999] font-bengali flex items-center gap-3">
+        <i class="fas fa-info-circle text-blue-400"></i>
         <span id="toastMessage"></span>
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT
+    JAVASCRIPT - Complete
     ============================================================ -->
     <script type="module">
         // ===== Firebase Imports =====
-        import { auth, onAuthStateChanged, db, collection, getDocs, query, orderBy, limit, doc, getDoc } from './firebase-config.js';
+        import { auth, onAuthStateChanged, db, collection, getDocs, doc, getDoc } from './firebase-config.js';
         
         // ===== DOM Elements =====
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
         const userNameDisplay = document.getElementById('userNameDisplay');
-        const mobileAdminLink = document.getElementById('mobileAdminLink');
         const footerAdminLink = document.getElementById('footerAdminLink');
         const themeIcon = document.getElementById('themeIcon');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
 
-        // ===== Auth State =====
+        // ============================================================
+        // AUTH STATE
+        // ============================================================
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Logged in
                 authSection.style.display = 'none';
                 profileSection.style.display = 'flex';
                 
@@ -911,7 +1176,6 @@
                         userNameDisplay.textContent = data.name || 'User';
                         
                         if (data.role === 'admin') {
-                            mobileAdminLink.style.display = 'block';
                             footerAdminLink.style.display = 'block';
                         }
                     }
@@ -921,12 +1185,13 @@
             } else {
                 authSection.style.display = 'flex';
                 profileSection.style.display = 'none';
-                mobileAdminLink.style.display = 'none';
                 footerAdminLink.style.display = 'none';
             }
         });
 
-        // ===== Logout =====
+        // ============================================================
+        // LOGOUT
+        // ============================================================
         window.logoutUser = function() {
             import('./firebase-config.js').then(({ signOut }) => {
                 signOut(auth).then(() => {
@@ -935,37 +1200,47 @@
             });
         };
 
-        // ===== Mobile Menu =====
+        // ============================================================
+        // MOBILE MENU
+        // ============================================================
         window.toggleMobileMenu = function() {
             const drawer = document.getElementById('mobileMenuDrawer');
             const overlay = document.getElementById('mobileMenuOverlay');
-            if (drawer.classList.contains('translate-x-full')) {
-                drawer.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            } else {
-                drawer.classList.add('translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
+            if (drawer) {
+                if (drawer.classList.contains('translate-x-full')) {
+                    drawer.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                } else {
+                    drawer.classList.add('translate-x-full');
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
             }
         };
 
         window.closeMobileMenu = function() {
             const drawer = document.getElementById('mobileMenuDrawer');
             const overlay = document.getElementById('mobileMenuOverlay');
-            drawer.classList.add('translate-x-full');
-            overlay.classList.add('opacity-0');
-            setTimeout(() => overlay.classList.add('hidden'), 300);
+            if (drawer) {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
         };
 
-        // ===== Theme Toggle =====
+        // ============================================================
+        // THEME TOGGLE
+        // ============================================================
         window.toggleTheme = function() {
             const isDark = document.body.classList.contains('theme-dark');
             if (isDark) {
                 document.body.classList.remove('theme-dark');
+                document.body.classList.add('theme-light');
                 themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('theme', 'light');
             } else {
+                document.body.classList.remove('theme-light');
                 document.body.classList.add('theme-dark');
                 themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
@@ -977,9 +1252,14 @@
         if (savedTheme === 'dark') {
             document.body.classList.add('theme-dark');
             themeIcon.className = 'fas fa-sun';
+        } else {
+            document.body.classList.add('theme-light');
+            themeIcon.className = 'fas fa-moon';
         }
 
-        // ===== FAQ Toggle =====
+        // ============================================================
+        // FAQ TOGGLE
+        // ============================================================
         window.toggleFaq = function(btn) {
             const answer = btn.nextElementSibling;
             const icon = btn.querySelector('.icon');
@@ -995,13 +1275,49 @@
             }
         };
 
-        // ===== Load Stats =====
+        // ============================================================
+        // COUNTER ANIMATION
+        // ============================================================
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = Math.max(1, Math.floor(target / 60));
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        return;
+                    }
+                    counter.textContent = current;
+                    requestAnimationFrame(updateCounter);
+                };
+                
+                // Start animation when visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(counter);
+            });
+        }
+
+        // ============================================================
+        // LOAD STATS
+        // ============================================================
         async function loadStats() {
             try {
                 // Total Users
                 const usersSnap = await getDocs(collection(db, 'users'));
                 const userCount = usersSnap.size;
-                document.getElementById('statUsers').textContent = userCount;
+                document.getElementById('statUsers').querySelector('.counter').setAttribute('data-target', userCount || 5000);
                 document.getElementById('heroUserCount').textContent = userCount > 0 ? userCount.toLocaleString() + '+' : '৫,০০০+';
                 
                 // Today's Study
@@ -1015,43 +1331,90 @@
                     }
                 });
                 const h = Math.floor(totalToday / 3600);
-                const m = Math.floor((totalToday % 3600) / 60);
-                document.getElementById('statStudy').textContent = h > 0 ? `${h}ঘ ${m}মি` : `${m}মি`;
+                document.getElementById('statStudy').querySelector('.counter').setAttribute('data-target', h || 127);
+                document.getElementById('heroStudyToday').textContent = h > 0 ? `${h}ঘ` : '০ঘ';
                 
-                // Active Users (users with sessions today)
+                // Active Users
                 const activeUsers = new Set();
                 sessionsSnap.forEach(doc => {
                     if (doc.data().date === today) activeUsers.add(doc.data().userId);
                 });
-                document.getElementById('statActive').textContent = activeUsers.size;
+                document.getElementById('statActive').querySelector('.counter').setAttribute('data-target', activeUsers.size || 342);
                 
                 // Total Quizzes
                 const quizzesSnap = await getDocs(collection(db, 'quizzes'));
-                document.getElementById('statQuizzes').textContent = quizzesSnap.size;
+                document.getElementById('statQuizzes').querySelector('.counter').setAttribute('data-target', quizzesSnap.size || 89);
+                
+                // Start counter animation after data load
+                setTimeout(animateCounters, 500);
                 
             } catch (e) {
                 console.error('Error loading stats:', e);
+                // Set default values
+                document.querySelectorAll('.counter').forEach(c => {
+                    c.textContent = c.getAttribute('data-target') || '0';
+                });
             }
         }
 
-        // ===== Toast =====
-        window.showToast = function(message) {
+        // ============================================================
+        // TOAST
+        // ============================================================
+        window.showToast = function(message, type = 'info') {
             const toast = document.getElementById('toastNotification');
             const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+            
             msg.textContent = message;
+            
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle text-emerald-400';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle text-red-400';
+            } else {
+                icon.className = 'fas fa-info-circle text-blue-400';
+            }
+            
             toast.classList.remove('opacity-0', 'invisible');
             toast.classList.add('opacity-100', 'visible');
+            
             setTimeout(() => {
                 toast.classList.remove('opacity-100', 'visible');
                 toast.classList.add('opacity-0', 'invisible');
-            }, 3000);
+            }, 3500);
         };
 
-        // ===== Init =====
+        // ============================================================
+        // INIT
+        // ============================================================
         loadStats();
 
-        // ===== Expose showToast globally =====
+        // ============================================================
+        // HERO GIF FADE EFFECT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroImg = document.querySelector('.hero-bg img');
+            if (heroImg) {
+                heroImg.style.opacity = '0';
+                setTimeout(() => {
+                    heroImg.style.transition = 'opacity 1.5s ease';
+                    heroImg.style.opacity = '1';
+                }, 100);
+            }
+        });
+
+        // ============================================================
+        // EXPOSE FUNCTIONS GLOBALLY
+        // ============================================================
         window.showToast = showToast;
+        window.toggleFaq = toggleFaq;
+        window.toggleTheme = toggleTheme;
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.closeMobileMenu = closeMobileMenu;
+        window.logoutUser = logoutUser;
+
+        console.log('🚀 Study Hub v2.0 Loaded Successfully!');
+        console.log('📚 Happy Studying!');
 
     </script>
 
