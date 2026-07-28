@@ -3,177 +3,462 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StudyBuddy - শিক্ষার আনন্দময় সঙ্গী</title>
-    <meta name="description" content="শিশু-বান্ধব শিক্ষামূলক প্ল্যাটফর্ম। মজার মাধ্যমে শিখুন, প্রতিযোগিতা করুন এবং উজ্জ্বল হোন।" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
-
+    
+    <!-- ===== SEO Meta Tags ===== -->
+    <title>Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম</title>
+    <meta name="description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন, এবং স্মার্টভাবে পড়াশোনা করুন।" />
+    <meta name="keywords" content="study tracker, student, bangladesh, education, leaderboard" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://study-hub.vercel.app/" />
+    <link rel="icon" href="/recourse/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/recourse/logo.png" />
+    
+    <!-- ===== Open Graph ===== -->
+    <meta property="og:title" content="Study Hub - স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম" />
+    <meta property="og:description" content="আপনার পড়াশোনা ট্র্যাক করুন, লিডারবোর্ডে উঠুন।" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://study-hub.vercel.app/" />
+    <meta property="og:image" content="https://study-hub.vercel.app/recourse/og-image.jpg" />
+    
+    <!-- ===== Schema Markup ===== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Study Hub",
+            "description": "স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম",
+            "applicationCategory": "Education",
+            "browserRequirements": "Requires JavaScript",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        }
+    </script>
+    
     <!-- ===== Fonts & Icons ===== -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/66ce5ae449.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
     <style>
-        /* ===== Reset & Base ===== */
+        /* ===== Global Reset ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Baloo 2', 'Hind Siliguri', sans-serif;
-            background: #f0f4ff;
-            color: #1a1a2e;
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            transition: background 0.4s, color 0.4s;
             min-height: 100vh;
+            scroll-behavior: smooth;
             overflow-x: hidden;
-            transition: background 0.5s, color 0.5s;
         }
-
-        /* ===== Dark Theme ===== */
-        body.dark {
-            background: #0f0e1a;
-            color: #f0f0ff;
+        
+        .font-bengali {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
         }
-        body.dark .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.08);
+        .font-english {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
         }
-        body.dark .text-slate-600 {
-            color: #a0aec0;
+        
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-        body.dark .text-slate-700 {
-            color: #cbd5e1;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        body.dark .text-slate-800 {
-            color: #f0f0ff;
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 99px;
         }
-        body.dark .bg-white {
-            background: #1a1a2e;
+        .theme-dark ::-webkit-scrollbar-thumb {
+            background: #334155;
         }
-        body.dark .bg-slate-50 {
-            background: #16162a;
+        
+        /* ============================================================
+           HEADER - Premium Glassmorphism
+        ============================================================ */
+        .header-wrapper {
+            position: sticky;
+            top: 12px;
+            z-index: 100;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0 16px;
         }
-        body.dark .border-gray-200 {
-            border-color: #2d2d44;
-        }
-        body.dark .bg-indigo-50 {
-            background: rgba(99, 102, 241, 0.15);
-        }
-        body.dark .bg-purple-50 {
-            background: rgba(139, 92, 246, 0.15);
-        }
-        body.dark .bg-pink-50 {
-            background: rgba(236, 72, 153, 0.15);
-        }
-        body.dark .bg-amber-50 {
-            background: rgba(245, 158, 11, 0.15);
-        }
-
-        /* ===== Glassmorphism ===== */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        
+        .header-glass {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 20px;
+            padding: 6px 8px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .glass-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+        .header-glass:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
-        body.dark .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        .theme-dark .header-glass {
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(51, 65, 85, 0.4);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         }
-
-        /* ===== Animations ===== */
+        .theme-dark .header-glass:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ===== Logo ===== */
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 12px 4px 8px;
+            text-decoration: none;
+            flex-shrink: 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .header-logo:hover {
+            background: rgba(37, 99, 235, 0.06);
+        }
+        .header-logo .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .header-logo:hover .logo-icon {
+            transform: scale(1.05) rotate(-3deg);
+        }
+        .header-logo .logo-text {
+            font-weight: 800;
+            font-size: 18px;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .theme-dark .header-logo .logo-text {
+            background: linear-gradient(135deg, #60a5fa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-logo .logo-badge {
+            font-size: 8px;
+            font-weight: 700;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            padding: 1px 8px;
+            border-radius: 99px;
+            -webkit-text-fill-color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+        .theme-dark .header-logo .logo-badge {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+            -webkit-text-fill-color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.2);
+        }
+        
+        /* ===== Nav Links ===== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            overflow-x: auto;
+            padding: 0 4px;
+            scrollbar-width: none;
+        }
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-link {
+            padding: 6px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            border-radius: 99px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 60%;
+        }
+        .nav-link:hover {
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.06);
+        }
+        .nav-link.active {
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+        }
+        .theme-dark .nav-link {
+            color: #94a3b8;
+        }
+        .theme-dark .nav-link:hover,
+        .theme-dark .nav-link.active {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.1);
+        }
+        .theme-dark .nav-link::after {
+            background: #60a5fa;
+        }
+        
+        /* ===== Header Actions ===== */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+            padding-left: 4px;
+        }
+        .header-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .header-btn:hover {
+            background: rgba(37, 99, 235, 0.08);
+            color: #2563eb;
+            transform: scale(1.05);
+        }
+        .theme-dark .header-btn {
+            color: #94a3b8;
+        }
+        .theme-dark .header-btn:hover {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+        .header-btn-auth {
+            padding: 6px 18px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .header-btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        }
+        .header-btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
+        }
+        .header-btn-secondary {
+            background: transparent;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+        }
+        .header-btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .theme-dark .header-btn-secondary {
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+        .theme-dark .header-btn-secondary:hover {
+            background: #1e293b;
+            border-color: #475569;
+        }
+        
+        /* ===== Mobile Menu Trigger ===== */
+        .mobile-trigger {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .header-glass {
+                border-radius: 16px;
+                padding: 4px 6px;
+            }
+            .header-logo .logo-text {
+                font-size: 15px;
+            }
+            .header-logo .logo-badge {
+                display: none;
+            }
+            .nav-links {
+                gap: 0;
+            }
+            .nav-link {
+                padding: 4px 10px;
+                font-size: 11px;
+            }
+            .header-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+            }
+            .header-btn-auth {
+                padding: 4px 14px;
+                font-size: 11px;
+            }
+            .mobile-trigger {
+                display: flex;
+            }
+            .desktop-only {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-logo .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .header-logo .logo-text {
+                font-size: 13px;
+            }
+            .nav-link {
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+            .header-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+        }
+        
+        /* ============================================================
+           HERO SECTION WITH GIF
+        ============================================================ */
+        .hero-section {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            transition: opacity 0.8s ease;
+        }
+        .hero-bg .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.85) 100%);
+        }
+        .theme-dark .hero-bg .overlay {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.5) 50%, rgba(15, 23, 42, 0.9) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* ============================================================
+           ANIMATIONS
+        ============================================================ */
         @keyframes float {
             0%,
             100% {
-                transform: translateY(0px) rotate(0deg);
+                transform: translateY(0px);
             }
             50% {
-                transform: translateY(-15px) rotate(2deg);
+                transform: translateY(-12px);
             }
         }
-        @keyframes float-reverse {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(15px) rotate(-2deg);
-            }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-delay {
+            animation: float 4s ease-in-out 1.5s infinite;
         }
         @keyframes pulse-glow {
             0%,
             100% {
-                box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+                box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
             }
             50% {
-                box-shadow: 0 0 60px rgba(99, 102, 241, 0.4);
+                box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
             }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
         }
         @keyframes slide-up {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.95);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
-        }
-        @keyframes pop {
-            0% {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-        @keyframes spin-slow {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        .animate-float-reverse {
-            animation: float-reverse 6s ease-in-out infinite;
         }
         .animate-slide-up {
-            animation: slide-up 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
         }
-        .animate-pop {
-            animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .animate-spin-slow {
-            animation: spin-slow 12s linear infinite;
-        }
-
         .delay-1 {
             animation-delay: 0.1s;
         }
@@ -189,245 +474,346 @@
         .delay-5 {
             animation-delay: 0.5s;
         }
-        .delay-6 {
-            animation-delay: 0.6s;
+        
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
         }
-
-        /* ===== Header ===== */
-        .header-glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 8px 12px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-            transition: all 0.4s;
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
         }
-        body.dark .header-glass {
-            background: rgba(15, 14, 26, 0.85);
-            border-color: rgba(255, 255, 255, 0.06);
-        }
-
-        /* ===== Hero GIF ===== */
-        .hero-gif-wrapper {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
+        .typing-effect {
+            display: inline-block;
             overflow: hidden;
-            border-radius: 32px;
+            white-space: nowrap;
+            border-right: 3px solid #2563eb;
+            animation: typing 3s steps(30) 1s forwards, blink 0.8s step-end infinite;
+            width: 0;
+            max-width: fit-content;
         }
-        .hero-gif-wrapper img,
-        .hero-gif-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.5;
-            transition: opacity 0.8s ease;
+        
+        /* ============================================================
+           THEME SYSTEM
+        ============================================================ */
+        .theme-dark body {
+            background: #0f172a;
+            color: #f8fafc;
         }
-        .hero-gif-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.8) 100%);
-            backdrop-filter: blur(2px);
+        .theme-dark .bg-white {
+            background: #1e293b !important;
         }
-        body.dark .hero-gif-overlay {
-            background: linear-gradient(135deg, rgba(15, 14, 26, 0.85) 0%, rgba(15, 14, 26, 0.4) 50%, rgba(15, 14, 26, 0.85) 100%);
+        .theme-dark .bg-slate-50 {
+            background: #0f172a !important;
         }
-
-        /* ===== Feature Cards ===== */
+        .theme-dark .bg-gray-50 {
+            background: #0f172a !important;
+        }
+        .theme-dark .border-gray-200 {
+            border-color: #334155 !important;
+        }
+        .theme-dark .text-slate-600 {
+            color: #94a3b8 !important;
+        }
+        .theme-dark .text-slate-500 {
+            color: #94a3b8 !important;
+        }
+        .theme-dark .text-slate-700 {
+            color: #cbd5e1 !important;
+        }
+        .theme-dark .text-slate-800 {
+            color: #f8fafc !important;
+        }
+        .theme-dark .text-slate-900 {
+            color: #f8fafc !important;
+        }
+        
+        /* ============================================================
+           FEATURE CARDS
+        ============================================================ */
         .feature-card {
-            padding: 28px 24px;
-            border-radius: 24px;
             background: white;
-            border: 1px solid rgba(99, 102, 241, 0.08);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 20px;
+            padding: 28px 24px;
+            border: 1px solid rgba(37, 99, 235, 0.06);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
-            cursor: pointer;
-        }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .feature-card:hover::before {
-            opacity: 1;
         }
         .feature-card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.15);
         }
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
+        .feature-card .icon-wrapper {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(14, 165, 233, 0.08));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
             margin-bottom: 16px;
             transition: all 0.4s;
         }
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(-5deg);
+        .feature-card:hover .icon-wrapper {
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            transform: scale(1.05) rotate(-3deg);
         }
-        body.dark .feature-card {
-            background: #1a1a2e;
-            border-color: rgba(255, 255, 255, 0.06);
+        .feature-card .icon-wrapper i {
+            font-size: 22px;
+            color: #2563eb;
+            transition: all 0.4s;
         }
-
-        /* ===== Stats ===== */
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .feature-card:hover .icon-wrapper i {
+            color: white;
         }
-
-        /* ===== Testimonial ===== */
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .theme-dark .feature-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .theme-dark .feature-card h3 {
+            color: #f8fafc;
+        }
+        .theme-dark .feature-card p {
+            color: #94a3b8;
+        }
+        .theme-dark .feature-card .icon-wrapper {
+            background: rgba(96, 165, 250, 0.1);
+        }
+        .theme-dark .feature-card .icon-wrapper i {
+            color: #60a5fa;
+        }
+        
+        /* ============================================================
+           TESTIMONIALS
+        ============================================================ */
         .testimonial-card {
-            padding: 24px;
-            border-radius: 20px;
             background: white;
-            border: 1px solid rgba(99, 102, 241, 0.06);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid rgba(37, 99, 235, 0.06);
             transition: all 0.4s;
         }
         .testimonial-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.06);
         }
-        body.dark .testimonial-card {
-            background: #1a1a2e;
-            border-color: rgba(255, 255, 255, 0.06);
+        .testimonial-card .quote {
+            font-size: 15px;
+            color: #334155;
+            line-height: 1.7;
+            margin-bottom: 16px;
         }
-
-        /* ===== Floating Icons ===== */
-        .floating-icon {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.2;
-            animation: float 8s ease-in-out infinite;
-            pointer-events: none;
-            color: #6366f1;
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        body.dark .floating-icon {
-            color: #8b5cf6;
-            opacity: 0.15;
+        .testimonial-card .author .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
         }
-
-        /* ===== Scrollbar ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .testimonial-card .author .name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #0f172a;
         }
-        ::-webkit-scrollbar-track {
+        .testimonial-card .author .role {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        .theme-dark .testimonial-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .theme-dark .testimonial-card .quote {
+            color: #cbd5e1;
+        }
+        .theme-dark .testimonial-card .author .name {
+            color: #f8fafc;
+        }
+        
+        /* ============================================================
+           FAQ
+        ============================================================ */
+        .faq-item {
+            border-radius: 16px;
+            background: white;
+            border: 1px solid rgba(37, 99, 235, 0.06);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-item:hover {
+            border-color: rgba(37, 99, 235, 0.12);
+        }
+        .faq-item .question {
+            width: 100%;
+            padding: 18px 24px;
             background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            transition: all 0.3s;
+            font-family: inherit;
+            text-align: left;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #c4b5fd;
-            border-radius: 99px;
+        .faq-item .question:hover {
+            color: #2563eb;
         }
-        body.dark ::-webkit-scrollbar-thumb {
-            background: #4c4a7a;
+        .faq-item .question i {
+            transition: transform 0.3s;
+            color: #2563eb;
         }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 768px) {
-            .stat-number {
-                font-size: 1.8rem;
-            }
-            .feature-card {
-                padding: 20px 16px;
-            }
-            .hero-gif-wrapper {
-                border-radius: 16px;
-            }
-            .header-glass {
-                border-radius: 14px;
-                padding: 6px 10px;
-            }
+        .faq-item .question .rotate {
+            transform: rotate(180deg);
         }
-        @media (max-width: 480px) {
-            .stat-number {
-                font-size: 1.4rem;
-            }
-            .feature-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
-            }
-            .floating-icon {
-                display: none;
-            }
+        .faq-item .answer {
+            max-height: 0;
+            padding: 0 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.7;
         }
-
-        /* ===== Shimmer Text ===== */
-        .shimmer-text {
-            background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
-            background-size: 200% auto;
-            animation: shimmer 3s linear infinite;
+        .faq-item .answer.open {
+            max-height: 300px;
+            padding: 0 24px 18px 24px;
+        }
+        .theme-dark .faq-item {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .theme-dark .faq-item .question {
+            color: #f8fafc;
+        }
+        .theme-dark .faq-item .answer {
+            color: #94a3b8;
+        }
+        
+        /* ============================================================
+           STATS
+        ============================================================ */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(37, 99, 235, 0.06);
+            transition: all 0.4s;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.06);
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        /* ===== Buttons ===== */
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        .stat-card .label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .theme-dark .stat-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .theme-dark .stat-card .label {
+            color: #94a3b8;
+        }
+        
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        .footer-link {
+            color: #64748b;
             text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
         }
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 40px rgba(99, 102, 241, 0.4);
+        .footer-link:hover {
+            color: #2563eb;
         }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            color: #4a4a6a;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1rem;
-            border: 2px solid rgba(99, 102, 241, 0.2);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-decoration: none;
+        .theme-dark .footer-link {
+            color: #94a3b8;
         }
-        .btn-secondary:hover {
-            transform: translateY(-3px) scale(1.03);
-            border-color: #6366f1;
-            background: white;
+        .theme-dark .footer-link:hover {
+            color: #60a5fa;
         }
-        body.dark .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #e0e0ff;
-            border-color: rgba(255, 255, 255, 0.1);
+        
+        /* ============================================================
+           RESPONSIVE
+        ============================================================ */
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 60vh;
+                padding: 20px 0;
+            }
+            .hero-content {
+                padding: 0 16px;
+            }
+            .typing-effect {
+                white-space: normal;
+                border-right: none;
+                animation: none;
+                width: 100%;
+            }
+            .stat-card .number {
+                font-size: 24px;
+            }
+            .feature-card {
+                padding: 20px 18px;
+            }
         }
-        body.dark .btn-secondary:hover {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: #6366f1;
+        @media (max-width: 480px) {
+            .stat-card .number {
+                font-size: 20px;
+            }
+            .feature-card {
+                padding: 16px 14px;
+            }
+            .feature-card .icon-wrapper {
+                width: 40px;
+                height: 40px;
+            }
+            .feature-card .icon-wrapper i {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -436,245 +822,291 @@
     <!-- ============================================================
     HEADER
     ============================================================ -->
-    <div class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <header class="header-glass flex items-center justify-between px-4 py-2">
-            <a href="#" class="flex items-center gap-2 text-2xl font-extrabold text-indigo-600">
-                <i class="fas fa-graduation-cap text-3xl"></i>
-                <span class="hidden sm:inline">StudyBuddy</span>
+    <div class="header-wrapper">
+        <header class="header-glass">
+            <!-- Logo -->
+            <a href="index.html" class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="logo-text">Study Hub</span>
+                <span class="logo-badge">v2.0</span>
             </a>
-            <nav class="hidden md:flex items-center gap-1">
-                <a href="#" class="px-4 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all font-semibold text-sm">
-                    <i class="fas fa-home mr-1"></i> হোম
-                </a>
-                <a href="#" class="px-4 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all font-semibold text-sm">
-                    <i class="fas fa-star mr-1"></i> ফিচার
-                </a>
-                <a href="#" class="px-4 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all font-semibold text-sm">
-                    <i class="fas fa-graduation-cap mr-1"></i> শিখুন
-                </a>
-                <a href="#" class="px-4 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all font-semibold text-sm">
-                    <i class="fas fa-envelope mr-1"></i> যোগাযোগ
-                </a>
+
+            <!-- Navigation -->
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active font-bengali">হোম</a>
+                <a href="tracker.html" class="nav-link font-bengali">ট্র্যাকার</a>
+                <a href="leaderboard.html" class="nav-link font-bengali">লিডারবোর্ড</a>
+                <a href="dashboard.html" class="nav-link font-bengali desktop-only">ড্যাশবোর্ড</a>
+                <a href="about.html" class="nav-link font-bengali desktop-only">আমাদের সম্পর্কে</a>
             </nav>
-            <div class="flex items-center gap-2">
-                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 transition-all text-slate-600">
+
+            <!-- Actions -->
+            <div class="header-actions">
+                <button onclick="toggleTheme()" class="header-btn" title="থিম পরিবর্তন" id="themeToggleBtn">
                     <i class="fas fa-moon" id="themeIcon"></i>
                 </button>
-                <button class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-all md:hidden">
+                <button onclick="toggleMobileMenu()" class="header-btn mobile-trigger" title="মেনু">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="#" class="hidden md:inline-flex px-5 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-semibold text-sm">
-                    <i class="fas fa-rocket mr-2"></i> শুরু করো
-                </a>
+                <div id="authSection" class="flex items-center gap-2">
+                    <a href="login.html" class="header-btn-auth header-btn-primary font-bengali">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span class="desktop-only">লগইন</span>
+                    </a>
+                    <a href="signup.html" class="header-btn-auth header-btn-secondary font-bengali desktop-only">
+                        <i class="fas fa-user-plus"></i> রেজিস্টার
+                    </a>
+                </div>
+                <div id="profileSection" style="display:none;" class="flex items-center gap-2">
+                    <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-primary hover:bg-blue-100 transition-all">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="text-sm font-medium hidden sm:inline" id="userNameDisplay">User</span>
+                    </a>
+                    <button onclick="logoutUser()" class="header-btn" title="লগআউট">
+                        <i class="fas fa-sign-out-alt text-red-400 hover:text-red-500"></i>
+                    </button>
+                </div>
             </div>
         </header>
     </div>
 
     <!-- ============================================================
-    HERO
+    HERO SECTION
     ============================================================ -->
-    <section class="relative min-h-screen flex items-center pt-20 px-4">
-        <!-- GIF Background -->
-        <div class="hero-gif-wrapper">
+    <section class="hero-section">
+        <div class="hero-bg">
             <picture>
                 <source srcset="/recourse/hero-night.gif" media="(prefers-color-scheme: dark)" />
-                <img src="/recourse/hero-day.gif" alt="Study animation" loading="lazy" />
+                <img src="/recourse/hero-day.gif" alt="Study Hub Hero" loading="lazy" />
             </picture>
-            <div class="hero-gif-overlay"></div>
+            <div class="overlay"></div>
         </div>
 
-        <!-- Floating Icons -->
-        <i class="fas fa-star floating-icon" style="top:12%;left:4%;animation-delay:0s;"></i>
-        <i class="fas fa-rocket floating-icon" style="top:20%;right:6%;animation-delay:2s;"></i>
-        <i class="fas fa-bullseye floating-icon" style="bottom:35%;left:3%;animation-delay:4s;"></i>
-        <i class="fas fa-lightbulb floating-icon" style="bottom:25%;right:4%;animation-delay:1s;"></i>
-        <i class="fas fa-rainbow floating-icon" style="top:45%;left:2%;animation-delay:3s;"></i>
-        <i class="fas fa-trophy floating-icon" style="top:55%;right:3%;animation-delay:5s;"></i>
-        <i class="fas fa-brain floating-icon" style="top:80%;left:8%;animation-delay:2.5s;"></i>
-        <i class="fas fa-book-open floating-icon" style="bottom:10%;right:10%;animation-delay:4.5s;"></i>
-
-        <div class="relative z-10 w-full max-w-6xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-
+        <div class="hero-content">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Left -->
                 <div class="space-y-6">
-                    <div class="inline-flex items-center gap-3 px-5 py-2.5 glass-card rounded-full text-sm font-semibold text-indigo-600 animate-slide-up">
-                        <i class="fas fa-circle text-green-400 text-xs animate-pulse"></i>
-                        <span>৫,০০০+ শিক্ষার্থী শিখছে</span>
-                        <i class="fas fa-arrow-right text-xs"></i>
+                    <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-white/50 shadow-lg animate-slide-up delay-1">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                        </span>
+                        <span class="text-xs font-bold text-primary tracking-wide font-english animate-pulse">
+                            🚀 ৫,০০০+ শিক্ষার্থী পড়ছেন
+                        </span>
                     </div>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight animate-slide-up delay-1">
-                        শেখা হোক
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight text-slate-900 font-bengali animate-slide-up delay-2">
+                        পড়াশোনা হোক
                         <br />
-                        <span class="shimmer-text">মজার ও সহজ</span>
+                        <span class="bg-gradient-to-r from-primary via-blue-500 to-cyan-400 bg-clip-text text-transparent">
+                            স্মার্ট ও মজাদার
+                        </span>
                     </h1>
 
-                    <p class="text-lg sm:text-xl text-slate-600 max-w-lg leading-relaxed animate-slide-up delay-2">
-                        <i class="fas fa-check-circle text-indigo-500 mr-2"></i>
-                        ইন্টারেক্টিভ লেসন, মজার কুইজ এবং ফ্রেন্ডলি কমিউনিটি
+                    <p class="text-base md:text-lg text-slate-600 max-w-lg leading-relaxed font-bengali animate-slide-up delay-3">
+                        <span class="typing-effect font-bengali">ট্র্যাক করুন, প্রতিযোগিতা করুন, উন্নত হোন</span>
                     </p>
 
-                    <div class="flex flex-wrap gap-4 animate-slide-up delay-3">
-                        <a href="#" class="btn-primary">
-                            <i class="fas fa-play"></i> শুরু করো এখনই
+                    <div class="flex flex-wrap gap-4 pt-2 animate-slide-up delay-4">
+                        <a href="tracker.html" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-bold hover:scale-105 transition-all shadow-lg shadow-blue-500/25 font-bengali">
+                            <i class="fas fa-play"></i> এখনই শুরু করুন
+                            <i class="fas fa-arrow-right text-sm"></i>
                         </a>
-                        <a href="#" class="btn-secondary">
-                            <i class="fas fa-circle-play"></i> দেখো কিভাবে
+                        <a href="leaderboard.html" class="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-slate-700 rounded-full font-bold hover:bg-white transition-all border border-slate-200 font-bengali">
+                            <i class="fas fa-trophy text-amber-500"></i> লিডারবোর্ড দেখুন
                         </a>
                     </div>
 
-                    <div class="flex flex-wrap gap-6 pt-4 animate-slide-up delay-4">
-                        <div>
-                            <div class="text-2xl font-extrabold text-indigo-600">
-                                <i class="fas fa-book-open mr-1"></i> 500+
+                    <div class="flex items-center gap-8 pt-4 animate-slide-up delay-5">
+                        <div class="flex items-center gap-3">
+                            <div class="flex -space-x-2">
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">A</div>
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">R</div>
+                                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-lg">+</div>
                             </div>
-                            <div class="text-sm text-slate-500">ইন্টারেক্টিভ লেসন</div>
+                            <div>
+                                <div class="font-bold text-sm text-slate-700 font-english" id="heroUserCount">৫,০০০+</div>
+                                <div class="text-xs text-slate-500 font-bengali">সক্রিয় শিক্ষার্থী</div>
+                            </div>
                         </div>
+                        <div class="h-10 w-px bg-gray-200"></div>
                         <div>
-                            <div class="text-2xl font-extrabold text-indigo-600">
-                                <i class="fas fa-puzzle-piece mr-1"></i> 200+
-                            </div>
-                            <div class="text-sm text-slate-500">মজার কুইজ</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-extrabold text-indigo-600">
-                                <i class="fas fa-users mr-1"></i> 5K+
-                            </div>
-                            <div class="text-sm text-slate-500">শিক্ষার্থী</div>
+                            <div class="font-bold text-sm text-slate-700 font-english" id="heroStudyToday">০ঘ</div>
+                            <div class="text-xs text-slate-500 font-bengali">আজকের স্টাডি</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right - Interactive Card -->
-                <div class="relative animate-slide-up delay-2 hidden lg:block">
-                    <div class="glass-card p-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-lg">
-                                <i class="fas fa-chart-line text-indigo-500 mr-2"></i>আজকের অগ্রগতি
-                            </span>
-                            <span class="text-sm text-indigo-600 font-semibold">৮৫%</span>
-                        </div>
-                        <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="h-full w-[85%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse-glow"></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 pt-2">
-                            <div class="p-3 bg-indigo-50 rounded-xl text-center">
-                                <i class="fas fa-book text-2xl text-indigo-500"></i>
-                                <div class="text-sm font-semibold">১২ টি</div>
-                                <div class="text-xs text-slate-500">লেসন শেষ</div>
-                            </div>
-                            <div class="p-3 bg-purple-50 rounded-xl text-center">
-                                <i class="fas fa-star text-2xl text-purple-500"></i>
-                                <div class="text-sm font-semibold">৪৫০</div>
-                                <div class="text-xs text-slate-500">পয়েন্ট</div>
-                            </div>
-                        </div>
-                        <div class="flex -space-x-2 pt-2">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white flex items-center justify-center text-white font-bold text-sm">A</div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white flex items-center justify-center text-white font-bold text-sm">R</div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-white flex items-center justify-center text-white font-bold text-sm">+</div>
-                            <div class="w-10 h-10 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-slate-500 text-xs font-bold">
-                                <i class="fas fa-plus"></i>5
-                            </div>
-                        </div>
-                    </div>
+                <!-- Right -->
+                <div class="relative animate-slide-up delay-3 hidden lg:block">
+                    <div class="relative bg-white/60 backdrop-blur-xl rounded-2xl border border-white/50 shadow-2xl shadow-blue-500/10 p-6 ring-1 ring-white/30 transform hover:scale-[1.02] transition-all duration-500 hover:shadow-3xl">
+                        <div class="absolute -top-3 -right-3 w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
+                        <div class="absolute -bottom-3 -left-3 w-20 h-20 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full blur-xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
 
-                    <div class="absolute -right-6 top-8 glass-card p-3 animate-float">
-                        <i class="fas fa-bullseye text-2xl text-indigo-500"></i>
-                        <div class="text-xs font-semibold">লক্ষ্য পূরণ</div>
-                    </div>
-                    <div class="absolute -left-6 bottom-8 glass-card p-3 animate-float-reverse">
-                        <i class="fas fa-medal text-2xl text-amber-500"></i>
-                        <div class="text-xs font-semibold">ব্যাজ</div>
+                        <div class="relative bg-white rounded-xl p-5 mb-4 shadow-lg border border-blue-50/50 hover:shadow-xl transition-all duration-300">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-slate-600 font-bengali flex items-center gap-2">
+                                    <i class="fas fa-flag-checkered text-primary"></i> দৈনিক লক্ষ্য
+                                </span>
+                                <span class="text-primary font-bold text-sm font-english bg-blue-50 px-3 py-1 rounded-full">৮৫%</span>
+                            </div>
+                            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full animate-pulse-glow" style="width:85%;"></div>
+                            </div>
+                            <div class="flex justify-between mt-2">
+                                <span class="text-[10px] text-slate-400 font-bengali">আজকের অগ্রগতি</span>
+                                <span class="text-[10px] font-bold text-slate-600 font-english">১২/১৪ ঘণ্টা</span>
+                            </div>
+                        </div>
+
+                        <div class="relative bg-white rounded-xl p-5 shadow-lg border border-blue-50/50 hover:shadow-xl transition-all duration-300">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-slate-600 font-bengali flex items-center gap-2">
+                                    <i class="fas fa-book-open text-primary"></i> কোর্স সম্পন্ন
+                                </span>
+                                <span class="text-primary font-bold text-sm font-english bg-blue-50 px-3 py-1 rounded-full">১২/১৫</span>
+                            </div>
+                            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full" style="width:80%;"></div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="text-[10px] text-slate-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-atom text-blue-400 text-[8px]"></i> পদার্থবিজ্ঞান
+                                </span>
+                                <span class="text-[10px] text-slate-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-flask text-emerald-400 text-[8px]"></i> রসায়ন
+                                </span>
+                                <span class="text-[10px] text-primary bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 font-bengali flex items-center gap-1">
+                                    <i class="fas fa-plus text-[8px]"></i> ৩ টি
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="absolute -right-4 top-12 bg-white p-3.5 rounded-full border border-blue-100 shadow-xl animate-float">
+                            <i class="fas fa-rocket text-blue-600 text-xl"></i>
+                        </div>
+                        <div class="absolute -left-4 bottom-16 bg-white p-3.5 rounded-full border border-blue-100 shadow-xl animate-float-delay">
+                            <i class="fas fa-brain text-purple-600 text-xl"></i>
+                        </div>
+                        <div class="absolute -bottom-2 right-1/4 bg-white p-2.5 rounded-full border border-amber-100 shadow-xl animate-bounce">
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                        </div>
                     </div>
                 </div>
-
             </div>
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-bounce hidden md:block">
+            <a href="#features" class="text-slate-400 hover:text-primary transition-colors">
+                <i class="fas fa-chevron-down text-xl"></i>
+            </a>
         </div>
     </section>
 
     <!-- ============================================================
-    STATS
+    STATS SECTION
     ============================================================ -->
-    <section class="py-12 px-4 relative">
-        <div class="max-w-6xl mx-auto">
+    <section class="py-12 md:py-16 bg-white/80 backdrop-blur-sm border-y border-gray-100/50" id="features">
+        <div class="container mx-auto px-4 max-w-6xl">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="glass-card p-6 text-center animate-slide-up delay-1">
-                    <div class="stat-number text-4xl">
-                        <i class="fas fa-users text-2xl"></i> 5,000+
+                <div class="stat-card animate-slide-up delay-1">
+                    <div class="number font-english" id="statUsers">
+                        <span class="counter" data-target="5000">0</span>+
                     </div>
-                    <div class="text-slate-600 font-semibold mt-1">শিক্ষার্থী</div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-users text-primary text-xs"></i> মোট ইউজার
+                    </div>
                 </div>
-                <div class="glass-card p-6 text-center animate-slide-up delay-2">
-                    <div class="stat-number text-4xl">
-                        <i class="fas fa-book-open text-2xl"></i> 500+
+                <div class="stat-card animate-slide-up delay-2">
+                    <div class="number font-english text-emerald-600" id="statStudy">
+                        <span class="counter" data-target="127">0</span>ঘ
                     </div>
-                    <div class="text-slate-600 font-semibold mt-1">লেসন</div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-clock text-emerald-500 text-xs"></i> আজকের স্টাডি
+                    </div>
                 </div>
-                <div class="glass-card p-6 text-center animate-slide-up delay-3">
-                    <div class="stat-number text-4xl">
-                        <i class="fas fa-puzzle-piece text-2xl"></i> 200+
+                <div class="stat-card animate-slide-up delay-3">
+                    <div class="number font-english text-blue-600" id="statActive">
+                        <span class="counter" data-target="342">0</span>
                     </div>
-                    <div class="text-slate-600 font-semibold mt-1">কুইজ</div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-circle text-green-500 text-xs animate-pulse"></i> এখন অনলাইন
+                    </div>
                 </div>
-                <div class="glass-card p-6 text-center animate-slide-up delay-4">
-                    <div class="stat-number text-4xl">
-                        <i class="fas fa-face-smile text-2xl"></i> 98%
+                <div class="stat-card animate-slide-up delay-4">
+                    <div class="number font-english text-amber-600" id="statQuizzes">
+                        <span class="counter" data-target="89">0</span>
                     </div>
-                    <div class="text-slate-600 font-semibold mt-1">সন্তুষ্টি</div>
+                    <div class="label font-bengali flex items-center justify-center gap-2">
+                        <i class="fas fa-pen-to-square text-amber-500 text-xs"></i> মোট কুইজ
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ============================================================
-    FEATURES
+    FEATURES SECTION
     ============================================================ -->
-    <section class="py-16 px-4">
-        <div class="max-w-6xl mx-auto">
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 max-w-6xl">
             <div class="text-center mb-12">
-                <span class="inline-block px-5 py-2 glass-card rounded-full text-indigo-600 font-semibold text-sm animate-slide-up">
-                    <i class="fas fa-sparkles mr-2"></i> ফিচারসমূহ
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-sparkles mr-1"></i> ফিচারসমূহ
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold mt-4 animate-slide-up delay-1">
-                    কেন <span class="shimmer-text">StudyBuddy</span>?
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    কেন <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Study Hub</span>?
                 </h2>
-                <p class="text-slate-500 max-w-2xl mx-auto mt-3 animate-slide-up delay-2">
-                    শেখাকে করে তুলি মজাদার, সহজ এবং কার্যকর
+                <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali animate-slide-up delay-2">
+                    আপনার পড়াশোনাকে স্মার্ট, গোছানো এবং মজাদার করতে তৈরি করা হয়েছে
                 </p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="feature-card animate-slide-up delay-1">
-                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
-                    <h3 class="text-xl font-bold mb-2">ইন্টারেক্টিভ লেসন</h3>
-                    <p class="text-slate-600">অ্যানিমেশন, ভিডিও এবং গেম দিয়ে শেখা হোক মজার</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="font-bengali">স্টাডি ট্র্যাকার</h3>
+                    <p class="font-bengali">আপনার পড়ার সময় কাউন্ট করুন, বিশ্লেষণ করুন এবং উন্নত করুন</p>
                 </div>
                 <div class="feature-card animate-slide-up delay-2">
-                    <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                    <h3 class="text-xl font-bold mb-2">কুইজ ও প্রতিযোগিতা</h3>
-                    <p class="text-slate-600">নিজেকে চ্যালেঞ্জ করুন এবং র্যাংকিং এ উঠুন</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="font-bengali">লিডারবোর্ড</h3>
+                    <p class="font-bengali">অন্যদের সাথে প্রতিযোগিতা করে নিজের অবস্থান জানুন</p>
                 </div>
                 <div class="feature-card animate-slide-up delay-3">
-                    <div class="feature-icon"><i class="fas fa-list-check"></i></div>
-                    <h3 class="text-xl font-bold mb-2">অগ্রগতি ট্র্যাকিং</h3>
-                    <p class="text-slate-600">আপনার শেখার যাত্রার প্রতিটি ধাপ দেখুন</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <h3 class="font-bengali">টু-ডু লিস্ট</h3>
+                    <p class="font-bengali">দৈনিক কাজের তালিকা তৈরি করুন এবং সম্পন্ন করুন</p>
                 </div>
                 <div class="feature-card animate-slide-up delay-1">
-                    <div class="feature-icon"><i class="fas fa-users"></i></div>
-                    <h3 class="text-xl font-bold mb-2">কমিউনিটি</h3>
-                    <p class="text-slate-600">বন্ধুদের সাথে শিখুন, শেয়ার করুন এবং বাড়ুন</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="font-bengali">গ্রুপ স্টাডি</h3>
+                    <p class="font-bengali">টিমভিত্তিক স্টাডি এবং গ্রুপ লিডারবোর্ড</p>
                 </div>
                 <div class="feature-card animate-slide-up delay-2">
-                    <div class="feature-icon"><i class="fas fa-mobile-screen-button"></i></div>
-                    <h3 class="text-xl font-bold mb-2">মোবাইল ফ্রেন্ডলি</h3>
-                    <p class="text-slate-600">যেকোনো ডিভাইসে, যেকোনো সময় শিখুন</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <h3 class="font-bengali">স্ক্রিন টাইম</h3>
+                    <p class="font-bengali">আপনার ডিভাইস ব্যবহারের সময় ট্র্যাক করুন</p>
                 </div>
                 <div class="feature-card animate-slide-up delay-3">
-                    <div class="feature-icon"><i class="fas fa-certificate"></i></div>
-                    <h3 class="text-xl font-bold mb-2">সার্টিফিকেট</h3>
-                    <p class="text-slate-600">কোর্স শেষে পাবেন ডিজিটাল সার্টিফিকেট</p>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-pen-to-square"></i>
+                    </div>
+                    <h3 class="font-bengali">কুইজ সিস্টেম</h3>
+                    <p class="font-bengali">নিজেকে যাচাই করুন এবং কুইজ লিডারবোর্ডে উঠুন</p>
                 </div>
             </div>
         </div>
@@ -683,15 +1115,18 @@
     <!-- ============================================================
     TESTIMONIALS
     ============================================================ -->
-    <section class="py-16 px-4 bg-gradient-to-b from-slate-50 to-white">
-        <div class="max-w-6xl mx-auto">
+    <section class="py-16 md:py-24 bg-gradient-to-b from-slate-50/60 to-white/40">
+        <div class="container mx-auto px-4 max-w-6xl">
             <div class="text-center mb-12">
-                <span class="inline-block px-5 py-2 glass-card rounded-full text-indigo-600 font-semibold text-sm animate-slide-up">
-                    <i class="fas fa-quote-left mr-2"></i> শিক্ষার্থীদের মতামত
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-quote-left mr-1"></i> শিক্ষার্থীদের মতামত
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold mt-4 animate-slide-up delay-1">
-                    তারা যা <span class="shimmer-text">বলছে</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    তারা যা <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">বলছে</span>
                 </h2>
+                <p class="text-slate-500 max-w-2xl mx-auto mt-3 font-bengali animate-slide-up delay-2">
+                    Study Hub ব্যবহার করে হাজারো শিক্ষার্থী তাদের পড়াশোনা বদলে দিয়েছে
+                </p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
@@ -703,19 +1138,18 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-slate-600 mb-4">
-                        "StudyBuddy আমার শেখার অভ্যাস বদলে দিয়েছে। লেসনগুলো এত মজাদার যে আমি আরো বেশি সময় পড়তে চাই!"
+                    <p class="quote font-bengali">
+                        "Study Hub আমার পড়াশোনার রুটিন বদলে দিয়েছে। টাইম ট্র্যাকিং এবং লিডারবোর্ড আমাকে বেশি পড়তে উৎসাহিত করে।"
                     </p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 text-white flex items-center justify-center font-bold">
-                            <i class="fas fa-user"></i>
-                        </div>
+                    <div class="author">
+                        <div class="avatar">T</div>
                         <div>
-                            <div class="font-bold">রিফাত আহমেদ</div>
-                            <div class="text-sm text-slate-500">ক্লাস ৮</div>
+                            <div class="name font-bengali">তাহমিনা তাবাচ্ছুম</div>
+                            <div class="role font-bengali">Admission 25-26</div>
                         </div>
                     </div>
                 </div>
+
                 <div class="testimonial-card animate-slide-up delay-2">
                     <div class="flex text-amber-400 mb-3">
                         <i class="fas fa-star"></i>
@@ -724,19 +1158,18 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-slate-600 mb-4">
-                        "কুইজগুলো এত মজার যে আমি বারবার দিতে চাই। র্যাংকিং দেখে নিজেকে আরও ভালো করার চেষ্টা করি!"
+                    <p class="quote font-bengali">
+                        "To-Do লিস্ট এবং সেশন রিপোর্ট আমার পড়ার পরিকল্পনা করতে অনেক সাহায্য করে। প্রতিদিনের অগ্রগতি দেখতে খুব ভালো লাগে।"
                     </p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 text-white flex items-center justify-center font-bold">
-                            <i class="fas fa-user"></i>
-                        </div>
+                    <div class="author">
+                        <div class="avatar" style="background:linear-gradient(135deg,#10b981,#059669);">I</div>
                         <div>
-                            <div class="font-bold">নিশাত তাবাচ্ছুম</div>
-                            <div class="text-sm text-slate-500">ক্লাস ৬</div>
+                            <div class="name font-bengali">ইব্রাহিম খলিলুল্লাহ</div>
+                            <div class="role font-bengali">HSC 27</div>
                         </div>
                     </div>
                 </div>
+
                 <div class="testimonial-card animate-slide-up delay-3">
                     <div class="flex text-amber-400 mb-3">
                         <i class="fas fa-star"></i>
@@ -745,16 +1178,14 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="text-slate-600 mb-4">
-                        "বন্ধুদের সাথে একসাথে কুইজ দিতে পারাটা দারুণ! সবাই একে অপরকে উৎসাহিত করে আরও ভালো করতে।"
+                    <p class="quote font-bengali">
+                        "গ্রুপ লিডারবোর্ড আমাদের টিমের মধ্যে প্রতিযোগিতা বাড়িয়েছে। সবাই একে অপরকে উৎসাহিত করে বেশি বেশি পড়তে।"
                     </p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center font-bold">
-                            <i class="fas fa-user"></i>
-                        </div>
+                    <div class="author">
+                        <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706);">H</div>
                         <div>
-                            <div class="font-bold">হাসান আবিদ</div>
-                            <div class="text-sm text-slate-500">ক্লাস ৭</div>
+                            <div class="name font-bengali">হাসান আবিদ</div>
+                            <div class="role font-bengali">HSC 27</div>
                         </div>
                     </div>
                 </div>
@@ -763,38 +1194,117 @@
     </section>
 
     <!-- ============================================================
-    CTA
+    FAQ SECTION
     ============================================================ -->
-    <section class="py-16 px-4 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-90"></div>
-        <div class="absolute inset-0">
-            <i class="fas fa-star text-white/5 text-7xl absolute top-10 left-10 animate-float"></i>
-            <i class="fas fa-graduation-cap text-white/5 text-7xl absolute bottom-10 right-10 animate-float-reverse"></i>
-            <i class="fas fa-rocket text-white/5 text-6xl absolute top-1/2 left-1/4 animate-float"></i>
-            <i class="fas fa-brain text-white/5 text-6xl absolute bottom-1/3 right-1/4 animate-float-reverse"></i>
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-primary uppercase tracking-wider font-english bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100 inline-block animate-slide-up">
+                    <i class="fas fa-circle-question mr-1"></i> সচরাচর জিজ্ঞাসা
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-4 font-bengali animate-slide-up delay-1">
+                    প্রায়শই জিজ্ঞাসিত <span class="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">প্রশ্ন</span>
+                </h2>
+            </div>
+
+            <div class="space-y-3">
+                <div class="faq-item animate-slide-up delay-1">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">১</span>
+                            Study Hub কী?
+                        </span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        Study Hub একটি স্মার্ট স্টাডি ট্র্যাকিং প্ল্যাটফর্ম যা শিক্ষার্থীদের তাদের পড়াশোনার সময় ট্র্যাক করতে, লিডারবোর্ডে প্রতিযোগিতা করতে এবং টু-ডু লিস্ট তৈরি করতে সাহায্য করে। এটি সম্পূর্ণ ফ্রি এবং সব বয়সের শিক্ষার্থীদের জন্য তৈরি।
+                    </div>
+                </div>
+
+                <div class="faq-item animate-slide-up delay-2">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">২</span>
+                            কীভাবে স্টাডি ট্র্যাক করব?
+                        </span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        ট্র্যাকার পেজে গিয়ে "স্টার্ট" বাটনে ক্লিক করুন। পড়া শেষ হলে "স্টপ" ক্লিক করুন। আপনার সময় স্বয়ংক্রিয়ভাবে সেভ হয়ে যাবে। আপনি Self Study, Class Time এবং Screen Time-এর মধ্যে সিলেক্ট করতে পারেন।
+                    </div>
+                </div>
+
+                <div class="faq-item animate-slide-up delay-3">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৩</span>
+                            লিডারবোর্ড কীভাবে কাজ করে?
+                        </span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        লিডারবোর্ডে দৈনিক, সাপ্তাহিক এবং মাসিক ভিত্তিতে সব ইউজারের মোট স্টাডি সময় দেখানো হয়। আপনি গ্রুপ (HSC, SSC, Admission) এবং টিম অনুযায়ী ফিল্টার করতে পারেন। প্রতিদিন সকাল ৫টায় লিডারবোর্ড রিফ্রেশ হয়।
+                    </div>
+                </div>
+
+                <div class="faq-item animate-slide-up delay-4">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৪</span>
+                            Study Hub কি সম্পূর্ণ ফ্রি?
+                        </span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        হ্যাঁ, Study Hub সম্পূর্ণ ফ্রি। আপনি সকল ফিচার ব্যবহার করতে পারবেন কোনো চার্জ ছাড়াই। ভবিষ্যতেও এটি ফ্রি থাকবে, কারণ আমাদের লক্ষ্য শিক্ষার্থীদের পড়াশোনাকে সহজ করা।
+                    </div>
+                </div>
+
+                <div class="faq-item animate-slide-up delay-5">
+                    <button class="question font-bengali" onclick="toggleFaq(this)">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-all">৫</span>
+                            থিম কীভাবে পরিবর্তন করব?
+                        </span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="answer font-bengali">
+                        হেডারের ডান পাশে থাকা <i class="fas fa-moon text-primary"></i> আইকনে ক্লিক করুন। আপনি Light এবং Dark থিমের মধ্যে বেছে নিতে পারবেন। আপনার পছন্দের থিম স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে।
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h2 class="text-3xl sm:text-5xl font-extrabold animate-slide-up">
-                <i class="fas fa-rocket mr-3"></i>
-                আজই শুরু করো
-                <br />
-                <span class="text-amber-200">শেখার আনন্দ</span>
+    </section>
+
+    <!-- ============================================================
+    CTA SECTION
+    ============================================================ -->
+    <section class="py-16 md:py-20 bg-gradient-to-r from-primary to-blue-600 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-white rounded-full blur-3xl animate-float-delay"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"></div>
+        </div>
+
+        <div class="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white font-bengali animate-slide-up">
+                আজই শুরু করুন আপনার <br class="md:hidden" />
+                <span class="text-amber-200">স্মার্ট স্টাডি</span> যাত্রা
             </h2>
-            <p class="text-indigo-100 text-lg mt-4 max-w-2xl mx-auto animate-slide-up delay-1">
-                StudyBuddy-তে জয়েন করো এবং শেখার নতুন দিগন্ত উন্মোচন করো
+            <p class="text-blue-100 max-w-2xl mx-auto mt-4 text-base md:text-lg font-bengali animate-slide-up delay-1">
+                Study Hub-এ জয়েন করুন এবং আপনার পড়াশোনাকে নিয়ে যান নতুন উচ্চতায়
             </p>
             <div class="flex flex-wrap gap-4 justify-center mt-8 animate-slide-up delay-2">
-                <a href="#" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-indigo-600 rounded-full font-bold hover:scale-105 transition-all shadow-xl">
-                    <i class="fas fa-user-plus"></i> ফ্রি সাইন আপ
-                    <i class="fas fa-arrow-right"></i>
+                <a href="signup.html" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary rounded-full font-bold text-base hover:scale-105 transition-all duration-300 shadow-xl shadow-blue-500/30">
+                    <i class="fas fa-user-plus"></i> ফ্রি অ্যাকাউন্ট তৈরি করুন
+                    <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
                 </a>
-                <a href="#" class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white/50 text-white rounded-full font-bold hover:bg-white/10 transition-all">
-                    <i class="fas fa-play"></i> ফ্রি লেসন দেখো
+                <a href="tracker.html" class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white/50 text-white rounded-full font-bold text-base hover:bg-white/10 hover:border-white transition-all duration-300">
+                    <i class="fas fa-play"></i> ট্র্যাকার ব্যবহার করুন
                 </a>
             </div>
-            <p class="text-indigo-200/70 text-sm mt-6 animate-slide-up delay-3">
-                <i class="fas fa-check-circle text-amber-300 mr-1"></i>
-                ৫,০০০+ শিক্ষার্থী ইতিমধ্যে জয়েন করেছে
+            <p class="text-blue-200/70 text-sm mt-6 font-bengali animate-slide-up delay-3">
+                <i class="fas fa-check-circle mr-1 text-amber-300"></i> ৫,০০০+ শিক্ষার্থী ইতিমধ্যে জয়েন করেছে
             </p>
         </div>
     </section>
@@ -802,112 +1312,202 @@
     <!-- ============================================================
     FOOTER
     ============================================================ -->
-    <footer class="bg-white border-t border-gray-200 pt-12 pb-6">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <footer class="bg-white border-t border-gray-200 mt-auto pt-12 pb-6">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                 <div class="col-span-2 md:col-span-1">
-                    <a href="#" class="text-2xl font-bold text-indigo-600 flex items-center gap-2">
-                        <i class="fas fa-graduation-cap"></i> StudyBuddy
+                    <a href="index.html" class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-graduation-cap text-primary"></i>
+                        <span class="font-bengali">Study Hub</span>
                     </a>
-                    <p class="text-slate-500 mt-2 text-sm">শেখার নতুন দিগন্ত</p>
+                    <p class="text-sm text-slate-500 mt-2 font-bengali leading-relaxed">
+                        আপনার পড়াশোনার ডিজিটাল সঙ্গী। ট্র্যাকিং, লিডারবোর্ড এবং আরও অনেক কিছু।
+                    </p>
                     <div class="flex gap-3 mt-4">
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all">
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all">
-                            <i class="fab fa-telegram-plane"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all">
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all duration-300">
                             <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-100 text-slate-500 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all duration-300">
+                            <i class="fab fa-telegram-plane"></i>
                         </a>
                     </div>
                 </div>
+
                 <div>
-                    <h4 class="font-bold mb-3 text-sm">প্ল্যাটফর্ম</h4>
-                    <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-book mr-1"></i> লেসন</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-puzzle-piece mr-1"></i> কুইজ</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-trophy mr-1"></i> লিডারবোর্ড</a></li>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">ফিচারসমূহ</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="tracker.html" class="footer-link font-bengali text-sm">স্টাডি ট্র্যাকার</a></li>
+                        <li><a href="leaderboard.html" class="footer-link font-bengali text-sm">লিডারবোর্ড</a></li>
+                        <li><a href="todo.html" class="footer-link font-bengali text-sm">টু-ডু লিস্ট</a></li>
+                        <li><a href="quiz-creator.html" class="footer-link font-bengali text-sm">কুইজ</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="font-bold mb-3 text-sm">কম্পানি</h4>
-                    <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-info-circle mr-1"></i> সম্পর্কে</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-envelope mr-1"></i> যোগাযোগ</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-blog mr-1"></i> ব্লগ</a></li>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">রিসোর্স</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="about.html" class="footer-link font-bengali text-sm">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">ব্লগ</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">সাপোর্ট</a></li>
+                        <li><a href="#" class="footer-link font-bengali text-sm">গোপনীয়তা নীতি</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="font-bold mb-3 text-sm">সাপোর্ট</h4>
-                    <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-question-circle mr-1"></i> FAQ</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-shield-halved mr-1"></i> গোপনীয়তা</a></li>
-                        <li><a href="#" class="hover:text-indigo-600 transition-colors"><i class="fas fa-file-contract mr-1"></i> শর্তাবলী</a></li>
+                    <h4 class="font-bold text-slate-800 mb-3 font-bengali text-sm">অ্যাকাউন্ট</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="login.html" class="footer-link font-bengali text-sm">লগইন</a></li>
+                        <li><a href="signup.html" class="footer-link font-bengali text-sm">রেজিস্টার</a></li>
+                        <li><a href="profile.html" class="footer-link font-bengali text-sm">প্রোফাইল</a></li>
+                        <li><a href="admin/index.html" class="footer-link font-bengali text-sm" id="footerAdminLink" style="display:none;">অ্যাডমিন</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-200 mt-8 pt-6 text-center text-sm text-slate-500">
-                <i class="fas fa-copyright mr-1"></i> 2026 StudyBuddy. সর্বস্বত্ব সংরক্ষিত
+
+            <div class="border-t border-gray-200 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-slate-500 font-bengali">
+                    &copy; 2026 Study Hub. সর্বস্বত্ব সংরক্ষিত।
+                </p>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">গোপনীয়তা নীতি</a>
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">শর্তাবলী</a>
+                    <a href="#" class="text-slate-500 hover:text-primary transition-colors font-bengali text-sm">কুকিজ</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- ============================================================
-    SCRIPTS
+    TOAST
     ============================================================ -->
-    <script>
-        // ===== Theme Toggle =====
-        function toggleTheme() {
-            const isDark = document.body.classList.contains('dark');
-            const icon = document.getElementById('themeIcon');
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3.5 rounded-xl text-sm font-medium shadow-2xl opacity-0 invisible transition-all duration-500 z-[9999] font-bengali flex items-center gap-3">
+        <i class="fas fa-info-circle text-blue-400"></i>
+        <span id="toastMessage"></span>
+    </div>
 
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script type="module">
+        // ===== Firebase Imports =====
+        import { auth, onAuthStateChanged, db, collection, getDocs, doc, getDoc } from './firebase-config.js';
+
+        // ===== DOM Elements =====
+        const authSection = document.getElementById('authSection');
+        const profileSection = document.getElementById('profileSection');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const footerAdminLink = document.getElementById('footerAdminLink');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // ============================================================
+        // AUTH STATE
+        // ============================================================
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                authSection.style.display = 'none';
+                profileSection.style.display = 'flex';
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+                        userNameDisplay.textContent = data.name || 'User';
+                        if (data.role === 'admin') {
+                            footerAdminLink.style.display = 'block';
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error loading user data:', e);
+                }
+            } else {
+                authSection.style.display = 'flex';
+                profileSection.style.display = 'none';
+                footerAdminLink.style.display = 'none';
+            }
+        });
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        window.logoutUser = function() {
+            import('./firebase-config.js').then(({ signOut }) => {
+                signOut(auth).then(() => {
+                    window.location.reload();
+                });
+            });
+        };
+
+        // ============================================================
+        // THEME TOGGLE
+        // ============================================================
+        window.toggleTheme = function() {
+            const isDark = document.body.classList.contains('theme-dark');
             if (isDark) {
-                document.body.classList.remove('dark');
-                icon.className = 'fas fa-moon';
+                document.body.classList.remove('theme-dark');
+                document.body.classList.add('theme-light');
+                themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('theme', 'light');
             } else {
-                document.body.classList.add('dark');
-                icon.className = 'fas fa-sun';
+                document.body.classList.remove('theme-light');
+                document.body.classList.add('theme-dark');
+                themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
             }
-        }
+        };
 
         // Load saved theme
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
-            document.body.classList.add('dark');
-            document.getElementById('themeIcon').className = 'fas fa-sun';
+            document.body.classList.add('theme-dark');
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            document.body.classList.add('theme-light');
+            themeIcon.className = 'fas fa-moon';
         }
 
-        // ===== Counter Animation =====
+        // ============================================================
+        // FAQ TOGGLE
+        // ============================================================
+        window.toggleFaq = function(btn) {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('.icon');
+            const isOpen = answer.classList.contains('open');
+
+            document.querySelectorAll('.faq-item .answer').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.faq-item .icon').forEach(el => el.classList.remove('rotate'));
+
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.classList.add('rotate');
+            }
+        };
+
+        // ============================================================
+        // COUNTER ANIMATION
+        // ============================================================
         function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const text = counter.textContent;
-                const num = parseInt(text.replace(/[^0-9]/g, ''));
-                if (!num || num < 10) return;
-
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = Math.max(1, Math.floor(target / 60));
                 let current = 0;
-                const step = Math.max(1, Math.floor(num / 60));
 
-                const update = () => {
+                const updateCounter = () => {
                     current += step;
-                    if (current >= num) {
-                        counter.innerHTML = counter.innerHTML.replace(/[0-9,]+/, num.toLocaleString());
+                    if (current >= target) {
+                        counter.textContent = target;
                         return;
                     }
-                    counter.innerHTML = counter.innerHTML.replace(/[0-9,]+/, current.toLocaleString());
-                    requestAnimationFrame(update);
+                    counter.textContent = current;
+                    requestAnimationFrame(updateCounter);
                 };
 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            update();
+                            updateCounter();
                             observer.unobserve(entry.target);
                         }
                     });
@@ -917,47 +1517,115 @@
             });
         }
 
-        // Run counter animation after page load
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(animateCounters, 500);
-        });
+        // ============================================================
+        // LOAD STATS
+        // ============================================================
+        async function loadStats() {
+            try {
+                const usersSnap = await getDocs(collection(db, 'users'));
+                const userCount = usersSnap.size;
+                document.getElementById('statUsers').querySelector('.counter').setAttribute('data-target', userCount || 5000);
+                document.getElementById('heroUserCount').textContent = userCount > 0 ? userCount.toLocaleString() + '+' :
+                    '৫,০০০+';
 
-        // ===== Toast notification (optional) =====
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className =
-                `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl text-white font-semibold shadow-2xl z-50 transition-all duration-500 ${type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-indigo-600'}`;
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mr-2"></i> ${message}`;
-            document.body.appendChild(toast);
+                const today = new Date().toISOString().split('T')[0];
+                const sessionsSnap = await getDocs(collection(db, 'study_sessions'));
+                let totalToday = 0;
+                sessionsSnap.forEach(doc => {
+                    const data = doc.data();
+                    if (data.date === today && data.isValid !== false) {
+                        totalToday += data.duration || 0;
+                    }
+                });
+                const h = Math.floor(totalToday / 3600);
+                document.getElementById('statStudy').querySelector('.counter').setAttribute('data-target', h || 127);
+                document.getElementById('heroStudyToday').textContent = h > 0 ? `${h}ঘ` : '০ঘ';
 
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(20px)';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
+                const activeUsers = new Set();
+                sessionsSnap.forEach(doc => {
+                    if (doc.data().date === today) activeUsers.add(doc.data().userId);
+                });
+                document.getElementById('statActive').querySelector('.counter').setAttribute('data-target', activeUsers.size ||
+                    342);
+
+                const quizzesSnap = await getDocs(collection(db, 'quizzes'));
+                document.getElementById('statQuizzes').querySelector('.counter').setAttribute('data-target', quizzesSnap
+                    .size || 89);
+
+                setTimeout(animateCounters, 500);
+
+            } catch (e) {
+                console.error('Error loading stats:', e);
+                document.querySelectorAll('.counter').forEach(c => {
+                    c.textContent = c.getAttribute('data-target') || '0';
+                });
+            }
         }
 
-        // ===== Mobile Menu Toggle =====
-        document.querySelector('.md\\:hidden.bg-indigo-100')?.addEventListener('click', function() {
-            const nav = document.querySelector('nav.md\\:flex');
-            if (nav) {
-                nav.classList.toggle('hidden');
-                nav.classList.toggle('absolute');
-                nav.classList.toggle('top-full');
-                nav.classList.toggle('left-0');
-                nav.classList.toggle('w-full');
-                nav.classList.toggle('bg-white/95');
-                nav.classList.toggle('backdrop-blur-lg');
-                nav.classList.toggle('p-4');
-                nav.classList.toggle('rounded-2xl');
-                nav.classList.toggle('mt-2');
-                nav.classList.toggle('shadow-xl');
-                nav.classList.toggle('flex-col');
+        // ============================================================
+        // TOAST
+        // ============================================================
+        window.showToast = function(message, type = 'info') {
+            const toast = document.getElementById('toastNotification');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+
+            msg.textContent = message;
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle text-emerald-400';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle text-red-400';
+            } else {
+                icon.className = 'fas fa-info-circle text-blue-400';
+            }
+
+            toast.classList.remove('opacity-0', 'invisible');
+            toast.classList.add('opacity-100', 'visible');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'visible');
+                toast.classList.add('opacity-0', 'invisible');
+            }, 3500);
+        };
+
+        // ============================================================
+        // MOBILE MENU
+        // ============================================================
+        window.toggleMobileMenu = function() {
+            const drawer = document.getElementById('mobileMenuDrawer');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            if (drawer) {
+                if (drawer.classList.contains('translate-x-full')) {
+                    drawer.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                } else {
+                    drawer.classList.add('translate-x-full');
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+        };
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        loadStats();
+
+        // Hero GIF fade effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroImg = document.querySelector('.hero-bg img');
+            if (heroImg) {
+                heroImg.style.opacity = '0';
+                setTimeout(() => {
+                    heroImg.style.transition = 'opacity 1.5s ease';
+                    heroImg.style.opacity = '1';
+                }, 100);
             }
         });
 
-        console.log('🚀 StudyBuddy v2.0 Loaded Successfully!');
-        console.log('📚 Happy Learning!');
+        console.log('🚀 Study Hub v2.0 Loaded Successfully!');
+        console.log('📚 Happy Studying!');
     </script>
 
 </body>
